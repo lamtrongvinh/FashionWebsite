@@ -12,9 +12,18 @@ public class StoreController {
        return "index";
     }
 
+
     @GetMapping("/contact")
     public String getContactScreen() {
+
         return "contact";
     }
+    
+    @GetMapping("/categories")
+    public String getCategories() {
+
+        return "categories";
+    }
+
     
 }
