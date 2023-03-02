@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.circus.fashion-web' is invalid and this project uses 'com.circus.fashionweb' instead.
+* The original package name 'comcircus.fashion-web' is invalid and this project uses 'comcircus.fashionweb' instead.
 
 # Getting Started
 
