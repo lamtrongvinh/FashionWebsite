@@ -569,6 +569,7 @@ section
 .navbar_menu li a:hover
 {
 	color: #b5aec4;
+	cursor: pointer;
 }
 .navbar_user
 {

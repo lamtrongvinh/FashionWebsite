@@ -69,8 +69,8 @@
 										<i class="fa fa-angle-down"></i>
 									</a>
 									<ul class="account_selection">
-										<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-										<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+										<li><a th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+										<li><a th:href="@{/register}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -91,12 +91,12 @@
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-								<li><a href="index.html">home</a></li>
+								<li><a th:href="@{/home}">home</a></li>
 								<li><a href="#">shop</a></li>
 								<li><a href="#">promotion</a></li>
 								<li><a href="#">pages</a></li>
 								<li><a href="#">blog</a></li>
-								<li><a href="contact.html">contact</a></li>
+								<li><a th:href="@{/contact}">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
@@ -157,16 +157,16 @@
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_selection">
-						<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-						<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+						<li><a th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+						<li><a th:href="@{/register}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 					</ul>
 				</li>
-				<li class="menu_item"><a href="#">home</a></li>
+				<li class="menu_item"><a th:href="@{/home}">home</a></li>
 				<li class="menu_item"><a href="#">shop</a></li>
 				<li class="menu_item"><a href="#">promotion</a></li>
 				<li class="menu_item"><a href="#">pages</a></li>
 				<li class="menu_item"><a href="#">blog</a></li>
-				<li class="menu_item"><a href="#">contact</a></li>
+				<li class="menu_item"><a th:href="@{/contact}">contact</a></li>
 			</ul>
 		</div>
 	</div>
@@ -179,8 +179,8 @@
 
 				<div class="breadcrumbs d-flex flex-row align-items-center">
 					<ul>
-						<li><a href="index.html">Home</a></li>
-						<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Contact</a></li>
+						<li><a th:href="@{/home}">Home</a></li>
+						<li class="active"><a th:href="@{/contact}"><i class="fa fa-angle-right" aria-hidden="true"></i>Contact</a></li>
 					</ul>
 				</div>
 
