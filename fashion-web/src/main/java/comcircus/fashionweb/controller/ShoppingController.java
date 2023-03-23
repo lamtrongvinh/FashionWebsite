@@ -6,39 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.product.ProductService;
 
 @Controller
-public class StoreController {
+@RequestMapping("/shopping")
+public class ShoppingController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping(value = {"/", "/home"})
-    public String getHomeScreen(Model model) {
+    @GetMapping("/shop")
+    public String moveToShop(Model model) {
         List<Product> products = productService.getProducts();
         model.addAttribute("products", products);
-        return "index";
+        return "/shopping/shop";
     }
 
- 
-    @GetMapping("/contact")
-    public String moveToContact() {
-
-        return "contact";
+    @GetMapping("/single/{id}")
+    public String moveToSingle(@PathVariable Long id, Model model) {
+        Product product = productService.getProduct(id);
+        System.out.println(product);
+        model.addAttribute("product", product);
+        return "/shopping/single";
     }
-
-    @GetMapping("/category")
-    public String getCategory() {
-        return "categories";
-    }
-
-    @GetMapping("/addProduct")
-    public String addProduct() {
-        return "addProduct";
-    }
-
-    
-
 }

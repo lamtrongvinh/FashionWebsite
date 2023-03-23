@@ -67,7 +67,7 @@
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a th:href="@{/home}">home</a></li>
-								<li><a th:href="@{/shop}">shop</a></li>
+								<li><a th:href="@{/shopping/shop}">shop</a></li>
 								<li><a th:href="@{/contact}" >contact</a></li>
 							</ul>
 							<ul class="navbar_user">
@@ -107,10 +107,7 @@
 					</ul>
 				</li>
 				<li class="menu_item"><a th:href="@{/home}">home</a></li>
-				<li class="menu_item"><a th:href="@{/shop}">shop</a></li>
-				<li class="menu_item"><a href="#">promotion</a></li>
-				<li class="menu_item"><a href="#">pages</a></li>
-				<li class="menu_item"><a href="#">blog</a></li>
+				<li class="menu_item"><a th:href="@{/shopping/shop}">shop</a></li>
 				<li class="menu_item"><a th:href="@{/contact}">contact</a></li>
 			</ul>
 		</div>
@@ -125,7 +122,7 @@
 					<div class="main_slider_content">
 						<h6>Spring / Summer Collection 2017</h6>
 						<h1>Get up to 30% Off New Arrivals</h1>
-						<div class="red_button shop_now_button"><a th:href="@{/shop}">shop now</a></div>
+						<div class="red_button shop_now_button"><a th:href="@{/shopping/shop}">shop now</a></div>
 					</div>
 				</div>
 			</div>
@@ -191,24 +188,26 @@
 					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' >
 
 						<!-- Product 1 -->
-
-						<div class="product-item men" th:each=" product : ${products}">
-							<div class="product discount product_filter">
-								<div class="product_image">
-									<img th:src="${product.product_image_name} + '.png'" alt="">
+						<div th:each=" product : ${products}">
+							<a th:href="@{/shopping/single/{id}(id=${product.product_id})}" >
+								<div class="product-item men" >
+									<div class="product discount product_filter">
+										<div class="product_image">
+											<img th:src="${product.product_image_name} + '.png'" alt="">
+										</div>
+										<div class="favorite favorite_left"></div>
+										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="'-' + ${product.product_discount} + '%' ">-$20</span></div>
+										<div class="product_info">
+											<h6 class="product_name"><a th:href="@{/shopping/single/{id}(id=${product.product_id})}" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
+											
+											<div class="product_price" th:text=" '$' + ${product.product_price}">$520.00<span>$590.00</span></div>
+										</div>
+									</div>
+									<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
 								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="${product.product_discount}">-$20</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
-									
-									<div class="product_price" th:text=" '-$' + ${product.product_price}">$520.00<span>$590.00</span></div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+							</a>
 						</div>
 
-						
 					</div>
 				</div>
 			</div>
@@ -248,7 +247,7 @@
 								<div class="timer_unit">Sec</div>
 							</li>
 						</ul>
-						<div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
+						<div class="red_button deal_ofthe_week_button"><a th:href="@{/shopping/shop}">shop now</a></div>
 					</div>
 				</div>
 			</div>

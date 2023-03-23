@@ -24,4 +24,5 @@ comcircus\fashionweb\repository\UserRepository.class
 comcircus\fashionweb\controller\user\UserController.class
 comcircus\fashionweb\model\oders\Orders.class
 comcircus\fashionweb\controller\Product\ProductController.class
+comcircus\fashionweb\controller\ShoppingController.class
 comcircus\fashionweb\model\oders\Orders_detail.class

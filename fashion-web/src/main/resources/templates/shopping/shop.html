@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-    <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-    <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
-    <link rel="stylesheet" type="text/css" href="styles/responsive.css">
-    <link rel="stylesheet" href="styles/shop.css">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
+    <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.theme.default.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
     <title>Document</title>
 </head>
 <body>
@@ -53,7 +52,7 @@
             <div class="row">
                 <div class="col-lg-12 text-right">
                     <div class="logo_container">
-                        <a href="#">Cir<span>cus</span></a>
+                        <a th:href="@{/home}">Cir<span>cus</span></a>
                     </div>
                     <nav class="navbar">
                         <ul class="navbar_menu">
@@ -80,34 +79,40 @@
         </div>
     </div>
     <!-- end main nav -->
-    <section class="section-products">
-		<div class="container">
-            <div class="row">
-				<div class="col text-center">
-					<div class="section_title new_arrivals_title">
-						<h2>SHOP</h2>
-					</div>
-				</div>
-			</div>
-				<div class="row">
-						<!-- Single Product -->
-						<div class="product-item men" th:each=" product : ${products}">
-							<div class="product discount product_filter">
-								<div class="product_image">
-									<img th:src="${product.product_image_name} + '.png'" alt="">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="${'-$' + product.product_discount}">-$20</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
-									<div class="product_price" th:text="${product.product_price}">$520.00<span>$590.00</span></div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
-						</div>
-				</div>
-		</div>
-</section>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <div class="section_title new_arrivals_title">
+                    <h2>SHOP</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' >
+            <!-- Single Product -->
+                    <div th:each=" product : ${products}">
+                        <a th:href="@{/shopping/single/{id}(id=${product.product_id})}">
+                            <div class="product-item men">
+                                <div class="product discount product_filter">
+                                    <div class="product_image">
+                                        <img th:src="@{ '~/'+${product.product_image_name} + '.png'}" alt="">
+                                    </div>
+                                    <div class="favorite favorite_left"></div>
+                                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="${'-' + product.product_discount} + '%'">-$20</span></div>
+                                    <div class="product_info">
+                                        <h6 class="product_name"><a th:href="@{/shopping/single/{id}(id=${product.product_id})}" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
+                                        <div class="product_price" th:text="'$'+${product.product_price}">$520.00<span>$590.00</span></div>
+                                    </div>
+                                </div>
+                                <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-- news letter -->
 <div class="newsletter">
@@ -166,5 +171,12 @@
     </div>
 </footer>
 <!-- end footer -->
+<script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{~/styles/bootstrap4/popper.js}"></script>
+<script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
+<script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
+<script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
+<script th:src="@{~/plugins/easing/easing.js}"></script>
+<script th:src="@{~/js/custom.js}"></script>
 </body>
 </html>
