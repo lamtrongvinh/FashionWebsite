@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import comcircus.fashionweb.model.user.customer.Customer;
+import comcircus.fashionweb.model.person.customer.Customer;
 
 @Service
 public interface CustomerService {

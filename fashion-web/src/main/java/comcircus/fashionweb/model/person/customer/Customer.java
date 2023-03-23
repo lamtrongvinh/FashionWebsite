@@ -1,4 +1,4 @@
-package comcircus.fashionweb.model.user.customer;
+package comcircus.fashionweb.model.person.customer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

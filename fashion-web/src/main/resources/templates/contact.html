@@ -39,30 +39,7 @@
 
 								<!-- Currency / Language / My Account -->
 
-								<li class="currency">
-									<a href="#">
-										usd
-										<i class="fa fa-angle-down"></i>
-									</a>
-									<ul class="currency_selection">
-										<li><a href="#">cad</a></li>
-										<li><a href="#">aud</a></li>
-										<li><a href="#">eur</a></li>
-										<li><a href="#">gbp</a></li>
-									</ul>
-								</li>
-								<li class="language">
-									<a href="#">
-										English
-										<i class="fa fa-angle-down"></i>
-									</a>
-									<ul class="language_selection">
-										<li><a href="#">French</a></li>
-										<li><a href="#">Italian</a></li>
-										<li><a href="#">German</a></li>
-										<li><a href="#">Spanish</a></li>
-									</ul>
-								</li>
+				
 								<li class="account">
 									<a href="#">
 										My Account
@@ -92,14 +69,10 @@
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a th:href="@{/home}">home</a></li>
-								<li><a href="#">shop</a></li>
-								<li><a href="#">promotion</a></li>
-								<li><a href="#">pages</a></li>
-								<li><a href="#">blog</a></li>
+								<li><a th:href="@{/shop}">shop</a></li>
 								<li><a th:href="@{/contact}">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
 									<a href="#">
@@ -162,10 +135,7 @@
 					</ul>
 				</li>
 				<li class="menu_item"><a th:href="@{/home}">home</a></li>
-				<li class="menu_item"><a href="#">shop</a></li>
-				<li class="menu_item"><a href="#">promotion</a></li>
-				<li class="menu_item"><a href="#">pages</a></li>
-				<li class="menu_item"><a href="#">blog</a></li>
+				<li class="menu_item"><a th:href="@{/shop}">shop</a></li>
 				<li class="menu_item"><a th:href="@{/contact}">contact</a></li>
 			</ul>
 		</div>

@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import comcircus.fashionweb.model.user.User;
+import comcircus.fashionweb.model.person.Role;
+import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.repository.UserRepository;
 
 @Service
@@ -20,6 +21,7 @@ public class UserServiceImp implements UserService{
 
     @Override
     public User saveUser(User user) {
+        user.setRoles(Role.USER);
         return userRepository.save(user);
     }
 
@@ -42,5 +44,31 @@ public class UserServiceImp implements UserService{
         exitsUser.setPassword(user.getPassword());
         return userRepository.save(exitsUser);
     }
+
+    @Override
+    public boolean checkUserExist(String email, String password) {
+        List<User> users = (List<User>) userRepository.findAll();
+        for (User u : users) {
+            if (u.getEmail().equals(email) && u.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Long getIdUserByEmail(String email) {
+        try {
+            for (User u : (List<User>) userRepository.findAll()) {
+                if (u.getEmail().equals(email)) {
+                    return u.getId();
+                }
+            }
+        } catch (Exception e) {
+            
+        }
+        return Long.valueOf(-1);
+    }
+
     
 }

@@ -9,5 +9,4 @@ public class FashionWebApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FashionWebApplication.class, args);
 	}
-
 }

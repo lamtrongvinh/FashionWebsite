@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import comcircus.fashionweb.model.user.customer.Customer;
+import comcircus.fashionweb.model.person.customer.Customer;
 
 
 @Entity

@@ -63,11 +63,12 @@
 								</li>
 								<li class="account">
                                     
-									<!-- <a href="#">
-										My Account
-										<i class="fa fa-angle-down"></i>
+									<a href="#" th:text="*{user_login.first_name} + *{user_login.last_name} ">
+										Hello 
+										
+										<!-- <i class="fa fa-angle-down"></i> -->
 									</a>
-									<ul class="account_selection">
+									<!-- <ul class="account_selection">
 										<li><a th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
 										<li><a th:href="@{/register}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 									</ul> -->
