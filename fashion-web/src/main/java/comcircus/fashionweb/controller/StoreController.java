@@ -34,11 +34,4 @@ public class StoreController {
         return "categories";
     }
 
-    @GetMapping("/addProduct")
-    public String addProduct() {
-        return "addProduct";
-    }
-
-    
-
 }

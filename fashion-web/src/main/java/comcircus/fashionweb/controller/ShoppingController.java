@@ -22,13 +22,13 @@ public class ShoppingController {
     public String moveToShop(Model model) {
         List<Product> products = productService.getProducts();
         model.addAttribute("products", products);
+        System.out.println(products.get(0).getCategory().getId());
         return "/shopping/shop";
     }
 
     @GetMapping("/single/{id}")
     public String moveToSingle(@PathVariable Long id, Model model) {
         Product product = productService.getProduct(id);
-        System.out.println(product);
         model.addAttribute("product", product);
         return "/shopping/single";
     }

@@ -10,6 +10,7 @@ comcircus\fashionweb\FashionWebApplication.class
 comcircus\fashionweb\model\person\user\User.class
 comcircus\fashionweb\service\category\CategoryServiceImp.class
 comcircus\fashionweb\repository\CategoryRepository.class
+comcircus\fashionweb\controller\Admin\AdminController.class
 comcircus\fashionweb\controller\StoreController.class
 comcircus\fashionweb\controller\CategoryController\CategoryController.class
 comcircus\fashionweb\model\product\Product.class
@@ -25,4 +26,5 @@ comcircus\fashionweb\controller\user\UserController.class
 comcircus\fashionweb\model\oders\Orders.class
 comcircus\fashionweb\controller\Product\ProductController.class
 comcircus\fashionweb\controller\ShoppingController.class
+comcircus\fashionweb\dto\ProductDto.class
 comcircus\fashionweb\model\oders\Orders_detail.class

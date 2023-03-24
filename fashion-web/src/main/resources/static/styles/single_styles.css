@@ -137,15 +137,7 @@ h1, h2, h3, h4, h5, h6
 	-webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
 	text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
-h1::selection,
-h2::selection,
-h3::selection,
-h4::selection,
-h5::selection,
-h6::selection
-{
 
-}
 ::-webkit-input-placeholder
 {
 	font-size: 16px !important;
@@ -881,10 +873,7 @@ section
 	background: #fe4c50;
 	content: '';
 }
-.product_details_title p
-{
-	color: #;
-}
+
 
 /*********************************
 4. Breadcrumbs
@@ -1155,10 +1144,7 @@ section
 	margin-top: 66px;
 	margin-bottom: 66px;
 }
-.tabs
-{
 
-}
 .tab
 {
 	margin-right: 50px;
@@ -1199,10 +1185,7 @@ section
 7.1 Description
 *********************************/
 
-.desc_col
-{
 
-}
 .tab_title
 {
 	margin-bottom: 98px;
