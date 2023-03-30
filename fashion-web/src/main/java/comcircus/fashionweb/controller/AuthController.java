@@ -53,6 +53,12 @@ public class AuthController {
             user_login_list.add(user_login);
             List<Product> products = productService.getProducts();
             model.addAttribute("products", products);
+            List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+            if (!cartItem.isEmpty()) {
+                System.out.println("not empty");
+                List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+                model.addAttribute("size", itemsDetailCart.size());
+            }
             return "/auth/login_success";
         }
         return "redirect:/login";
@@ -67,6 +73,12 @@ public class AuthController {
             List<Product> products = productService.getProducts();
             model.addAttribute("products", products);
         }
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        if (!cartItem.isEmpty()) {
+            System.out.println("not empty");
+            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+            model.addAttribute("size", itemsDetailCart.size());
+        }
         return "/auth/home_login";
     }
 
@@ -77,14 +89,25 @@ public class AuthController {
         List<Product> products = productService.getProducts();
         model.addAttribute("products", products);
         model.addAttribute("user_login", user_login);
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        if (!cartItem.isEmpty()) {
+            System.out.println("not empty");
+            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+            model.addAttribute("size", itemsDetailCart.size());
+        }
         return "/auth/auth_shop";
     }
 
     @GetMapping("/contact")
     public String moveToContactAuth(Model model) {
         User user_login = user_login_list.get(0);
-        
         model.addAttribute("user_login", user_login);
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        if (!cartItem.isEmpty()) {
+            System.out.println("not empty");
+            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+            model.addAttribute("size", itemsDetailCart.size());
+        }
         return "/auth/auth_contact";
     } 
     
@@ -114,6 +137,12 @@ public class AuthController {
         if (id > 0 && product != null) {
             model.addAttribute("product", product);
             model.addAttribute("user_login", user_login);
+        }
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        if (!cartItem.isEmpty()) {
+            System.out.println("not empty");
+            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+            model.addAttribute("size", itemsDetailCart.size());
         }
         return "/auth/details/product_details";
     }
