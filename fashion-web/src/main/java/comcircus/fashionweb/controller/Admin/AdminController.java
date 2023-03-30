@@ -100,4 +100,9 @@ public class AdminController {
 
         return "redirect:/admin/products";
     }
+
+    @GetMapping("/dashboard")
+    public String getDashboard() {
+        return "/admin/admin_dashboard";
+    }
 }

@@ -138,10 +138,24 @@ public class CartServiceImp implements CartService{
     }
 
     @Override
-    public List<CartItem> getCartItems(Cart cart, String email) {
+    public List<CartItem> getCartItems(String email) {
         User user = userService.getUser(userService.getIdUserByEmail(email));
         List<CartItem> list = user.getCart().getCartItem();
 
         return list;
+    }
+
+    @Override
+    public List<CartItem> deleteProduct(Long id, String email) {
+        User user = userService.getUser(userService.getIdUserByEmail(email));
+        List<CartItem> listCartItems = user.getCart().getCartItem();
+        for (int i = 0; i < listCartItems.size(); i++) {
+            Product product = listCartItems.get(i).getProduct();
+            if (product.getProduct_id() == id) {
+                listCartItems.remove(listCartItems.get(i));
+                System.out.println(listCartItems.size());
+            }
+        }
+        return listCartItems;
     }
 }

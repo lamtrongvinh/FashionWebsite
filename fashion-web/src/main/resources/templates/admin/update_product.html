@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="top_nav_left">free shipping on all u.s orders over $50</div>
+                    <div class="top_nav_left">Create, Delete and Update for ADMIN</div>
                 </div>
                 <div class="col-md-6 text-right">
                     <div class="top_nav_right">
@@ -36,12 +36,11 @@
                             
                             <li class="account">
                                 <a href="#">
-                                    My Account
+                                    Welcome: ADMIN
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="account_selection">
-                                    <li><a th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-                                    <li><a th:href="@{/register}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+                                    <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -57,10 +56,11 @@
             <div class="row">
                 <div class="col-lg-12 text-right">
                     <div class="logo_container">
-                        <a th:href="@{/admin/products}">ad<span>min</span></a>
+                        <a th:href="@{/admin/dashboard}">ad<span>min</span></a>
                     </div>
                     <nav class="navbar">
                         <ul class="navbar_menu">
+                            <li><a th:href="@{/admin/dashboard}">dashboard</a></li>
                             <li><a th:href="@{/admin/products}">products</a></li>
                             <li><a th:href="@{/admin/addProduct}">add product</a></li>
                         </ul>

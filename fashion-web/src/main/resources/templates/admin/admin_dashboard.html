@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
+    <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.theme.default.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="top_nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="top_nav_left">Create, Delete and Update for ADMIN</div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <div class="top_nav_right">
+                        <ul class="top_nav_menu">
+
+                            <!-- Currency / Language / My Account -->
+
+                            
+                            <li class="account">
+                                <a href="#">
+                                    Welcome: ADMIN
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="account_selection">
+                                    <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main nav -->
+    <div class="main_nav_container">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-right">
+                    <div class="logo_container">
+                        <a th:href="@{/admin/dashboard}">ad<span>min</span></a>
+                    </div>
+                    <nav class="navbar">
+                        <ul class="navbar_menu">
+                            <li><a th:href="@{/admin/dashboard}">dashboard</a></li>
+                            <li><a th:href="@{/admin/products}">products</a></li>
+                            <li><a th:href="@{/admin/addProduct}">add product</a></li>
+                        </ul>
+                        
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end main nav -->
+    <div class="row">
+        <div class="col text-center">
+            <div class="section_title new_arrivals_title">
+                <h2>ADMIN DASHBOARD</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 20px;">
+        <a th:href="@{/admin/products}"><button type="button" class="btn btn-success" style="align-items: center;">Product List</button></a>
+    </div>
+    <div class="row" style="margin: 20px;">
+        <a th:href="@{/admin/addProduct}"><button type="button" class="btn btn-danger">Add Product</button></a>
+    </div>
+    
+
+<script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{~/styles/bootstrap4/popper.js}"></script>
+<script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
+<script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
+<script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
+<script th:src="@{~/plugins/easing/easing.js}"></script>
+<script th:src="@{~/js/custom.js}"></script>
+</body>
+</html>

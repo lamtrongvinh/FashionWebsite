@@ -53,7 +53,7 @@ public class AuthController {
             user_login_list.add(user_login);
             List<Product> products = productService.getProducts();
             model.addAttribute("products", products);
-            List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+            List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
             if (!cartItem.isEmpty()) {
                 System.out.println("not empty");
                 List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
@@ -73,7 +73,7 @@ public class AuthController {
             List<Product> products = productService.getProducts();
             model.addAttribute("products", products);
         }
-        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         if (!cartItem.isEmpty()) {
             System.out.println("not empty");
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
@@ -89,7 +89,7 @@ public class AuthController {
         List<Product> products = productService.getProducts();
         model.addAttribute("products", products);
         model.addAttribute("user_login", user_login);
-        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         if (!cartItem.isEmpty()) {
             System.out.println("not empty");
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
@@ -102,7 +102,7 @@ public class AuthController {
     public String moveToContactAuth(Model model) {
         User user_login = user_login_list.get(0);
         model.addAttribute("user_login", user_login);
-        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         if (!cartItem.isEmpty()) {
             System.out.println("not empty");
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
@@ -116,7 +116,7 @@ public class AuthController {
         User user_login = user_login_list.get(0);
         model.addAttribute("user_login", user_login);
         
-        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
 
         if (!cartItem.isEmpty()) {
             System.out.println("not empty");
@@ -138,7 +138,7 @@ public class AuthController {
             model.addAttribute("product", product);
             model.addAttribute("user_login", user_login);
         }
-        List<CartItem> cartItem = cartService.getCartItems(user_login.getCart(), user_login.getEmail());
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         if (!cartItem.isEmpty()) {
             System.out.println("not empty");
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
@@ -169,5 +169,22 @@ public class AuthController {
 
         return "/auth/cart";
     }
-    
+
+    //Delete product from cart
+    @GetMapping("/checkout/delete/{id}")
+    public String deleteProductInCart(Model model, @PathVariable Long id) {
+        User user_login = user_login_list.get(0);
+        model.addAttribute("user_login", user_login);
+        List<CartItem> cartItem = cartService.deleteProduct(id, user_login.getEmail());
+
+        if (!cartItem.isEmpty()) {
+            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+            double total = cartService.getTotalPrice(cartItem);
+            model.addAttribute("itemsDetailCart", itemsDetailCart);
+            model.addAttribute("total", total);
+            model.addAttribute("size", itemsDetailCart.size());
+        }
+        return "/auth/cart";
+    }
+
 }

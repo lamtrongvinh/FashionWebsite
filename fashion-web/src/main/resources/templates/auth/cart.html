@@ -120,7 +120,7 @@
                       <h5 class="mb-0" th:text="'$'+${item.total_price}">$499.00</h5>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                      <a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
                     </div>
                   </div>
                   
