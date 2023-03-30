@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
@@ -57,21 +58,8 @@
                         <ul class="navbar_menu">
                             <li><a th:href="@{/admin/products}">products</a></li>
                             <li><a th:href="@{/admin/addProduct}">add product</a></li>
-                            <li><a id="contact_btn" th:href="@{/contact}" >contact</a></li>
                         </ul>
-                        <ul class="navbar_user">
-                            <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                            <li class="checkout">
-                                <a href="#">
-                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="checkout_items" class="checkout_items">2</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="hamburger_container">
-                            <i class="fa fa-bars" aria-hidden="true"></i>
-                        </div>
+                        
                     </nav>
                 </div>
             </div>
@@ -89,6 +77,9 @@
     <div >
         <section style="background-color: #eee;">
             <div class="container py-5">
+              <div>
+                <p th:text="*{delete_success}" style="color: red;"></p>
+              </div>
               <div class="row justify-content-center" th:each="product : ${products}">
                 <div class="col-md-12 col-xl-10">
                   <div class="card shadow-0 border rounded-3">
@@ -114,21 +105,18 @@
                               <i class="fa fa-star"></i>
                               <i class="fa fa-star"></i>
                             </div>
-                            <span>145</span>
+                            <span style="margin-left: 10px;"></span>
                           </div>
                           <div class="mt-1 mb-0 text-muted small">
-                            <span>100% cotton</span>
-                            <span class="text-primary"> • </span>
-                            <span>Light weight</span>
-                            <span class="text-primary"> • </span>
-                            <span>Best finish<br /></span>
+                            <span th:text="${product.product_discount}">100% cotton</span>
+                            
                           </div>
                           <div class="mb-2 text-muted small">
-                            <span>Unique design</span>
+                            <span>Design by Circus</span>
                             <span class="text-primary"> • </span>
-                            <span>For women</span>
+                            <span>Luxury</span>
                             <span class="text-primary"> • </span>
-                            <span>Casual<br /></span>
+                            <span>Gentle<br /></span>
                           </div>
                           <p class="text-truncate mb-4 mb-md-0" th:text="${product.product_desciption}">
                             There are many variations of passages of Lorem Ipsum available, but the
@@ -138,15 +126,20 @@
                         </div>
                         <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                           <div class="d-flex flex-row align-items-center mb-1">
-                            <h4 class="mb-1 me-1" th:text="${product.product_price}">$17.99</h4>
-                            <span class="text-danger" ><s th:text="${product.product_discount}">$25.99</s></span>
+                            <h4 class="mb-1 me-1" th:text="'$' + ${product.product_price}">$17.99</h4>
+                            <span class="text-danger" ><s th:text="'$' +${product.product_discount}" style="margin-left: 5px;">$25.99</s></span>
                           </div>
                           <h6 class="text-success">Free shipping</h6>
                           <div class="d-flex flex-column mt-4">
-                            <button class="btn btn-primary btn-sm" type="button">Delete</button>
-                            <button class="btn btn-outline-primary btn-sm mt-2" type="button">
-                              Update
-                            </button>
+                            <form th:action="@{/admin/deleteProduct/{id}(id=${product.product_id})}" method="get">
+                              <button class="btn btn-primary btn-sm" type="submit" style="padding: 5px 30px;">Delete</button>
+                            </form>
+                            <form th:action="@{/admin/updateProduct/{id}(id=${product.product_id})}" method="get">
+                              <button class="btn btn-outline-primary btn-sm mt-2" type="submit" style="padding: 5px 26px;">
+                                Update
+                              </button>
+                            </form>
+                            
                           </div>
                         </div>
                       </div>

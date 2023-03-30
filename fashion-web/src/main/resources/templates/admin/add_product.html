@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
@@ -62,21 +63,8 @@
                         <ul class="navbar_menu">
                             <li><a th:href="@{/admin/products}">products</a></li>
                             <li><a th:href="@{/admin/addProduct}">add product</a></li>
-                            <li><a id="contact_btn" th:href="@{/contact}" >contact</a></li>
                         </ul>
-                        <ul class="navbar_user">
-                            <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                            <li class="checkout">
-                                <a href="#">
-                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="checkout_items" class="checkout_items">2</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="hamburger_container">
-                            <i class="fa fa-bars" aria-hidden="true"></i>
-                        </div>
+                        
                     </nav>
                 </div>
             </div>

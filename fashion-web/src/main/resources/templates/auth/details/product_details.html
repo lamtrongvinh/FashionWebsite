@@ -42,13 +42,12 @@
 
 								
 								<li class="account">
-									<a href="#">
+									<a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
 										My Account
 										<i class="fa fa-angle-down"></i>
 									</a>
 									<ul class="account_selection">
-										<li><a th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-										<li><a th:href="@{/login}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+										<li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -65,19 +64,19 @@
 				<div class="row">
 					<div class="col-lg-12 text-right">
 						<div class="logo_container">
-							<a th:href="@{/home}">Cir<span>cus</span></a>
+							<a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-								<li><a th:href="@{/home}">home</a></li>
-								<li><a th:href="@{/shopping/shop}">shop</a></li>
-								<li><a th:href="@{/contact}">contact</a></li>
+								<li><a th:href="@{/auth/homepage}">home</a></li>
+								<li><a th:href="@{/auth/shop}">shop</a></li>
+								<li><a th:href="@{/auth/contact}">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
-									<a th:href="@{/login}">
+									<a th:href="@{/auth/checkout}">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 									</a>
 								</li>
@@ -104,18 +103,17 @@
 				<li class="menu_item has-children">
 					
 				<li class="menu_item has-children">
-					<a href="#">
+					<a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
 						My Account
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_selection">
-						<li><a th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-						<li><a th:href="@{/register}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+                        <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
 					</ul>
 				</li>
-				<li class="menu_item"><a th:href="@{/home}">home</a></li>
-				<li class="menu_item"><a th:href="@{/shop}">shop</a></li>
-				<li class="menu_item"><a th:href="@{/contact}">contact</a></li>
+				<li class="menu_item"><a th:href="@{/auth/homepage}">home</a></li>
+				<li class="menu_item"><a th:href="@{/auth/shop}">shop</a></li>
+				<li class="menu_item"><a th:href="@{/auth/contact}">contact</a></li>
 			</ul>
 		</div>
 	</div>
@@ -128,7 +126,7 @@
 
 				<div class="breadcrumbs d-flex flex-row align-items-center">
 					<ul>
-						<li><a th:href="@{/home}">Home</a></li>
+						<li><a th:href="@{/auth/homepage}">Home</a></li>
 						<li><a href="categories.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Men's</a></li>
 						<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single Product</a></li>
 					</ul>
@@ -194,7 +192,7 @@
 							<span id="quantity_value">1</span>
 							<span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
 						</div>
-						<div class="red_button add_to_cart_button"><a th:href="@{/login}">add to cart</a></div>
+						<div class="red_button add_to_cart_button"><a th:href="@{/auth/checkout}">add to cart</a></div>
 						<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
 					</div>
 				</div>

@@ -32,4 +32,5 @@ public class ShoppingController {
         model.addAttribute("product", product);
         return "/shopping/single";
     }
+
 }

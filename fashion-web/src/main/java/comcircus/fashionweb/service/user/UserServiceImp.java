@@ -3,9 +3,9 @@ package comcircus.fashionweb.service.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import comcircus.fashionweb.model.person.Role;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.repository.UserRepository;
 
@@ -14,6 +14,9 @@ public class UserServiceImp implements UserService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public User getUser(Long id) {
         return userRepository.findById(id).get();
@@ -21,7 +24,8 @@ public class UserServiceImp implements UserService{
 
     @Override
     public User saveUser(User user) {
-        user.setRoles(Role.USER);
+        user.setRole("USER");
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -49,7 +53,8 @@ public class UserServiceImp implements UserService{
     public boolean checkUserExist(String email, String password) {
         List<User> users = (List<User>) userRepository.findAll();
         for (User u : users) {
-            if (u.getEmail().equals(email) && u.getPassword().equals(password)) {
+            boolean isPasswordMatches = bCryptPasswordEncoder.matches(password, u.getPassword());
+            if (u.getEmail().equals(email) && isPasswordMatches) {
                 return true;
             }
         }
