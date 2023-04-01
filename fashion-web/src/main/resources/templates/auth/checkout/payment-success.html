@@ -12,10 +12,79 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<style type="text/css">
+
+    body
+    {
+        background:#f2f2f2;
+    }
+
+    .payment
+	{
+		border:1px solid #f2f2f2;
+		height:280px;
+        border-radius:20px;
+        background:#fff;
+	}
+   .payment_header
+   {
+	   background:rgba(255,102,0,1);
+	   padding:20px;
+       border-radius:20px 20px 0px 0px;
+	   
+   }
+   
+   .check
+   {
+	   margin:0px auto;
+	   width:50px;
+	   height:50px;
+	   border-radius:100%;
+	   background:#fff;
+	   text-align:center;
+   }
+   
+   .check i
+   {
+	   vertical-align:middle;
+	   line-height:50px;
+	   font-size:30px;
+   }
+
+    .content 
+    {
+        text-align:center;
+    }
+
+    .content  h1
+    {
+        font-size:25px;
+        padding-top:25px;
+    }
+
+    .content a
+    {
+        width:200px;
+        height:35px;
+        color:#fff;
+        border-radius:30px;
+        padding:5px 10px;
+        background:rgba(255,102,0,1);
+        transition:all ease-in-out 0.3s;
+    }
+
+    .content a:hover
+    {
+        text-decoration:none;
+        background:#000;
+    }
+   
+</style>
     <title>Document</title>
 </head>
 <body>
-    <!-- top nav -->
     <div class="top_nav">
         <div class="container">
             <div class="row">
@@ -30,7 +99,7 @@
 
                             
                             <li class="account">
-                                <a th:href="@{/auth/profile}" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                                <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
                                     My Account
                                     <i class="fa fa-angle-down"></i>
                                 </a>
@@ -61,7 +130,7 @@
                         </ul>
                         <ul class="navbar_user">
                             <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                             <li class="checkout">
                                 <a th:href="@{/auth/checkout}">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -77,73 +146,28 @@
             </div>
         </div>
     </div>
-    <!-- end main nav -->
-    <section class="h-100" style="background-color: #eee;">
-        <div class="container h-100 py-5">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-10">
-      
-              <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
-                
+
+    <!-- end nav -->
+    <div class="container">
+        <div class="row">
+           <div class="col-md-6 mx-auto mt-5">
+              <div class="payment">
+                 <div class="payment_header">
+                    <div class="check"><i class="fa fa-check" aria-hidden="true"></i></div>
+                 </div>
+                 <div class="content">
+                    <h1>Payment Success !</h1>
+                    <p>Your order has been paid, please track the order in the purchase order and the order can be received in 3-5 days. Thank you!</p>
+                    <a th:href="@{/auth/homepage}">Go to Home</a>
+                 </div>
+                 
               </div>
-      
-              <div class="card rounded-3 mb-4">
-                <div class="card-body p-4" >
-                  <div class="row d-flex justify-content-between align-items-center" th:each="item: ${itemsDetailCart}">
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img
-                        th:src="@{'~/' + ${item.product_image_name} + '.png'}"
-                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class="lead fw-normal mb-2" th:text="${item.product_desciption}">Basic T-shirt</p>
-                      <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                        <i class="fas fa-minus"></i>
-                      </button>
-      
-                      <input id="form1" min="0" name="quantity" type="number" class="form-control form-control-sm" th:value="${item.quantity}"/>
-      
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                        <i class="fas fa-plus"></i>
-                      </button>
-                    </div>
-                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h5 class="mb-0" th:text="'$'+${item.total_price}">$499.00</h5>
-                    </div>
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-                    </div>
-                  </div>
-                  
-                </div>
-                <div id="total_box" th:if="*{total != null}">
-                    <span calss="total" style="margin-left: 67%; color: #282828; font-family: inherit;
-                    font-weight: 500;
-                    line-height: 1.2; font-size: 16px;">  </span>
-                    <span th:if="'Total :$'+*{total}" style="color:#282828; font-family: inherit;
-                    font-weight: 500;
-                    line-height: 1.2; font-size: 16px;"></span>
-                </div>
-              </div>
-              
-              <div class="card">
-                
-                <div class="card-body">
-                  <a th:href="@{/auth/checkout/payment}"><button type="submit" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button></a>
-                </div>
-              </div>
-      
-            </div>
-          </div>
+           </div>
         </div>
-      </section>
-<!-- footer -->
+     </div>
+    <!-- container -->
+    <!-- end container -->
+    <!-- footer -->
 <footer class="footer">
     <div class="container">
         <div class="row">
@@ -178,7 +202,6 @@
     </div>
 
 </footer>
-
 <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
 <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
 <script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>

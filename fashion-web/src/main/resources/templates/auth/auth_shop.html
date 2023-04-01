@@ -31,7 +31,7 @@
 
                             
                             <li class="account">
-                                <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                                <a th:href="@{/auth/profile}" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
                                     My Account
                                     <i class="fa fa-angle-down"></i>
                                 </a>
@@ -62,11 +62,11 @@
                         </ul>
                         <ul class="navbar_user">
                             <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                            <li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                             <li class="checkout">
                                 <a th:href="@{/auth/checkout}">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="checkout_items" class="checkout_items" th:text="*{size}">2</span>
+                                    <span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
                                 </a>
                             </li>
                         </ul>

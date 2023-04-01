@@ -1,7 +1,10 @@
 package comcircus.fashionweb.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,17 +12,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import comcircus.fashionweb.dto.CartDto;
+import comcircus.fashionweb.dto.CustomerDto;
 import comcircus.fashionweb.dto.ItemDetailsCart;
 import comcircus.fashionweb.dto.ItemRequestDto;
+import comcircus.fashionweb.dto.OrderDetailsDto;
+import comcircus.fashionweb.model.cart.Cart;
 import comcircus.fashionweb.model.cart.CartItem;
+import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.cart.CartService;
+import comcircus.fashionweb.service.customer.CustomerService;
+import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
 import comcircus.fashionweb.service.product.ProductService;
 import comcircus.fashionweb.service.user.UserService;
 
@@ -35,6 +45,12 @@ public class AuthController {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private OrderDetailsService orderDetailsService;
     
     List<User> user_login_list = new ArrayList<>();
 
@@ -53,12 +69,20 @@ public class AuthController {
             user_login_list.add(user_login);
             List<Product> products = productService.getProducts();
             model.addAttribute("products", products);
-            List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-            if (!cartItem.isEmpty()) {
-                System.out.println("not empty");
-                List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
-                model.addAttribute("size", itemsDetailCart.size());
+            if (user_login.getCart() == null) {
+                Cart cartOfUer = new Cart();
+                user_login.setCart(cartOfUer);
+                model.addAttribute("size", "no-item");
+            } else {
+                List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+                if (!cartItem.isEmpty()) {
+                    List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+                    model.addAttribute("size", itemsDetailCart.size());
+                } else {
+                    model.addAttribute("size", "no-item");
+                }
             }
+            
             return "/auth/login_success";
         }
         return "redirect:/login";
@@ -73,11 +97,18 @@ public class AuthController {
             List<Product> products = productService.getProducts();
             model.addAttribute("products", products);
         }
-        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        if (!cartItem.isEmpty()) {
-            System.out.println("not empty");
-            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
-            model.addAttribute("size", itemsDetailCart.size());
+        if (user_login.getCart() == null) {
+            Cart cartOfUer = new Cart();
+            user_login.setCart(cartOfUer);
+            model.addAttribute("size", "no-item");
+        } else {
+            List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+            if (!cartItem.isEmpty()) {
+                List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+                model.addAttribute("size", itemsDetailCart.size());
+            } else {
+                model.addAttribute("size", "no-item");
+            }
         }
         return "/auth/home_login";
     }
@@ -89,11 +120,18 @@ public class AuthController {
         List<Product> products = productService.getProducts();
         model.addAttribute("products", products);
         model.addAttribute("user_login", user_login);
-        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        if (!cartItem.isEmpty()) {
-            System.out.println("not empty");
-            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
-            model.addAttribute("size", itemsDetailCart.size());
+        if (user_login.getCart() == null) {
+            Cart cartOfUer = new Cart();
+            user_login.setCart(cartOfUer);
+            model.addAttribute("size", "no-item");
+        } else {
+            List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+            if (!cartItem.isEmpty()) {
+                List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+                model.addAttribute("size", itemsDetailCart.size());
+            } else {
+                model.addAttribute("size", "no-item");
+            }
         }
         return "/auth/auth_shop";
     }
@@ -102,11 +140,18 @@ public class AuthController {
     public String moveToContactAuth(Model model) {
         User user_login = user_login_list.get(0);
         model.addAttribute("user_login", user_login);
-        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        if (!cartItem.isEmpty()) {
-            System.out.println("not empty");
-            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
-            model.addAttribute("size", itemsDetailCart.size());
+        if (user_login.getCart() == null) {
+            Cart cartOfUer = new Cart();
+            user_login.setCart(cartOfUer);
+            model.addAttribute("size", "no-item");
+        } else {
+            List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+            if (!cartItem.isEmpty()) {
+                List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+                model.addAttribute("size", itemsDetailCart.size());
+            } else {
+                model.addAttribute("size", "no-item");
+            }
         }
         return "/auth/auth_contact";
     } 
@@ -119,12 +164,13 @@ public class AuthController {
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
 
         if (!cartItem.isEmpty()) {
-            System.out.println("not empty");
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
             double total = cartService.getTotalPrice(cartItem);
             model.addAttribute("itemsDetailCart", itemsDetailCart);
             model.addAttribute("total", total);
             model.addAttribute("size", itemsDetailCart.size());
+        } else {
+            model.addAttribute("size", "no-item");
         }
         return "/auth/cart";
     }
@@ -140,9 +186,10 @@ public class AuthController {
         }
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         if (!cartItem.isEmpty()) {
-            System.out.println("not empty");
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
             model.addAttribute("size", itemsDetailCart.size());
+        } else {
+            model.addAttribute("size", "no-item");
         }
         return "/auth/details/product_details";
     }
@@ -183,8 +230,98 @@ public class AuthController {
             model.addAttribute("itemsDetailCart", itemsDetailCart);
             model.addAttribute("total", total);
             model.addAttribute("size", itemsDetailCart.size());
+        } else {
+            model.addAttribute("size", "no-item");
         }
         return "/auth/cart";
+    }
+
+    // Checkout payment
+    @GetMapping("/checkout/payment")
+    public String processPayment(Model model) {
+        User user_login = user_login_list.get(0);
+        model.addAttribute("user_login", user_login);
+        
+        //Get cartItem
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+        if (!cartItem.isEmpty()) {
+            List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+            double total = cartService.getTotalPrice(cartItem);
+            model.addAttribute("itemsDetailCart", itemsDetailCart);
+            model.addAttribute("total", total);
+            model.addAttribute("size", itemsDetailCart.size());
+        } else {
+            model.addAttribute("size", "no-item");
+            return "/auth/cart";
+        }
+
+        //Add customer
+        model.addAttribute("customer", new CustomerDto());
+        return "/auth/checkout/payment";
+    }
+
+    //Payment
+    @PostMapping("/checkout/payment-process")
+    public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model) {
+        System.out.println(customerDto.getFirst_name());
+        User user_login = user_login_list.get(0);
+        model.addAttribute("user_login", user_login);
+        //Get cartItem
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+        List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+        double total = cartService.getTotalPrice(cartItem);
+        model.addAttribute("total", total);
+        model.addAttribute("size", itemsDetailCart.size());
+
+        //Cusomter info
+        Customer customer = customerService.mapCustomerDtoToCustomer(customerDto);
+        
+        //OrderDetails
+        LocalDateTime ldt = LocalDateTime.now();
+        String formattedDateStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);
+
+        OrderDetailsDto orderDetailsDto = new OrderDetailsDto();
+        orderDetailsDto.setCustomer_id(customer.getCustomer_id());
+        orderDetailsDto.setStatus("DELIVERY ");
+        orderDetailsDto.setTotal_money(total);
+        orderDetailsDto.setOrder_date(formattedDateStr);
+        orderDetailsDto.setUser_id(user_login.getId());
+        orderDetailsDto.setCartItem(cartItem);
+
+        //hanle save
+        orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
+
+        //delete all cart item after proceed payment
+        cartService.deleteAllProduct(user_login.getEmail());
+
+        return "/auth/checkout/payment-success";
+    }
+
+    @GetMapping("/profile")
+    public String getProfile(Model model) {
+        User user_login = user_login_list.get(0);
+        model.addAttribute("user_login", user_login);
+        //Get cartItem
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+        List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+        double total = cartService.getTotalPrice(cartItem);
+        model.addAttribute("total", total);
+        if (!cartItem.isEmpty()) {
+            model.addAttribute("size", itemsDetailCart.size());
+        } else {
+            model.addAttribute("size", "no-item");
+        }
+        
+        return "/auth/profile";
+    }
+
+    @GetMapping("/orders/waiting")
+    public String getOrdersWaiting() {
+        return "/auth/orders_waiting";
+    }
+    @GetMapping("/orders/delivery")
+    public String getOrdersDelivery() {
+        return "/auth/orders_delivery";
     }
 
 }

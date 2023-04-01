@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import comcircus.fashionweb.dto.CustomerDto;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.repository.CustomerRepository;
 
@@ -45,6 +46,18 @@ public class CustomerServiceImp implements CustomerService{
         exitsCustomer.setUrl_image(customer.getUrl_image());
         
         return customerRepository.save(exitsCustomer);
+    }
+
+    @Override
+    public Customer mapCustomerDtoToCustomer(CustomerDto customerDto) {
+        Customer customer = new Customer();
+        customer.setFirst_name(customerDto.getFirst_name());
+        customer.setLast_name(customerDto.getLast_name());
+        customer.setPhone_number(customerDto.getPhone_number());
+        customer.setEmail(customerDto.getEmail());
+        customer.setAddress(customerDto.getAddress());
+
+        return customerRepository.save(customer);
     }
     
 }

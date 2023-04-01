@@ -37,7 +37,7 @@
 							<ul class="top_nav_menu">
 								<li class="account" th:object="${user_login}">
                                     
-									<a href="#" th:text="'Welcome: ' + *{first_name} + ' ' + *{last_name} ">
+									<a th:href="@{/auth/profile}" th:text="'Welcome: ' + *{first_name} + ' ' + *{last_name} ">
 										<!-- <i class="fa fa-angle-down"></i> -->
 									</a>
 									<ul class="account_selection">
@@ -72,11 +72,11 @@
 							</ul>
 							<ul class="navbar_user">
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+								<li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
 									<a th:href="@{/auth/checkout}">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items" th:text="*{size}">2</span>
+										<span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
 									</a>
 								</li>
 							</ul>
@@ -99,7 +99,7 @@
 				
 				<form method="post" th:object="${user_login}">
 					<li class="menu_item has-children">
-						<a href="#" th:text="'Welcome : ' + *{first_name} + ' ' + *{last_name} ">
+						<a th:href="@{/auth/profile}" th:text="'Welcome : ' + *{first_name} + ' ' + *{last_name} ">
 							My Account
 							<i class="fa fa-angle-down"></i>
 						</a>

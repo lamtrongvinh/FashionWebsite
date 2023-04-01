@@ -78,7 +78,7 @@
 								<li class="checkout">
 									<a th:href="@{/auth/checkout}">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items" th:text="*{size}"></span>
+										<span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}"></span>
 									</a>
 								</li>
 							</ul>
