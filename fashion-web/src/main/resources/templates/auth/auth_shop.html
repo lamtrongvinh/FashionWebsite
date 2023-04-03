@@ -12,6 +12,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_responsive.css}">
     <title>Document</title>
 </head>
 <body>
@@ -91,6 +94,40 @@
             </div>
         </div>
         <div class="row">
+            
+           
+            <div class="sidebar">
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>Product Category</h5>
+                    </div>
+                    <form th:action="@{/auth/shop}" method="get">
+                        <div class="form-group">
+                            <label for="exampleInputText">Category</label>
+                            <select class="form-select" name="category_id" id="category_id">
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            </select>
+                        </div>
+                        <button class="filter_button" type="submit"><span>filter</span></button>
+                    </form>
+                    <!-- <ul class="sidebar_categories" th:each="category : ${categories}"> -->
+                        <!-- <li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Women</a></li> -->
+                        <!-- <li><a th:href="@{/shopping/shop}" th:text="${category.name}">Clothes</a></li> -->
+                        
+                    <!-- </ul> -->
+                </div>
+                 <!-- Price Range Filtering -->
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>Filter by Price</h5>
+                    </div>
+                    <p>
+                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;" name="amount">
+                    </p>
+                    <div id="slider-range"></div>
+                    <div class="filter_button"><span>filter</span></div>
+                </div>
+            </div>
             <div class="col">
                 <div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' >
             <!-- Single Product -->
@@ -181,5 +218,7 @@
 <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
 <script th:src="@{~/plugins/easing/easing.js}"></script>
 <script th:src="@{~/js/custom.js}"></script>
+<script th:src="@{~/js/categories_custom.js}"></script>
+<script th:src="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
 </body>
 </html>

@@ -40,5 +40,5 @@ public class CategoryServiceImp implements CategoryService {
         exitsCategory.setName(category.getName());
         return categoryRepository.save(exitsCategory);
     }
-    
+
 }

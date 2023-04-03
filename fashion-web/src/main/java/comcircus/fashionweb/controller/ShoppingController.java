@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import comcircus.fashionweb.model.category.Category;
 import comcircus.fashionweb.model.product.Product;
+import comcircus.fashionweb.service.category.CategoryService;
 import comcircus.fashionweb.service.product.ProductService;
 
 @Controller
@@ -20,10 +22,22 @@ public class ShoppingController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/shop")
     public String moveToShop(Model model, HttpServletRequest request) {
         String keyword = request.getParameter("keyword");
-        if (keyword != null) {
+        List<Category> categories = categoryService.getCategorys();
+        model.addAttribute("categories", categories);
+        String category_id = request.getParameter("category_id");
+        System.out.println(category_id);
+        System.out.println(keyword);
+
+        if (category_id != null) {
+            List<Product> products = productService.getProductsByCategory(category_id);
+            model.addAttribute("products", products);
+        }else if (keyword != null) {
             List<Product> products = productService.getProductsByKeyword(keyword);
             model.addAttribute("products", products);
         } else {

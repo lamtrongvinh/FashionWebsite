@@ -125,5 +125,24 @@ public class ProductServiceImp implements ProductService{
 
         return listByKeyword;
     }
+
+    @Override
+    public List<Product> getProductsByCategory(String keyword) {
+        List<Product> listByKeyword = new ArrayList<>();
+        List<Product> list = (List<Product>) productRepository.findAll();
+        try {
+            Long category_id = Long.valueOf(keyword);
+            for (int i = 0; i < list.size(); i++) {
+                Product product = list.get(i);
+                if (product.getCategory().getId() == category_id) {
+                    listByKeyword.add(product);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("can not convert to Long by keyword");
+        }
+
+        return listByKeyword;
+    }
     
 }

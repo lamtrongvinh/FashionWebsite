@@ -24,11 +24,13 @@ import comcircus.fashionweb.dto.ItemRequestDto;
 import comcircus.fashionweb.dto.OrderDetailsDto;
 import comcircus.fashionweb.model.cart.Cart;
 import comcircus.fashionweb.model.cart.CartItem;
+import comcircus.fashionweb.model.category.Category;
 import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.cart.CartService;
+import comcircus.fashionweb.service.category.CategoryService;
 import comcircus.fashionweb.service.customer.CustomerService;
 import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
 import comcircus.fashionweb.service.product.ProductService;
@@ -52,6 +54,9 @@ public class AuthController {
 
     @Autowired
     private OrderDetailsService orderDetailsService;
+
+    @Autowired
+    private CategoryService categoryService;
     
     List<User> user_login_list = new ArrayList<>();
 
@@ -130,8 +135,14 @@ public class AuthController {
     @GetMapping("/shop")
     public String moveToShopAuth(Model model, HttpServletRequest request) {
         String keyword = request.getParameter("keyword");
+        String category_id = request.getParameter("category_id");
         User user_login = user_login_list.get(0);
-        if (keyword != null) {
+        List<Category> categories = categoryService.getCategorys();
+        model.addAttribute("categories", categories);
+        if (category_id != null) {
+            List<Product> products = productService.getProductsByCategory(category_id);
+            model.addAttribute("products", products);
+        }else if (keyword != null) {
             List<Product> products = productService.getProductsByKeyword(keyword);
             model.addAttribute("products", products);
         } else {

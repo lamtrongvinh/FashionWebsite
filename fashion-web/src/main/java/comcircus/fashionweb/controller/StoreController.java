@@ -40,7 +40,7 @@ public class StoreController {
 
     @GetMapping("/category")
     public String getCategory() {
-        return "categories";
+        return "/categories/categories";
     }
 
 }
