@@ -1,5 +1,6 @@
 package comcircus.fashionweb.service.product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +110,20 @@ public class ProductServiceImp implements ProductService{
         productExist.setCategory(categoryService.getCategory(productDto.getCategory_id()));
         
         return  productRepository.save(productExist);
+    }
+
+    @Override
+    public List<Product> getProductsByKeyword(String keyword) {
+        keyword = keyword.toLowerCase();
+        List<Product> list =  (List<Product>) productRepository.findAll();
+        List<Product> listByKeyword = new ArrayList<>();
+        for (int i = 0;i < list.size(); i++) {
+            if (list.get(i).getProduct_name().toLowerCase().contains(keyword) || list.get(i).getProduct_desciption().toLowerCase().contains(keyword)) {
+                listByKeyword.add(list.get(i));
+            }
+        }
+
+        return listByKeyword;
     }
     
 }

@@ -1,12 +1,8 @@
 package comcircus.fashionweb.service.orders;
 
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.oders.UserOrders;
 import comcircus.fashionweb.repository.UserOrdersRepository;
 
@@ -16,9 +12,7 @@ public class UserOrdersServiceImp implements UserOrdersService{
     private UserOrdersRepository userOrdersRepository;
 
     @Override
-    public UserOrders saveUserOrders(List<OrderDetails> orderDetails) {
-        UserOrders userOrders = new UserOrders();
-        userOrders.setOrderdetails(orderDetails);
+    public UserOrders saveUserOrders(UserOrders userOrders) {
 
         return userOrdersRepository.save(userOrders);
     }

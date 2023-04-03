@@ -42,4 +42,5 @@ public class OrderDetails {
 
     @ManyToOne
     private UserOrders userOrders;
+
 }

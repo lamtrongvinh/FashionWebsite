@@ -188,6 +188,7 @@ public class CartServiceImp implements CartService{
     public void deleteAllProduct(String email) {
         User user = userService.getUser(userService.getIdUserByEmail(email));
         List<CartItem> listCartItems = user.getCart().getCartItem();
+        
         //delete all
         listCartItems.clear();
     }

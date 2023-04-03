@@ -24,6 +24,7 @@ import comcircus.fashionweb.dto.ItemRequestDto;
 import comcircus.fashionweb.dto.OrderDetailsDto;
 import comcircus.fashionweb.model.cart.Cart;
 import comcircus.fashionweb.model.cart.CartItem;
+import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.model.product.Product;
@@ -54,21 +55,27 @@ public class AuthController {
     
     List<User> user_login_list = new ArrayList<>();
 
-    String emailOfUserLogin = "";
-
     @PostMapping("/login")
     public String processLogin(HttpServletRequest request, Model model) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
+        String keyword = request.getParameter("keyword");
         if (userService.checkUserExist(email, password))
         {
             User user_login = userService.getUser(userService.getIdUserByEmail(email));
             model.addAttribute("user_login", user_login);
             user_login_list.clear();
             user_login_list.add(user_login);
-            List<Product> products = productService.getProducts();
-            model.addAttribute("products", products);
+            System.out.println(keyword);
+            if (keyword != null) {
+                List<Product> products = productService.getProductsByKeyword(keyword);
+                model.addAttribute("products", products);
+            } else {
+                List<Product> products = productService.getProducts();
+                model.addAttribute("products", products);
+            }
+
+
             if (user_login.getCart() == null) {
                 Cart cartOfUer = new Cart();
                 user_login.setCart(cartOfUer);
@@ -89,13 +96,19 @@ public class AuthController {
     }
 
     @GetMapping("/homepage")
-    public String showHomePage(Model model) {
+    public String showHomePage(Model model, HttpServletRequest request) {
+        String keyword = request.getParameter("keyword");
         User user_login = user_login_list.get(0);
         System.out.println(user_login_list.size());
         if (userService.getUser(user_login.getId()) != null) {
             model.addAttribute("user_login", user_login);
-            List<Product> products = productService.getProducts();
-            model.addAttribute("products", products);
+            if (keyword != null) {
+                List<Product> products = productService.getProductsByKeyword(keyword);
+                model.addAttribute("products", products);
+            } else {
+                List<Product> products = productService.getProducts();
+                model.addAttribute("products", products);
+            }
         }
         if (user_login.getCart() == null) {
             Cart cartOfUer = new Cart();
@@ -115,10 +128,16 @@ public class AuthController {
 
 
     @GetMapping("/shop")
-    public String moveToShopAuth(Model model) {
+    public String moveToShopAuth(Model model, HttpServletRequest request) {
+        String keyword = request.getParameter("keyword");
         User user_login = user_login_list.get(0);
-        List<Product> products = productService.getProducts();
-        model.addAttribute("products", products);
+        if (keyword != null) {
+            List<Product> products = productService.getProductsByKeyword(keyword);
+            model.addAttribute("products", products);
+        } else {
+            List<Product> products = productService.getProducts();
+            model.addAttribute("products", products);
+        }
         model.addAttribute("user_login", user_login);
         if (user_login.getCart() == null) {
             Cart cartOfUer = new Cart();
@@ -268,10 +287,10 @@ public class AuthController {
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+        // List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
         double total = cartService.getTotalPrice(cartItem);
         model.addAttribute("total", total);
-        model.addAttribute("size", itemsDetailCart.size());
+        model.addAttribute("size", "no-item");
 
         //Cusomter info
         Customer customer = customerService.mapCustomerDtoToCustomer(customerDto);
@@ -282,13 +301,11 @@ public class AuthController {
 
         OrderDetailsDto orderDetailsDto = new OrderDetailsDto();
         orderDetailsDto.setCustomer_id(customer.getCustomer_id());
-        orderDetailsDto.setStatus("DELIVERY ");
+        orderDetailsDto.setStatus("WAITING");
         orderDetailsDto.setTotal_money(total);
         orderDetailsDto.setOrder_date(formattedDateStr);
         orderDetailsDto.setUser_id(user_login.getId());
-        orderDetailsDto.setCartItem(cartItem);
-
-        //hanle save
+        //handle save orderDetails
         orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
 
         //delete all cart item after proceed payment
@@ -316,11 +333,64 @@ public class AuthController {
     }
 
     @GetMapping("/orders/waiting")
-    public String getOrdersWaiting() {
+    public String getOrdersWaiting(Model model) {
+        User user_login = user_login_list.get(0);
+        model.addAttribute("user_login", user_login);
+        //Get cartItem
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+        List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+        double total = cartService.getTotalPrice(cartItem);
+        model.addAttribute("total", total);
+        if (!cartItem.isEmpty()) {
+            model.addAttribute("size", itemsDetailCart.size());
+        } else {
+            model.addAttribute("size", "no-item");
+        }
+
+        List<OrderDetails> orderDetails = orderDetailsService.getWaitingOrderDetailsOfUser(user_login);
+        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.changeToOrderDetailsDto(orderDetails);
+        for (int i = 0; i < orderDetailsDto.size(); i++) {
+            OrderDetailsDto oDetailsDto = orderDetailsDto.get(i);
+            Long customer_id = orderDetailsDto.get(i).getCustomer_id();
+            Customer customer = customerService.getCustomer(customer_id);
+            oDetailsDto.setFirst_name(customer.getFirst_name());
+            oDetailsDto.setLast_name(customer.getLast_name());
+            oDetailsDto.setEmail(customer.getEmail());
+            oDetailsDto.setPhone_number(customer.getPhone_number());
+            oDetailsDto.setAddress(customer.getAddress());
+        }
+        model.addAttribute("orderDetailsDto", orderDetailsDto);
+
         return "/auth/orders_waiting";
     }
     @GetMapping("/orders/delivery")
-    public String getOrdersDelivery() {
+    public String getOrdersDelivery(Model model) {
+        User user_login = user_login_list.get(0);
+        model.addAttribute("user_login", user_login);
+        //Get cartItem
+        List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+        List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
+        double total = cartService.getTotalPrice(cartItem);
+        model.addAttribute("total", total);
+        if (!cartItem.isEmpty()) {
+            model.addAttribute("size", itemsDetailCart.size());
+        } else {
+            model.addAttribute("size", "no-item");
+        }
+
+        List<OrderDetails> orderDetails = orderDetailsService.getDeliveryOrderDetailsOfUser(user_login);
+        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.changeToOrderDetailsDto(orderDetails);
+        for (int i = 0; i < orderDetailsDto.size(); i++) {
+            OrderDetailsDto oDetailsDto = orderDetailsDto.get(i);
+            Long customer_id = orderDetailsDto.get(i).getCustomer_id();
+            Customer customer = customerService.getCustomer(customer_id);
+            oDetailsDto.setFirst_name(customer.getFirst_name());
+            oDetailsDto.setLast_name(customer.getLast_name());
+            oDetailsDto.setEmail(customer.getEmail());
+            oDetailsDto.setPhone_number(customer.getPhone_number());
+            oDetailsDto.setAddress(customer.getAddress());
+        }
+        model.addAttribute("orderDetailsDto", orderDetailsDto);
         return "/auth/orders_delivery";
     }
 

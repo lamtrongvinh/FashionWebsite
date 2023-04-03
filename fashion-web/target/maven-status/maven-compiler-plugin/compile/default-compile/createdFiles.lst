@@ -38,13 +38,11 @@ comcircus\fashionweb\security\CustomUserDetails.class
 comcircus\fashionweb\controller\user\UserController.class
 comcircus\fashionweb\repository\OrderDetailsRepository.class
 comcircus\fashionweb\dto\CartDto.class
-comcircus\fashionweb\model\oders\Orders.class
 comcircus\fashionweb\controller\LoginRegisterController.class
 comcircus\fashionweb\service\orderdetails\OrderDetailsService.class
 comcircus\fashionweb\controller\Product\ProductController.class
 comcircus\fashionweb\controller\ShoppingController.class
 comcircus\fashionweb\dto\ProductDto.class
-comcircus\fashionweb\model\oders\Orders_detail.class
 comcircus\fashionweb\dto\ItemDetailsCart.class
 comcircus\fashionweb\repository\CartRepository.class
 comcircus\fashionweb\service\orderdetails\OrderDetailsServiceImp.class

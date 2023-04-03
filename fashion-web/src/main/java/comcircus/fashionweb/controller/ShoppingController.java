@@ -2,6 +2,8 @@ package comcircus.fashionweb.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,15 @@ public class ShoppingController {
     private ProductService productService;
 
     @GetMapping("/shop")
-    public String moveToShop(Model model) {
-        List<Product> products = productService.getProducts();
-        model.addAttribute("products", products);
-        System.out.println(products.get(0).getCategory().getId());
+    public String moveToShop(Model model, HttpServletRequest request) {
+        String keyword = request.getParameter("keyword");
+        if (keyword != null) {
+            List<Product> products = productService.getProductsByKeyword(keyword);
+            model.addAttribute("products", products);
+        } else {
+            List<Product> products = productService.getProducts();
+            model.addAttribute("products", products);
+        }
         return "/shopping/shop";
     }
 
