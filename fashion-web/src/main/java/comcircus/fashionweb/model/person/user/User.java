@@ -5,16 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
-import comcircus.fashionweb.model.person.Role;
+import comcircus.fashionweb.model.cart.Cart;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_register")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,11 +32,15 @@ public class User {
     @Column(nullable = false, unique = false, length = 50)
     private String email;
 
-    @Column(name = "password", length = 50, nullable =  false)
+    @Column(name = "password", nullable =  false)
     private String password;
 
-    @Column(length = 50)
+    @Column(name = "repeat_password")
     private String repeat_password;
 
-    private Role roles;
+    @Column(name = "role")
+    private String role;
+
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
 }

@@ -6,6 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Colo Shop Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -70,13 +71,16 @@
 								<li><a th:href="@{/shopping/shop}">shop</a></li>
 								<li><a th:href="@{/contact}" >contact</a></li>
 							</ul>
+							<form th:action="@{/home}" class="form-inline my-2 my-lg-0" method="get">
+								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
+								<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+							</form>
 							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
+								<li><a th:href="@{/login}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
-									<a href="#">
+									<a th:href="@{/login}">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">2</span>
 									</a>
 								</li>
 							</ul>
@@ -203,7 +207,7 @@
 											<div class="product_price" th:text=" '$' + ${product.product_price}">$520.00<span>$590.00</span></div>
 										</div>
 									</div>
-									<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+									<div class="red_button add_to_cart_button"><a th:href="@{/login}">add to cart</a></div>
 								</div>
 							</a>
 						</div>

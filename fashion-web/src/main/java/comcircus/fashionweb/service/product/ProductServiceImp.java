@@ -1,14 +1,17 @@
 package comcircus.fashionweb.service.product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import comcircus.fashionweb.dto.ProductDto;
 import comcircus.fashionweb.model.category.Category;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.repository.CategoryRepository;
 import comcircus.fashionweb.repository.ProductRepository;
+import comcircus.fashionweb.service.category.CategoryService;
 
 @Service
 public class ProductServiceImp implements ProductService{
@@ -18,6 +21,9 @@ public class ProductServiceImp implements ProductService{
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Override
     public Product getProduct(Long id) {
@@ -86,6 +92,57 @@ public class ProductServiceImp implements ProductService{
         productExist.setCategory(product.getCategory());
         
         return  productRepository.save(productExist);
+    }
+
+    @Override
+    public Product updateProductFromDto(Long id, ProductDto productDto) {
+
+        Product productExist = productRepository.findById(id).get();
+        productExist.setProduct_name(productDto.getProduct_name());
+        productExist.setProduct_desciption(productDto.getProduct_desciption());
+        productExist.setProduct_price(productDto.getProduct_price());
+        productExist.setProduct_discount(productDto.getProduct_discount());
+        productExist.setProduct_id(productDto.getProduct_id());
+        productExist.setProduct_quantity(productDto.getProduct_quantity());
+        productExist.setProduct_image_name(productDto.getProduct_image_name());
+        productExist.setProduct_live(productDto.isProduct_live());
+        productExist.setProduct_stock(productDto.isProduct_stock());
+        productExist.setCategory(categoryService.getCategory(productDto.getCategory_id()));
+        
+        return  productRepository.save(productExist);
+    }
+
+    @Override
+    public List<Product> getProductsByKeyword(String keyword) {
+        keyword = keyword.toLowerCase();
+        List<Product> list =  (List<Product>) productRepository.findAll();
+        List<Product> listByKeyword = new ArrayList<>();
+        for (int i = 0;i < list.size(); i++) {
+            if (list.get(i).getProduct_name().toLowerCase().contains(keyword) || list.get(i).getProduct_desciption().toLowerCase().contains(keyword)) {
+                listByKeyword.add(list.get(i));
+            }
+        }
+
+        return listByKeyword;
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String keyword) {
+        List<Product> listByKeyword = new ArrayList<>();
+        List<Product> list = (List<Product>) productRepository.findAll();
+        try {
+            Long category_id = Long.valueOf(keyword);
+            for (int i = 0; i < list.size(); i++) {
+                Product product = list.get(i);
+                if (product.getCategory().getId() == category_id) {
+                    listByKeyword.add(product);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("can not convert to Long by keyword");
+        }
+
+        return listByKeyword;
     }
     
 }

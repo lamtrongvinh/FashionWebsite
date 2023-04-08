@@ -393,7 +393,7 @@ jQuery(document).ready(function($)
 		{
 			range: true,
 			min: 0,
-			max: 1000,
+			max: 100,
 			values: [ 0, 580 ],
 			slide: function( event, ui )
 			{

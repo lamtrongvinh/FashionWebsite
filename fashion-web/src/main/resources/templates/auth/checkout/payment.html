@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
+    <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.theme.default.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="top_nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="top_nav_left">free shipping on all u.s orders over $50</div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <div class="top_nav_right">
+                        <ul class="top_nav_menu">
+
+                            <!-- Currency / Language / My Account -->
+
+                            
+                            <li class="account">
+                                <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                                    My Account
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="account_selection">
+                                  <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end top nav -->
+    <!-- main nav -->
+    <div class="main_nav_container">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-right">
+                    <div class="logo_container">
+                        <a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
+                    </div>
+                    <nav class="navbar">
+                        <ul class="navbar_menu">
+                            <li><a th:href="@{/auth/homepage}">home</a></li>
+                            <li><a th:href="@{/auth/shop}">shop</a></li>
+                            <li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
+                        </ul>
+                        <ul class="navbar_user">
+                            <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                            <li class="checkout">
+                                <a th:href="@{/auth/checkout}">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    <span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="hamburger_container">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>Checkout form</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge badge-secondary badge-pill" th:text="*{size}"></span>
+                </h4>
+                <ul class="list-group mb-3 sticky-top" >
+                    <li class="list-group-item d-flex justify-content-between lh-condensed" th:each="item: ${itemsDetailCart}">
+                        <div >
+                            <h6 class="my-0" th:text="${item.product_name}" >Product name</h6>
+                            <p style="margin-bottom: 0px;" th:text="'x' + ${item.quantity}"></p>
+                            <small class="text-muted" th:text="${item.product_desciption}" >Brief description</small>
+                        </div>
+                        <span class="text-muted" th:text="'$'+${item.total_price}">$12</span>
+                    </li>
+                    
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span th:if="*{total} != null">Total (USD)</span>
+                        <strong th:if="*{total} != null" th:text="'$'+*{total}">$20</strong>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8 order-md-1" th:object="${customer}">
+                <h4 class="mb-3">Billing address</h4>
+                <form th:action="@{/auth/checkout/payment-process}" class="needs-validation" novalidate="" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName">First name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required="" th:field="${customer.first_name}">
+                            <div class="invalid-feedback"> Valid first name is required. </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName">Last name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="" value="" required="" th:field="${customer.last_name}">
+                            <div class="invalid-feedback"> Valid last name is required. </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username">Phone number</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="username" placeholder="" required="" th:field="${customer.phone_number}">
+                            <div class="invalid-feedback" style="width: 100%;"> Phone number. </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                        <input type="email" class="form-control" id="email" placeholder="you@gmail.com" th:field="${customer.email}">
+                        <div class="invalid-feedback"> Please enter a valid email address for shipping updates. </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="Nam Tu Liem - HN" required="" th:field="${customer.address}">
+                        <div class="invalid-feedback"> Please enter your shipping address. </div>
+                    </div>
+                   
+                    <hr class="mb-4">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="same-address">
+                        <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="save-info">
+                        <label class="custom-control-label" for="save-info">Payment on delivery</label>
+                    </div>
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+
+    <!-- footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+                    <ul class="footer_nav">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="contact.html">Contact us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer_nav_container">
+                    <div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a> &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{~/styles/bootstrap4/popper.js}"></script>
+<script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
+<script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
+<script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
+<script th:src="@{~/plugins/easing/easing.js}"></script>
+<script th:src="@{~/js/custom.js}"></script>
+</body>
+</html>

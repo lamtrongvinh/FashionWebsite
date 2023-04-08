@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
@@ -11,6 +12,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_responsive.css}">
     <title>Document</title>
 </head>
 <body>
@@ -57,16 +61,19 @@
                     <nav class="navbar">
                         <ul class="navbar_menu">
                             <li><a th:href="@{/home}">home</a></li>
-                            <li><a th:href="@{/shop}">shop</a></li>
+                            <li><a th:href="@{/shopping/shop}">shop</a></li>
                             <li><a id="contact_btn" th:href="@{/contact}" >contact</a></li>
                         </ul>
+                        <form th:action="@{/shopping/shop}" class="form-inline my-2 my-lg-0" method="get">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </form>
                         <ul class="navbar_user">
-                            <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                            <!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
+                            <li><a th:href="@{/login}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                             <li class="checkout">
-                                <a href="#">
+                                <a th:href="@{/login}">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="checkout_items" class="checkout_items">2</span>
                                 </a>
                             </li>
                         </ul>
@@ -88,6 +95,41 @@
             </div>
         </div>
         <div class="row">
+            
+            
+            <div class="sidebar">
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>Product Category</h5>
+                    </div>
+                    <form th:action="@{/shopping/shop}" method="get">
+                        <div class="form-group">
+                            <label for="exampleInputText">Category</label>
+                            <select class="form-select" name="category_id" id="category_id">
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            </select>
+                        </div>
+                        <button class="filter_button" type="submit"><span>filter</span></button>
+                    </form>
+                    <!-- <ul class="sidebar_categories" th:each="category : ${categories}"> -->
+                        <!-- <li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Women</a></li> -->
+                        <!-- <li><a th:href="@{/shopping/shop}" th:text="${category.name}">Clothes</a></li> -->
+                        
+                    <!-- </ul> -->
+                </div>
+                <!-- Price Range Filtering -->
+                <div class="sidebar_section">
+                
+                    <div class="sidebar_title">
+                        <h5>Filter by Price</h5>
+                    </div>
+                    <p>
+                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;" name="amount">
+                    </p>
+                    <div id="slider-range"></div>
+                    <div class="filter_button"><span>filter</span></div>
+                </div>
+            </div>
             <div class="col">
                 <div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' >
             <!-- Single Product -->
@@ -105,7 +147,7 @@
                                         <div class="product_price" th:text="'$'+${product.product_price}">$520.00<span>$590.00</span></div>
                                     </div>
                                 </div>
-                                <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                                <div class="red_button add_to_cart_button"><a th:href="@{/login}">add to cart</a></div>
                             </div>
                         </a>
                     </div>
@@ -178,5 +220,7 @@
 <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
 <script th:src="@{~/plugins/easing/easing.js}"></script>
 <script th:src="@{~/js/custom.js}"></script>
+<script th:src="@{~/js/categories_custom.js}"></script>
+<script th:src="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
 </body>
 </html>
