@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import comcircus.fashionweb.model.oders.OrderHistory;
 import comcircus.fashionweb.model.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,8 +35,5 @@ public class CartItem {
 
     @OneToOne
     private Product product;
-
-    @ManyToOne
-    private OrderHistory orderHistory;
 
 }
