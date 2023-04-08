@@ -1,5 +1,7 @@
 package comcircus.fashionweb.controller.Admin;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,4 +107,17 @@ public class AdminController {
     public String getDashboard() {
         return "/admin/admin_dashboard";
     }
+
+    @PostMapping("/dashboard")
+    public String handleLoginADMIN(HttpServletRequest request) {
+        // String username = request.getParameter("username");
+        // String password = request.getParameter("password");
+        // if (username.equals("ADMIN") && password.equals("ADMIN")) {
+            
+        //     return "/admin/admin_dashboard"; 
+        // }
+        // return "redirect:/admin-login";
+        return "/admin/admin_dashboard"; 
+    }
+
 }

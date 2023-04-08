@@ -29,6 +29,7 @@ import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.model.product.Product;
+import comcircus.fashionweb.service.cart.CartPaidService;
 import comcircus.fashionweb.service.cart.CartService;
 import comcircus.fashionweb.service.category.CategoryService;
 import comcircus.fashionweb.service.customer.CustomerService;
@@ -56,7 +57,11 @@ public class AuthController {
     private OrderDetailsService orderDetailsService;
 
     @Autowired
+    private CartPaidService cartPaidService;
+
+    @Autowired
     private CategoryService categoryService;
+
     
     List<User> user_login_list = new ArrayList<>();
 
@@ -298,6 +303,7 @@ public class AuthController {
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+        System.out.println(cartItem.size());
         // List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
         double total = cartService.getTotalPrice(cartItem);
         model.addAttribute("total", total);
@@ -317,7 +323,11 @@ public class AuthController {
         orderDetailsDto.setOrder_date(formattedDateStr);
         orderDetailsDto.setUser_id(user_login.getId());
         //handle save orderDetails
-        orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
+        OrderDetails orderDetails = orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
+
+        //Add list to history purchase
+        // orderHistoryService.addListCartItem(user_login, orderDetails);
+        cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
 
         //delete all cart item after proceed payment
         cartService.deleteAllProduct(user_login.getEmail());
@@ -349,28 +359,21 @@ public class AuthController {
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
-        double total = cartService.getTotalPrice(cartItem);
-        model.addAttribute("total", total);
+        
         if (!cartItem.isEmpty()) {
-            model.addAttribute("size", itemsDetailCart.size());
+            model.addAttribute("size", cartItem.size());
+            double total = cartService.getTotalPrice(cartItem);
+            model.addAttribute("total", total);
         } else {
             model.addAttribute("size", "no-item");
         }
 
         List<OrderDetails> orderDetails = orderDetailsService.getWaitingOrderDetailsOfUser(user_login);
-        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.changeToOrderDetailsDto(orderDetails);
-        for (int i = 0; i < orderDetailsDto.size(); i++) {
-            OrderDetailsDto oDetailsDto = orderDetailsDto.get(i);
-            Long customer_id = orderDetailsDto.get(i).getCustomer_id();
-            Customer customer = customerService.getCustomer(customer_id);
-            oDetailsDto.setFirst_name(customer.getFirst_name());
-            oDetailsDto.setLast_name(customer.getLast_name());
-            oDetailsDto.setEmail(customer.getEmail());
-            oDetailsDto.setPhone_number(customer.getPhone_number());
-            oDetailsDto.setAddress(customer.getAddress());
-        }
+        List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(orderDetails);
+        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfoAndCartItemPaid(orderDetailsDtotmp, user_login);
+
         model.addAttribute("orderDetailsDto", orderDetailsDto);
+        
 
         return "/auth/orders_waiting";
     }
@@ -380,27 +383,19 @@ public class AuthController {
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
-        double total = cartService.getTotalPrice(cartItem);
-        model.addAttribute("total", total);
+        
         if (!cartItem.isEmpty()) {
-            model.addAttribute("size", itemsDetailCart.size());
+            model.addAttribute("size", cartItem.size());
+            double total = cartService.getTotalPrice(cartItem);
+            model.addAttribute("total", total);
         } else {
             model.addAttribute("size", "no-item");
         }
 
         List<OrderDetails> orderDetails = orderDetailsService.getDeliveryOrderDetailsOfUser(user_login);
-        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.changeToOrderDetailsDto(orderDetails);
-        for (int i = 0; i < orderDetailsDto.size(); i++) {
-            OrderDetailsDto oDetailsDto = orderDetailsDto.get(i);
-            Long customer_id = orderDetailsDto.get(i).getCustomer_id();
-            Customer customer = customerService.getCustomer(customer_id);
-            oDetailsDto.setFirst_name(customer.getFirst_name());
-            oDetailsDto.setLast_name(customer.getLast_name());
-            oDetailsDto.setEmail(customer.getEmail());
-            oDetailsDto.setPhone_number(customer.getPhone_number());
-            oDetailsDto.setAddress(customer.getAddress());
-        }
+        List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(orderDetails);
+        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfoAndCartItemPaid(orderDetailsDtotmp, user_login);
+
         model.addAttribute("orderDetailsDto", orderDetailsDto);
         return "/auth/orders_delivery";
     }

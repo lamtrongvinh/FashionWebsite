@@ -1,9 +1,8 @@
 package comcircus.fashionweb.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import comcircus.fashionweb.model.cart.CartItem;
+import comcircus.fashionweb.model.cart.CartItemPaid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ public class OrderDetailsDto {
     private double total_money;
     private Long customer_id;
     private Long user_id;
-    private List<CartItem> cartItem = new ArrayList<>();
+    private List<CartItemPaid> cartItemPaid;
     //info customer
     private String first_name;
     private String last_name;

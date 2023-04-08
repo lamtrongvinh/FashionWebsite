@@ -170,23 +170,9 @@
 					<div class="free_delivery d-flex flex-row align-items-center justify-content-center">
 						<span class="ti-truck"></span><span>free delivery</span>
 					</div>
-					<div class="original_price" th:text="*{product_discount}">$629.99</div>
-					<div class="product_price" th:text="*{product_price}">$495.00</div>
-					<ul class="star_rating">
-						<li><i class="fa fa-star" aria-hidden="true"></i></li>
-						<li><i class="fa fa-star" aria-hidden="true"></i></li>
-						<li><i class="fa fa-star" aria-hidden="true"></i></li>
-						<li><i class="fa fa-star" aria-hidden="true"></i></li>
-						<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-					</ul>
-					<div class="product_color">
-						<span>Select Color:</span>
-						<ul>
-							<li style="background: #e54e5d"></li>
-							<li style="background: #252525"></li>
-							<li style="background: #60b3f3"></li>
-						</ul>
-					</div>
+					<div class="original_price" th:text="'$' + *{product_discount}">$629.99</div>
+					<div class="product_price" th:text="'$' + *{product_price}">$495.00</div>
+					
 					<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
 						<span>Quantity:</span>
 						<div class="quantity_selector">

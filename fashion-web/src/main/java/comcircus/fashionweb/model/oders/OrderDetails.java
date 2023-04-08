@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import comcircus.fashionweb.model.cart.CartPaid;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,9 @@ public class OrderDetails {
     @OneToOne
     private User user_id;
 
+    @OneToOne
+    private CartPaid cartPaid;
+
     @ManyToOne
     private UserOrders userOrders;
-
 }

@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import comcircus.fashionweb.model.oders.OrderHistory;
 import comcircus.fashionweb.model.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +18,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "Cart_item")
-public class CartItem {
+@Table(name = "cart_item_paid")
+public class CartItemPaid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -32,12 +31,11 @@ public class CartItem {
 
     //Relationship with Cart table
     @ManyToOne
-    private Cart cart;
+    private CartPaid cartPaid;
 
     @OneToOne
     private Product product;
 
-    @ManyToOne
-    private OrderHistory orderHistory;
-
+    @Column(name = "orderDetails_id")
+    private Long orderDetails_id;
 }

@@ -1,5 +1,9 @@
 package comcircus.fashionweb.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import comcircus.fashionweb.model.person.user.User;
+import comcircus.fashionweb.model.product.Product;
+import comcircus.fashionweb.service.product.ProductService;
 import comcircus.fashionweb.service.user.UserService;
 
 @Controller
@@ -17,6 +23,9 @@ public class LoginRegisterController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
@@ -40,7 +49,17 @@ public class LoginRegisterController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
-        return "index";
+    public String logout(Model model, HttpServletRequest request,HttpServletResponse response) {
+
+        String keyword = request.getParameter("keyword");
+        System.out.println(keyword);
+        if (keyword != null) {
+            List<Product> products = productService.getProductsByKeyword(keyword);
+            model.addAttribute("products", products);
+        } else {
+            List<Product> products = productService.getProducts();
+            model.addAttribute("products", products);
+        }
+        return "redirect:/index";
     }
 }

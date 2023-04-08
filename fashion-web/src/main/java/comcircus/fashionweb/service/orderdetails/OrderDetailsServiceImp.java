@@ -7,18 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import comcircus.fashionweb.dto.OrderDetailsDto;
+import comcircus.fashionweb.model.cart.CartPaid;
 import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.repository.OrderDetailsRepository;
+import comcircus.fashionweb.service.cart.CartPaidService;
+import comcircus.fashionweb.service.customer.CustomerService;
 
 @Service
 public class OrderDetailsServiceImp implements OrderDetailsService{
     @Autowired
     private OrderDetailsRepository oDetailsRepository;
 
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private CartPaidService cartPaidService;
+
+
     @Override
-    public void saveOrderDetails(OrderDetailsDto orderDetailsDto, User user, Customer customer) {
+    public OrderDetails saveOrderDetails(OrderDetailsDto orderDetailsDto, User user, Customer customer) {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setStatus(orderDetailsDto.getStatus());
         orderDetails.setOrder_date(orderDetailsDto.getOrder_date());
@@ -26,7 +36,7 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
         orderDetails.setUser_id(user);
         orderDetails.setCustomer_id(customer);
         //save to db
-        oDetailsRepository.save(orderDetails);
+        return oDetailsRepository.save(orderDetails);
     }
 
     @Override
@@ -57,7 +67,6 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
 
             orderDetailsDto.add(oDetailsDto);
         }
-
         return orderDetailsDto;
     }
 
@@ -74,6 +83,24 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
             }
         }
         return orderDetailsOfUser;
+    }
+
+    @Override
+    public List<OrderDetailsDto> addCustomerInfoAndCartItemPaid(List<OrderDetailsDto> orderDetailsDto, User user_login) {
+        for (int i = 0; i < orderDetailsDto.size(); i++) {
+            OrderDetailsDto oDetailsDto = orderDetailsDto.get(i);
+            Long customer_id = orderDetailsDto.get(i).getCustomer_id();
+            Customer customer = customerService.getCustomer(customer_id);
+            oDetailsDto.setFirst_name(customer.getFirst_name());
+            oDetailsDto.setLast_name(customer.getLast_name());
+            oDetailsDto.setEmail(customer.getEmail());
+            oDetailsDto.setPhone_number(customer.getPhone_number());
+            oDetailsDto.setAddress(customer.getAddress());
+            CartPaid cartPaid = user_login.getCartPaid();
+            oDetailsDto.setCartItemPaid(cartPaidService.getCartItemPaidsByOrderDetailID(cartPaid, oDetailsDto.getId()));
+        }
+
+        return orderDetailsDto;
     }
     
 }

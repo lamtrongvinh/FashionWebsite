@@ -11,17 +11,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import comcircus.fashionweb.model.person.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "Cart")
-public class Cart {
+@Table(name = "Cart_paid")
+public class CartPaid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +29,6 @@ public class Cart {
     @OneToOne
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItem = new ArrayList<>();
-
+    @OneToMany(mappedBy = "cartPaid", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItemPaid> cartItemPaid = new ArrayList<>();
 }
