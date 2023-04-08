@@ -17,7 +17,7 @@
             width: 60%;
         }
     </style>
-    <title>Document</title>
+    <title>Admin - Add Product</title>
 </head>
 <body>
     <!-- top nav -->
@@ -87,8 +87,8 @@
         </div>
 
         <div class="form-group">
-            <label for="exampleInputText">Product Desciption</label>
-            <input type="text" class="form-control" id="product_description" aria-describedby="emailHelp" placeholder="Desciption" th:field="*{product_desciption}">
+            <label for="exampleInputText">Product Description</label>
+            <input type="text" class="form-control" id="product_description" aria-describedby="emailHelp" placeholder="Description" th:field="*{product_desciption}">
             <small id="product_description" class="form-text text-muted"></small>
         </div>
 
@@ -117,7 +117,7 @@
             <small id="product_description" class="form-text text-muted"></small>
         </div>
 
-        <div class="form-group">
+        <div class="form-check">
             <label for="exampleInputText">Product Stock</label>
             <input type="checkbox" checked="true" th:field="*{product_stock}"/>
             <small id="product_description" class="form-text text-muted"></small>

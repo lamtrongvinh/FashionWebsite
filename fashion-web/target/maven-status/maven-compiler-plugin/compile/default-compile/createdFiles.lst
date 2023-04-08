@@ -1,4 +1,3 @@
-comcircus/fashionweb/model/oders/Orders_detail.class
 comcircus/fashionweb/FashionWebApplication.class
 comcircus/fashionweb/controller/Admin/AdminController.class
 comcircus/fashionweb/service/user/UserServiceImp.class
@@ -9,7 +8,6 @@ comcircus/fashionweb/service/category/CategoryServiceImp.class
 comcircus/fashionweb/security/SecurityConfig.class
 comcircus/fashionweb/service/category/CategoryService.class
 comcircus/fashionweb/service/user/UserService.class
-comcircus/fashionweb/model/person/Role.class
 comcircus/fashionweb/service/product/ProductService.class
 comcircus/fashionweb/model/person/customer/Customer.class
 comcircus/fashionweb/service/customer/CustomerServiceImp.class
@@ -17,7 +15,6 @@ comcircus/fashionweb/controller/CategoryController/CategoryController.class
 comcircus/fashionweb/controller/Product/ProductController.class
 comcircus/fashionweb/repository/UserRepository.class
 comcircus/fashionweb/controller/StoreController.class
-comcircus/fashionweb/model/oders/Orders.class
 comcircus/fashionweb/service/product/ProductServiceImp.class
 comcircus/fashionweb/dto/ProductDto.class
 comcircus/fashionweb/repository/CustomerRepository.class

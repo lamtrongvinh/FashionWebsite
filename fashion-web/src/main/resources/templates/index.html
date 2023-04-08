@@ -71,10 +71,12 @@
 								<li><a th:href="@{/shopping/shop}">shop</a></li>
 								<li><a th:href="@{/contact}" >contact</a></li>
 							</ul>
+
 							<form th:action="@{/home}" class="form-inline my-2 my-lg-0" method="get">
 								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
 								<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 							</form>
+							
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
 								<li><a th:href="@{/login}"><i class="fa fa-user" aria-hidden="true"></i></a></li>

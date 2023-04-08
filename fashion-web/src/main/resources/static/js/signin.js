@@ -6,6 +6,7 @@ let password = document.getElementById("password");
 let confirmPassword = document.getElementById("conpassword");
 let check_box = document.getElementById("checkbox");
 
+
 function showError(input, message) {
   let small = input.parentElement.querySelector('small')
   small.innerText = message
@@ -84,15 +85,17 @@ function checkedBoxError() {
   showSuccess(check_box)
   return false
 }
-form.addEventListener('submit', function(e){
-  e.preventDefault()
-
-  let notAgree = checkedBoxError()
+let notAgree = checkedBoxError()
   let isEmptyError = checkEmptyError([username, lastname, email, password, confirmPassword])
   let isEmailError = checkEmailError(email)
   let isNameError = checkLengthError(username, 3, 10)
   let isPasswordError = checkLengthError(password, 6, 15)
   let isMatchError = checkMatchPasswordError(password, confirmPassword)
-  
 
+form.addEventListener("submit", function(e){
+  if (isEmptyError == true || 
+    !isEmailError || !isNameError || !isPasswordError || !isMatchError) {
+      e.preventDefault()
+  }
+  return true
 })

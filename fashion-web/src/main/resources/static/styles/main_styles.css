@@ -472,6 +472,13 @@ section
 	opacity: 1;
 	top: 100%;
 }
+
+.navbar_user .user:hover .account_selection {
+	visibility: visible;
+	opacity: 1;
+	top: 100%;
+}
+
 .account_selection
 {
 	display: block;
@@ -483,7 +490,7 @@ section
 	background: #FFFFFF;
 	visibility: hidden;
 	opacity: 0;
-	z-index: 1;
+	z-index: 11;
 	box-shadow: 0 0 25px rgba(63, 78, 100, 0.15);
 	-webkit-transition: opacity 0.3s ease;
 	-moz-transition: opacity 0.3s ease;
@@ -513,10 +520,10 @@ section
 {
 	color: #b5aec4;
 }
-.account_selection li:last-child a
-{
-	border-bottom: none;
-}
+	.account_selection li:last-child a
+	{
+		border-bottom: none;
+	}
 .account_selection li a i
 {
 	margin-right: 10px;
@@ -1674,3 +1681,47 @@ section
 {
 	color: #fe4c50;
 }
+
+#list-user-info {
+		margin-left: -15px;
+		margin-right: -15px;
+		background: transparent;
+		border-top-right-radius: 2px;
+		border-top-left-radius: 2px;
+}
+
+.list-page {
+		display: -ms-flexbox;
+		display: flex;
+		padding-left: 0;
+		color: black;
+}
+
+.list-page a, .list-page a:active, l.list-page a:disabled {
+		color: black;
+}
+
+.list-page li{
+		position: relative;
+		display: block;
+		padding: 0.5rem 0.75rem;
+		line-height: 1.25;
+		background-color: #fff;
+		border-right: 1px solid gray;
+		
+}
+
+.list-page li:last-child {
+		border-right-style: none;
+}
+
+.list-page li:focus,
+.list-page li:hover {
+		background-color: #e9ecef;
+}
+
+.list-page li a:active
+{
+		background-color: #e9ecef;
+}
+
