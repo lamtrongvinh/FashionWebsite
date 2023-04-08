@@ -11,6 +11,7 @@ import comcircus.fashionweb.model.cart.CartItemPaid;
 import comcircus.fashionweb.model.cart.CartPaid;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.repository.CartPaidRepository;
+import comcircus.fashionweb.service.product.ProductService;
 import comcircus.fashionweb.service.user.UserService;
 
 @Service
@@ -22,6 +23,9 @@ public class CartPaidServiceImp implements CartPaidService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ProductService productService;
+
     @Override
     public CartItemPaid changeCartItemToCartItemPaid(CartItem cartItem, String email, Long orderDetails_id) {
         User user = userService.getUser(userService.getIdUserByEmail(email));
@@ -30,6 +34,8 @@ public class CartPaidServiceImp implements CartPaidService {
         CartItemPaid cartItemPaid = new CartItemPaid();
         cartItemPaid.setQuantity(cartItem.getQuantity());
         cartItemPaid.setProduct(cartItem.getProduct());
+        productService.decreaseQuantity(cartItem.getQuantity(), cartItem.getProduct().getProduct_id());
+
         cartItemPaid.setTotal_price(cartItem.getTotal_price());
         cartItemPaid.setOrderDetails_id(orderDetails_id);
         //CartPaid of user

@@ -144,5 +144,21 @@ public class ProductServiceImp implements ProductService{
 
         return listByKeyword;
     }
+
+    @Override
+    public void decreaseQuantity(int quantity, Long product_id) {
+        List<Product> list = this.getProducts();
+        for (int i = 0; i < list.size(); i++) {
+            Product product = list.get(i);
+            if (product.getProduct_id() == product_id) {
+                int product_quantity = product.getProduct_quantity() - quantity >= 0 ? product.getProduct_quantity() - quantity : 0 ;
+                product.setProduct_quantity(product_quantity);
+                if (product.getProduct_quantity() <= 0) {
+                    product.setProduct_live(false);
+                    product.setProduct_stock(false);
+                }
+            }
+        }
+    }
     
 }

@@ -1,5 +1,6 @@
 package comcircus.fashionweb.controller.Admin;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +119,16 @@ public class AdminController {
         // }
         // return "redirect:/admin-login";
         return "/admin/admin_dashboard"; 
+    }
+
+    @GetMapping("/admin/order-waiting")
+    public String getOrderWaitingADMIN(Model model) {
+        // List<User> users = userService.getUsers();
+        // List<OrderDetails> listOrderDetails = userService.getOrderDetailsByUser(users.get(users.size() - 1));
+        // List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(listOrderDetails);
+        // List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfoAndCartItemPaid(orderDetailsDtotmp, users.get(users.size() - 1));
+        // model.addAttribute("orderDetailsDto", orderDetailsDto);
+        return "/admin/orders_waiting";
     }
 
 }

@@ -136,18 +136,10 @@
                         </div>
     
                         <div class="text-95 text-secondary-d3">
-                            <div class="row mb-2 mb-sm-0 py-25">
-                                <div class="d-none d-sm-block col-1">1</div>
-                                <div class="col-9 col-sm-5">Domain registration</div>
-                                <div class="d-none d-sm-block col-2">2</div>
-                                <div class="d-none d-sm-block col-2 text-95">$10</div>
-                                <div class="col-2 text-secondary-d2">$20</div>
-                            </div>
-    
-                            <div th:each="item : ${order.getCartItemPaid()}">
+                            <div th:each="item,iterator : ${order.getCartItemPaid()}">
                                 <div class="text-95 text-secondary-d3" th:each="product : ${item.getProduct()}">
                                     <div class="row mb-2 mb-sm-0 py-25">
-                                        <div class="d-none d-sm-block col-1">1</div>
+                                        <div class="d-none d-sm-block col-1" th:text="${iterator.count}">1</div>
                                         <div class="col-9 col-sm-5" th:text="${product.product_name}">Domain registration</div>
                                         <div class="d-none d-sm-block col-2">2</div>
                                         <div class="d-none d-sm-block col-2 text-95">$10</div>

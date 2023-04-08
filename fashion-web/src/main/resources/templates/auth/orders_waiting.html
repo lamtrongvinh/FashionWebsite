@@ -132,10 +132,10 @@
                             <div class="col-2">Amount</div>
                         </div>
     
-                        <div th:each="item : ${order.getCartItemPaid()}">
+                        <div th:each="item,iterator : ${order.getCartItemPaid()}">
                             <div class="text-95 text-secondary-d3" th:each="product : ${item.getProduct()}">
                                 <div class="row mb-2 mb-sm-0 py-25">
-                                    <div class="d-none d-sm-block col-1"></div>
+                                    <div class="d-none d-sm-block col-1" th:text="${iterator.count}"></div>
                                     <div class="col-9 col-sm-5" th:text="${product.product_name}"></div>
                                     <div class="d-none d-sm-block col-2" th:text="${item.quantity}"></div>
                                     <div class="d-none d-sm-block col-2 text-95" th:text="${product.product_price}"></div>
