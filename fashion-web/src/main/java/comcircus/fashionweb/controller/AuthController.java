@@ -273,7 +273,9 @@ public class AuthController {
 
     // Checkout payment
     @GetMapping("/checkout/payment")
-    public String processPayment(Model model) {
+    public String processPayment(Model model, @ModelAttribute("quantity_value") List<String> quantity_value) {
+        System.out.println("value:" + quantity_value.size());
+
         User user_login = user_login_list.get(0);
         model.addAttribute("user_login", user_login);
         
@@ -381,6 +383,7 @@ public class AuthController {
     public String getOrdersDelivery(Model model) {
         User user_login = user_login_list.get(0);
         model.addAttribute("user_login", user_login);
+
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         
