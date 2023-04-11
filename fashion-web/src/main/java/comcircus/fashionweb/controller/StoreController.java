@@ -44,9 +44,5 @@ public class StoreController {
         return "/categories/categories";
     }
 
-    @GetMapping("/admin-login") 
-    public String getFormLoginAdmin (Model model){
-        
-        return "admin-login";
-    }
+    
 }

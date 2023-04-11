@@ -261,8 +261,7 @@ public class AuthController {
 
     // Checkout payment
     @GetMapping("/checkout/payment")
-    public String processPayment(Model model, @ModelAttribute("quantity_value") List<String> quantity_value, HttpSession session) {
-        System.out.println("value:" + quantity_value.size());
+    public String processPayment(Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);

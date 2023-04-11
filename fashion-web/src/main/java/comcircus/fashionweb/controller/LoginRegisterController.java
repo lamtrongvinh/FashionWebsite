@@ -36,11 +36,28 @@ public class LoginRegisterController {
 
     @PostMapping("/process_register")
     public String processRegister(@Valid User user, BindingResult bindingResult, Model model) {
-        if (user.getPassword().equals(user.getRepeat_password()) == false) {
-            model.addAttribute("errorMessage", "Passwords do not match!");
-            return "register";
+        String errorMessage = "";
+        String userExist = "";
+        if (user.getPassword().equals(user.getRepeat_password()) == false  && userService.checkEmailExist(user.getEmail()) == true) {
+            errorMessage = "Passwords do not match!";
+            model.addAttribute("errorMessage", errorMessage);
+            userExist = "Email already in used!";
+            model.addAttribute("userExist", userExist);
+            return "/register";
         }
+        if (userService.checkEmailExist(user.getEmail()) == true) {
+            errorMessage = "Email already in used!";
+            model.addAttribute("userExist", errorMessage);
+            return "/register";
+        }
+        if (user.getPassword().equals(user.getRepeat_password()) == false) {
+            errorMessage = "Passwords do not match!";
+            model.addAttribute("errorMessage", errorMessage);
+            return "/register";
+        }
+
         userService.saveUser(user);
+        
         return "register_success";
     }
 
@@ -65,5 +82,17 @@ public class LoginRegisterController {
             model.addAttribute("products", products);
         }
         return "redirect:/home";
+
+    }
+    @GetMapping("/admin-login") 
+    public String getFormLoginAdmin (Model model){
+        
+        return "admin-login";
+    }
+
+    @GetMapping("/forbidden_exception")
+    public String getMessErrorForbidden(Model model) {
+        model.addAttribute("message", "You can not access");
+        return "/forbidden_exception";
     }
 }

@@ -16,4 +16,6 @@ public interface OrderDetailsService {
     public List<OrderDetails> getDeliveryOrderDetailsOfUser(User user_login);
     public List<OrderDetailsDto> changeToOrderDetailsDto(List<OrderDetails> orderDetails);
     public List<OrderDetailsDto> addCustomerInfoAndCartItemPaid(List<OrderDetailsDto> orderDetailsDtos, User user_login);
+    public List<OrderDetails> getAllOrderWaiting();
+    public List<OrderDetailsDto> addCustomerInfo(List<OrderDetailsDto> orderDetailsDtos);
 }

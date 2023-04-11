@@ -26,7 +26,9 @@ public class UserServiceImp implements UserService{
     public User saveUser(User user) {
         user.setRole("USER");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        
         return userRepository.save(user);
+
     }
 
     @Override
@@ -73,6 +75,17 @@ public class UserServiceImp implements UserService{
             
         }
         return Long.valueOf(-1);
+    }
+
+    @Override
+    public boolean checkEmailExist(String email) {
+        List<User> users = (List<User>) userRepository.findAll();
+        for (User u : users) {
+            if (u.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

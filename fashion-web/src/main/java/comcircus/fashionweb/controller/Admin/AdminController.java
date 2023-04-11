@@ -1,6 +1,8 @@
 package comcircus.fashionweb.controller.Admin;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import comcircus.fashionweb.dto.OrderDetailsDto;
 import comcircus.fashionweb.dto.ProductDto;
+import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.category.CategoryService;
+import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
 import comcircus.fashionweb.service.product.ProductService;
 
 @Controller
@@ -26,6 +31,9 @@ public class AdminController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private OrderDetailsService orderDetailsService;
 
     @GetMapping("/addProduct")
     public String addProduct(Model model) {
@@ -121,14 +129,28 @@ public class AdminController {
         return "/admin/admin_dashboard"; 
     }
 
-    @GetMapping("/admin/order-waiting")
+    @GetMapping("/order-waiting")
     public String getOrderWaitingADMIN(Model model) {
         // List<User> users = userService.getUsers();
         // List<OrderDetails> listOrderDetails = userService.getOrderDetailsByUser(users.get(users.size() - 1));
         // List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(listOrderDetails);
         // List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfoAndCartItemPaid(orderDetailsDtotmp, users.get(users.size() - 1));
         // model.addAttribute("orderDetailsDto", orderDetailsDto);
+        List<OrderDetails> orderDetails = orderDetailsService.getAllOrderWaiting();
+        if (orderDetails == null) {
+            return "/admin/admin-dashboard";
+        }
+        List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(orderDetails);
+        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfo(orderDetailsDtotmp);
+        model.addAttribute("orderDetailsDtos", orderDetailsDto);
+
         return "/admin/orders_waiting";
+    }
+
+    @PostMapping("/admin-login")
+    public String getAdminDashboard() {
+        
+        return "/admin/admin-dashboard";
     }
 
 }

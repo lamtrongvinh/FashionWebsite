@@ -102,5 +102,25 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
 
         return orderDetailsDto;
     }
+
+    @Override
+    public List<OrderDetails> getAllOrderWaiting() {
+        return (List<OrderDetails>) oDetailsRepository.findAll();
+    }
     
+    @Override
+    public List<OrderDetailsDto> addCustomerInfo(List<OrderDetailsDto> orderDetailsDto) {
+        for (int i = 0; i < orderDetailsDto.size(); i++) {
+            OrderDetailsDto oDetailsDto = orderDetailsDto.get(i);
+            Long customer_id = orderDetailsDto.get(i).getCustomer_id();
+            Customer customer = customerService.getCustomer(customer_id);
+            oDetailsDto.setFirst_name(customer.getFirst_name());
+            oDetailsDto.setLast_name(customer.getLast_name());
+            oDetailsDto.setEmail(customer.getEmail());
+            oDetailsDto.setPhone_number(customer.getPhone_number());
+            oDetailsDto.setAddress(customer.getAddress());
+        }
+
+        return orderDetailsDto;
+    }
 }
