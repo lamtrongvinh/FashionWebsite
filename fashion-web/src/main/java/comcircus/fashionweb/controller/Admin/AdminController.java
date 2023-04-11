@@ -53,8 +53,8 @@ public class AdminController {
         product.setProduct_stock(productDto.isProduct_stock());
         product.setProduct_image_name(productDto.getProduct_image_name());
         product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
-        System.out.println(product.toString());
-
+        productService.increaseQuantity(1, productDto.getProduct_id());
+        
         productService.saveProduct(product, productDto.getCategory_id());
 
         return "/admin/add_product_succes";

@@ -20,7 +20,8 @@ public class StoreController {
     @GetMapping(value = {"/", "/home"})
     public String getHomeScreen(Model model, HttpServletRequest request) {
         String keyword = request.getParameter("keyword");
-        System.out.println(keyword);
+        List<Product> bestSelleProducts = productService.getBestSellerProduct();
+        model.addAttribute("bestSelleProducts", bestSelleProducts);
         if (keyword != null) {
             List<Product> products = productService.getProductsByKeyword(keyword);
             model.addAttribute("products", products);

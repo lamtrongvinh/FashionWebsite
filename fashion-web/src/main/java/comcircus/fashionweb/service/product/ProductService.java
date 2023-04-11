@@ -19,4 +19,6 @@ public interface ProductService {
     public Product updateProductFromDto(Long id, ProductDto productDto);
 
     public void decreaseQuantity(int quantity, Long product_id);
+    public void increaseQuantity(int quantity, Long product_id);
+    public List<Product> getBestSellerProduct();
 }

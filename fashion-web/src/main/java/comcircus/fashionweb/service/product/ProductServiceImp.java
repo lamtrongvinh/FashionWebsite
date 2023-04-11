@@ -160,5 +160,28 @@ public class ProductServiceImp implements ProductService{
             }
         }
     }
+
+    @Override
+    public void increaseQuantity(int quantity, Long product_id) {
+        List<Product> list = this.getProducts();
+        for (int i = 0; i < list.size(); i++) {
+            Product product = list.get(i);
+            if (product.getProduct_id() == product_id) {
+                int product_quantity = product.getProduct_quantity() + quantity;
+                product.setProduct_quantity(product_quantity);
+            }
+        }
+    }
+
+    @Override
+    public List<Product> getBestSellerProduct() {
+        List<Product> bestSeller = new ArrayList<>();
+        for (Product p : this.getProducts()) {
+            if (p.getCategory().getId() == 1L) {
+                bestSeller.add(p);
+            }
+        }
+        return bestSeller;
+    }
     
 }
