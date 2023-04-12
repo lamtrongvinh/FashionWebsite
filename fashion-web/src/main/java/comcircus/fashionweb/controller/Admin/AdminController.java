@@ -147,6 +147,30 @@ public class AdminController {
         return "/admin/orders_waiting";
     }
 
+    @GetMapping("/order-confirmed/id")
+    public String getOrderDeliveryADMIN(Model model) {
+        List<OrderDetails> orderDetails = orderDetailsService.getAllOrderDelivery();
+        if (orderDetails == null) {
+            return "redirect:/admin/admin-dashboard";
+        }
+        List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(orderDetails);
+        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfo(orderDetailsDtotmp);
+        model.addAttribute("orderDetailsDtos", orderDetailsDto);
+
+        return "/admin/orders_delivery";
+    }
+
+    @GetMapping("/confirm-order/{id}")
+    public String confirmedOrder(Model model, @PathVariable Long id) {
+        try {
+            System.out.println(id);
+            orderDetailsService.confirmOrder(Long.valueOf(id));
+        } catch (Exception e) {
+            System.out.println("Confirmed error");
+        }
+        return "redirect:/admin/order-waiting";
+    }
+
     @PostMapping("/admin-login")
     public String getAdminDashboard() {
         

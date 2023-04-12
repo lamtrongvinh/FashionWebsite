@@ -105,7 +105,14 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
 
     @Override
     public List<OrderDetails> getAllOrderWaiting() {
-        return (List<OrderDetails>) oDetailsRepository.findAll();
+        List<OrderDetails> orderDetailsWaiting = (List<OrderDetails>) oDetailsRepository.findAll();
+        List<OrderDetails> res = new ArrayList<>();
+        for (int i = 0; i < orderDetailsWaiting.size(); i++) {
+            if(orderDetailsWaiting.get(i).getStatus().equals("WAITING")) {
+                res.add(orderDetailsWaiting.get(i));
+            }
+        }
+        return res;
     }
     
     @Override
@@ -122,5 +129,28 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
         }
 
         return orderDetailsDto;
+    }
+
+    @Override
+    public List<OrderDetails> getAllOrderDelivery() {
+        List<OrderDetails> orderDetailsWaiting = (List<OrderDetails>) oDetailsRepository.findAll();
+        List<OrderDetails> res = new ArrayList<>();
+        for (int i = 0; i < orderDetailsWaiting.size(); i++) {
+            if(orderDetailsWaiting.get(i).getStatus().equals("DELIVERY")) {
+                res.add(orderDetailsWaiting.get(i));
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public void confirmOrder(Long id) {
+        try {
+            OrderDetails orderDetails = this.oDetailsRepository.findById(id).get();
+            orderDetails.setStatus("DELIVEY");
+            oDetailsRepository.save(orderDetails);
+        } catch (Exception e) {
+            System.out.println("confirmOrder ERROR!");
+        }
     }
 }

@@ -2,7 +2,6 @@ package comcircus.fashionweb.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,9 +62,6 @@ public class AuthController {
 
     @Autowired
     private CategoryService categoryService;
-
-    
-    List<User> user_login_list = new ArrayList<>();
 
     @PostMapping("/login")
     public String processLogin(HttpServletRequest request, Model model, HttpSession session, @ModelAttribute("userDto") UserDto userDto) {

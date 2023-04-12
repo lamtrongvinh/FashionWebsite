@@ -17,5 +17,7 @@ public interface OrderDetailsService {
     public List<OrderDetailsDto> changeToOrderDetailsDto(List<OrderDetails> orderDetails);
     public List<OrderDetailsDto> addCustomerInfoAndCartItemPaid(List<OrderDetailsDto> orderDetailsDtos, User user_login);
     public List<OrderDetails> getAllOrderWaiting();
+    public List<OrderDetails> getAllOrderDelivery();
+    public void confirmOrder(Long id);
     public List<OrderDetailsDto> addCustomerInfo(List<OrderDetailsDto> orderDetailsDtos);
 }
