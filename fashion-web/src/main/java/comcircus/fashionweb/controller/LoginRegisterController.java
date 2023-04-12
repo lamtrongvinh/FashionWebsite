@@ -50,8 +50,15 @@ public class LoginRegisterController {
             model.addAttribute("userExist", errorMessage);
             return "/register";
         }
+
         if (user.getPassword().equals(user.getRepeat_password()) == false) {
             errorMessage = "Passwords do not match!";
+            model.addAttribute("errorMessage", errorMessage);
+            return "/register";
+        }
+
+        if (user.getPassword().length() < 8) {
+            errorMessage = "Passwords is short!";
             model.addAttribute("errorMessage", errorMessage);
             return "/register";
         }
