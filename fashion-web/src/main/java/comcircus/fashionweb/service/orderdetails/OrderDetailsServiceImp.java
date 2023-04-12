@@ -147,7 +147,7 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
     public void confirmOrder(Long id) {
         try {
             OrderDetails orderDetails = this.oDetailsRepository.findById(id).get();
-            orderDetails.setStatus("DELIVEY");
+            orderDetails.setStatus("DELIVERY");
             oDetailsRepository.save(orderDetails);
         } catch (Exception e) {
             System.out.println("confirmOrder ERROR!");

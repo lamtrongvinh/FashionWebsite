@@ -147,7 +147,7 @@ public class AdminController {
         return "/admin/orders_waiting";
     }
 
-    @GetMapping("/order-confirmed/id")
+    @GetMapping("/order-confirmed")
     public String getOrderDeliveryADMIN(Model model) {
         List<OrderDetails> orderDetails = orderDetailsService.getAllOrderDelivery();
         if (orderDetails == null) {
