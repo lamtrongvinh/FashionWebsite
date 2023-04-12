@@ -65,15 +65,20 @@ public class AuthController {
 
     @PostMapping("/login")
     public String processLogin(HttpServletRequest request, Model model, HttpSession session, @ModelAttribute("userDto") UserDto userDto) {
+        String error = "";
         if (userDto == null) {
-
-            return "redirect:/login";
+            model.addAttribute("error", "Please enter your account!");
+            return "/login";
         }
+
         if (userService.checkUserExist(userDto.getEmail(), userDto.getPassword())) {
             session.setAttribute("userDto", userDto);
+            
             return "redirect:/auth/homepage";
         }
-        return "redirect:/login";
+        error = "Email or password incorect";
+        model.addAttribute("error", error);
+        return "/login";    
     }
 
     @GetMapping("/homepage")
@@ -296,8 +301,13 @@ public class AuthController {
         model.addAttribute("size", "no-item");
 
         //Cusomter info
-        Customer customer = customerService.mapCustomerDtoToCustomer(customerDto);
-        
+        Customer customer = new Customer();
+        CustomerDto cDto = customerService.checkCustomerDtoValid(customerDto);
+        if (cDto == null) {
+            return "redirect:/auth/checkout/payment";
+        }
+        customer = customerService.mapCustomerDtoToCustomer(cDto);
+
         //OrderDetails
         LocalDateTime ldt = LocalDateTime.now();
         String formattedDateStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);

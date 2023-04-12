@@ -81,7 +81,7 @@
                   <th scope="col">Address</th>
                   <th scope="col">Email</th>
                   <th scope="col">Total</th>
-                  <th scope="col">Confirmed</th>
+                  <th scope="col">DELIVERY</th>
                 </tr>
                 <tr th:each="order : ${orderDetailsDtos}">
                   
@@ -93,7 +93,7 @@
                   <td th:text="${order.address}">Linus</td>
                   <td th:text="${order.email}">Linus</td>
                   <td th:text="${'$'+order.total_money}">Linus</td>
-                  <td ><button type="button" class="btn btn-info btn-sm" >Confirmed</button></td>
+                  <td ><button type="button" class="btn btn-info btn-sm" >Done</button></td>
                 </tr>
                 
               </table>

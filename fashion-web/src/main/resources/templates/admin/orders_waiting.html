@@ -71,59 +71,40 @@
     <!-- end main nav -->
     <div style="margin: 20px;">
         <h3>ORDER WAITING</h3>
-            <table class="table">
-                <tr>
-                  <th scope="col">#ID</th>
-                  <th scope="col">Order Date</th>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Last Name</th>
-                  <th scope="col">Phone Number</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Total</th>
-                  <th scope="col">Confirm</th>
-                </tr>
-                <tr th:each="order : ${orderDetailsDtos}">
-                  <td th:text="${'#'+order.id}">Emil</td>
-                  <td th:text="${order.order_date}">Tobias</td>
-                  <td th:text="${order.first_name}">Linus</td>
-                  <td th:text="${order.last_name}">Linus</td>
-                  <td th:text="${order.phone_number}">Linus</td>
-                  <td th:text="${order.address}">Linus</td>
-                  <td th:text="${order.email}">Linus</td>
-                  <td th:text="${'$'+order.total_money}">Linus</td>
-                  <td >
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Confirm</button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure this order will be delivered?
-                                    <p th:text="${order.id}"></p>
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <button type="button" class="btn btn-primary"  id="btn_confirm_order">Yes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                    
-                </tr>
+        <table class="table">
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Address</th>
+                <th scope="col">Email</th>
+                <th scope="col">Product</th>
+                <th scope="col">Total</th>
+                <th scope="col">Confirm</th>
+            </tr>
+            <tr th:each="order : ${orderDetailsDtos}">
+                <td th:text="${'#'+order.id}">Emil</td>
+                <td th:text="${order.order_date}">Tobias</td>
+                <td th:text="${order.first_name} + ' ' + ${order.last_name}">Linus</td>
+                <td th:text="${order.phone_number}">Linus</td>
+                <td th:text="${order.address}">Linus</td>
+                <td th:text="${order.email}">Linus</td>
+                <td >
+                <a th:href="@{/admin/order_waiting/view/{id}(id=${order.id})}"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                    View
+                </button></a>
                 
-              </table>
-            
+                </td>
+                <td th:text="${'$'+order.total_money}">Linus</td>
+                <td>
+                <a th:href="@{/admin/confirm-order/{id}(id=${order.id})}"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Confirm</button></a>
+                </td>
+            </tr>
+        </table>
     </div>
 
-      <!-- footer -->
+<!-- footer -->
 <footer class="footer">
     <div class="container">
         <div class="row">

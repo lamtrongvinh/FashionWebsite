@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import comcircus.fashionweb.dto.OrderDetailsDto;
 import comcircus.fashionweb.dto.ProductDto;
+import comcircus.fashionweb.model.cart.CartItemPaid;
 import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.category.CategoryService;
@@ -131,11 +132,6 @@ public class AdminController {
 
     @GetMapping("/order-waiting")
     public String getOrderWaitingADMIN(Model model) {
-        // List<User> users = userService.getUsers();
-        // List<OrderDetails> listOrderDetails = userService.getOrderDetailsByUser(users.get(users.size() - 1));
-        // List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(listOrderDetails);
-        // List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfoAndCartItemPaid(orderDetailsDtotmp, users.get(users.size() - 1));
-        // model.addAttribute("orderDetailsDto", orderDetailsDto);
         List<OrderDetails> orderDetails = orderDetailsService.getAllOrderWaiting();
         if (orderDetails == null) {
             return "/admin/admin-dashboard";
@@ -175,6 +171,15 @@ public class AdminController {
     public String getAdminDashboard() {
         
         return "/admin/admin-dashboard";
+    }
+
+    @GetMapping("/order_waiting/view/{id}")
+    public String showOrderWaitingItem(Model model, @PathVariable Long id) {
+        OrderDetails orderDetails = orderDetailsService.getById(id);
+        OrderDetailsDto orderDetailsDto = orderDetailsService.maptoDto(orderDetails);
+        List<CartItemPaid> cartItemPaids = orderDetailsDto.getCartItemPaid();
+        model.addAttribute("cartItemPaids", cartItemPaids);
+        return "/admin/show_order_waiting";
     }
 
 }
