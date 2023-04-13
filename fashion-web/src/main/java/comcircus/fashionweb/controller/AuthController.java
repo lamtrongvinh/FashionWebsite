@@ -326,7 +326,8 @@ public class AuthController {
         cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
 
         //delete all cart item after proceed payment
-        cartService.deleteAllProduct(user_login.getEmail());
+        // cartService.deleteAllProduct(user_login);
+        userService.deleteAllCartItem(user_login);
 
         return "/auth/checkout/payment-success";
     }

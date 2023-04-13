@@ -83,7 +83,7 @@
                   <th scope="col">Total</th>
                   <th scope="col">DELIVERY</th>
                 </tr>
-                <tr th:each="order : ${orderDetailsDtos}">
+                <tr th:each="order,iterator : ${orderDetailsDtos}" th:limit="5">
                   
                   <td th:text="${'#'+order.id}">Emil</td>
                   <td th:text="${order.order_date}">Tobias</td>
