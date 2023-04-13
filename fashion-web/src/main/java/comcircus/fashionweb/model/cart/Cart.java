@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import comcircus.fashionweb.model.person.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;

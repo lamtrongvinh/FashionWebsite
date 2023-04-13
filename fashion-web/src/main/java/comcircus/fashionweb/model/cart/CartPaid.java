@@ -1,5 +1,6 @@
-package comcircus.fashionweb.model.oders;
+package comcircus.fashionweb.model.cart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,22 +9,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import comcircus.fashionweb.model.person.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-@Entity
-@Table(name = "user_orders")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserOrders {
+@Entity
+@Table(name = "Cart_paid")
+public class CartPaid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long order_id;
+    private Long id;
 
-    @OneToMany(mappedBy = "userOrders", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetails> orderdetails;
+    @OneToOne
+    private User user;
+
+    @OneToMany(mappedBy = "cartPaid", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItemPaid> cartItemPaid = new ArrayList<>();
 }

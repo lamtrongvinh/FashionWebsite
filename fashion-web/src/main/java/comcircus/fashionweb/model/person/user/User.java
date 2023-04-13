@@ -9,6 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import comcircus.fashionweb.model.cart.Cart;
+import comcircus.fashionweb.model.cart.CartPaid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,4 +44,7 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Cart cart;
+
+    @OneToOne(mappedBy = "user")
+    private CartPaid cartPaid;
 }

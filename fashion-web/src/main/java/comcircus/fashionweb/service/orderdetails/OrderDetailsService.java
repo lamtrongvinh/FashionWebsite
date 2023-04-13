@@ -11,8 +11,9 @@ import comcircus.fashionweb.model.person.user.User;
 
 @Service
 public interface OrderDetailsService {
-    public void saveOrderDetails(OrderDetailsDto orderDetailsDto, User user, Customer customer);
+    public OrderDetails saveOrderDetails(OrderDetailsDto orderDetailsDto, User user, Customer customer);
     public List<OrderDetails> getWaitingOrderDetailsOfUser(User user_login);
     public List<OrderDetails> getDeliveryOrderDetailsOfUser(User user_login);
     public List<OrderDetailsDto> changeToOrderDetailsDto(List<OrderDetails> orderDetails);
+    public List<OrderDetailsDto> addCustomerInfoAndCartItemPaid(List<OrderDetailsDto> orderDetailsDtos, User user_login);
 }

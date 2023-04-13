@@ -147,9 +147,7 @@ public class CartServiceImp implements CartService{
             user.setCart(cart);
             cart.setUser(user);
             cartRepository.save(cart);
-            System.out.println("user don't have cart");
         } else {
-            System.out.println("user had card but dont have cart item");
             Cart userCart = user.getCart();
             if (userCart.getCartItem() == null) {
                 userCart.setCartItem(list);
@@ -158,8 +156,6 @@ public class CartServiceImp implements CartService{
             }
         }
 
-        System.out.println(list.size());
-        System.out.println("cart dont have item");
         return list;
     }
 

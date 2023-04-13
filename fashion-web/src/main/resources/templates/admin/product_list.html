@@ -99,16 +99,10 @@
                         <div class="col-md-6 col-lg-6 col-xl-6">
                           <h5 th:text="${product.product_name}">Quant ruybi shirts</h5>
                           <div class="d-flex flex-row">
-                            <div class="text-danger mb-1 me-2">
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                            </div>
+                            
                             <span style="margin-left: 10px;"></span>
                           </div>
                           <div class="mt-1 mb-0 text-muted small">
-                            <span th:text="${product.product_discount}">100% cotton</span>
                             
                           </div>
                           <div class="mb-2 text-muted small">
@@ -127,9 +121,7 @@
                         <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                           <div class="d-flex flex-row align-items-center mb-1">
                             <h4 class="mb-1 me-1" th:text="'$' + ${product.product_price}">$17.99</h4>
-                            <span class="text-danger" ><s th:text="'$' +${product.product_discount}" style="margin-left: 5px;">$25.99</s></span>
                           </div>
-                          <h6 class="text-success">Free shipping</h6>
                           <div class="d-flex flex-column mt-4">
                             <form th:action="@{/admin/deleteProduct/{id}(id=${product.product_id})}" method="get">
                               <button class="btn btn-primary btn-sm" type="submit" style="padding: 5px 30px;">Delete</button>
