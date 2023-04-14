@@ -12,6 +12,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_responsive.css}">
     <title>Document</title>
 </head>
 <body>
@@ -31,7 +34,7 @@
 
                             
                             <li class="account">
-                                <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                                <a th:href="@{/auth/profile}" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
                                     My Account
                                     <i class="fa fa-angle-down"></i>
                                 </a>
@@ -52,7 +55,7 @@
             <div class="row">
                 <div class="col-lg-12 text-right">
                     <div class="logo_container">
-                        <a th:href="@{/homepage/home}">Cir<span>cus</span></a>
+                        <a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
                     </div>
                     <nav class="navbar">
                         <ul class="navbar_menu">
@@ -60,13 +63,16 @@
                             <li><a th:href="@{/auth/shop}">shop</a></li>
                             <li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
                         </ul>
+                        <form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0" method="get">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </form>
                         <ul class="navbar_user">
-                            <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                            <li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                             <li class="checkout">
                                 <a th:href="@{/auth/checkout}">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="checkout_items" class="checkout_items" th:text="*{size}">2</span>
+                                    <span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
                                 </a>
                             </li>
                         </ul>
@@ -80,6 +86,12 @@
     </div>
     <!-- end main nav -->
     <div class="container">
+        <div class="breadcrumbs d-flex flex-row align-items-center" style="margin-bottom: 10px;">
+            <ul>
+                <li><a th:href="@{/auth/homepage}">Home</a></li>
+                <li class="active"><a th:href="@{/auth/shop}"><i class="fa fa-angle-right" aria-hidden="true"></i>SHOP</a></li>
+            </ul>
+        </div>
         <div class="row">
             <div class="col text-center">
                 <div class="section_title new_arrivals_title">
@@ -88,6 +100,34 @@
             </div>
         </div>
         <div class="row">
+            <div class="sidebar">
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>Product Category</h5>
+                    </div>
+                    <form th:action="@{/auth/shop}" method="get">
+                        <div class="form-group">
+                            <label for="exampleInputText">Category</label>
+                            <select class="form-select" name="category_id" id="category_id">
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            </select>
+                        </div>
+                        <button class="filter_button" type="submit"><span>filter</span></button>
+                    </form>
+                    
+                </div>
+                 <!-- Price Range Filtering -->
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>Filter by Price</h5>
+                    </div>
+                    <p>
+                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;" name="amount">
+                    </p>
+                    <div id="slider-range"></div>
+                    <div class="filter_button"><span>filter</span></div>
+                </div>
+            </div>
             <div class="col">
                 <div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' >
             <!-- Single Product -->
@@ -101,7 +141,7 @@
                                     <div class="favorite favorite_left"></div>
                                     <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="${'-' + product.product_discount} + '%'">-$20</span></div>
                                     <div class="product_info">
-                                        <h6 class="product_name"><a th:href="@{/shopping/single/{id}(id=${product.product_id})}" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
+                                        <h6 class="product_name"><a th:href="@{/auth/details/{id}(id=${product.product_id})}" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
                                         <div class="product_price" th:text="'$'+${product.product_price}">$520.00<span>$590.00</span></div>
                                     </div>
                                 </div>
@@ -178,5 +218,7 @@
 <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
 <script th:src="@{~/plugins/easing/easing.js}"></script>
 <script th:src="@{~/js/custom.js}"></script>
+<script th:src="@{~/js/categories_custom.js}"></script>
+<script th:src="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
 </body>
 </html>

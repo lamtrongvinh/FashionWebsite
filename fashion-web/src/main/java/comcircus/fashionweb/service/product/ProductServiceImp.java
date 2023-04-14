@@ -1,5 +1,6 @@
 package comcircus.fashionweb.service.product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +110,78 @@ public class ProductServiceImp implements ProductService{
         productExist.setCategory(categoryService.getCategory(productDto.getCategory_id()));
         
         return  productRepository.save(productExist);
+    }
+
+    @Override
+    public List<Product> getProductsByKeyword(String keyword) {
+        keyword = keyword.toLowerCase();
+        List<Product> list =  (List<Product>) productRepository.findAll();
+        List<Product> listByKeyword = new ArrayList<>();
+        for (int i = 0;i < list.size(); i++) {
+            if (list.get(i).getProduct_name().toLowerCase().contains(keyword) || list.get(i).getProduct_desciption().toLowerCase().contains(keyword)) {
+                listByKeyword.add(list.get(i));
+            }
+        }
+
+        return listByKeyword;
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String keyword) {
+        List<Product> listByKeyword = new ArrayList<>();
+        List<Product> list = (List<Product>) productRepository.findAll();
+        try {
+            Long category_id = Long.valueOf(keyword);
+            for (int i = 0; i < list.size(); i++) {
+                Product product = list.get(i);
+                if (product.getCategory().getId() == category_id) {
+                    listByKeyword.add(product);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("can not convert to Long by keyword");
+        }
+
+        return listByKeyword;
+    }
+
+    @Override
+    public void decreaseQuantity(int quantity, Long product_id) {
+        List<Product> list = this.getProducts();
+        for (int i = 0; i < list.size(); i++) {
+            Product product = list.get(i);
+            if (product.getProduct_id() == product_id) {
+                int product_quantity = product.getProduct_quantity() - quantity >= 0 ? product.getProduct_quantity() - quantity : 0 ;
+                product.setProduct_quantity(product_quantity);
+                if (product.getProduct_quantity() <= 0) {
+                    product.setProduct_live(false);
+                    product.setProduct_stock(false);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void increaseQuantity(int quantity, Long product_id) {
+        List<Product> list = this.getProducts();
+        for (int i = 0; i < list.size(); i++) {
+            Product product = list.get(i);
+            if (product.getProduct_id() == product_id) {
+                int product_quantity = product.getProduct_quantity() + quantity;
+                product.setProduct_quantity(product_quantity);
+            }
+        }
+    }
+
+    @Override
+    public List<Product> getBestSellerProduct() {
+        List<Product> bestSeller = new ArrayList<>();
+        for (Product p : this.getProducts()) {
+            if (p.getCategory().getId() == 1L) {
+                bestSeller.add(p);
+            }
+        }
+        return bestSeller;
     }
     
 }

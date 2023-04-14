@@ -140,7 +140,21 @@ public class CartServiceImp implements CartService{
     @Override
     public List<CartItem> getCartItems(String email) {
         User user = userService.getUser(userService.getIdUserByEmail(email));
-        List<CartItem> list = user.getCart().getCartItem();
+        
+        List<CartItem> list = new ArrayList<>();
+        if (user.getCart() == null) {
+            Cart cart = new Cart();
+            user.setCart(cart);
+            cart.setUser(user);
+            cartRepository.save(cart);
+        } else {
+            Cart userCart = user.getCart();
+            if (userCart.getCartItem() == null) {
+                userCart.setCartItem(list);
+            } else {
+                list = userCart.getCartItem();
+            }
+        }
 
         return list;
     }
@@ -157,5 +171,21 @@ public class CartServiceImp implements CartService{
             }
         }
         return listCartItems;
+    }
+
+    @Override
+    public void initCartForUser(User user, Cart cart) {
+        User user_login = userService.getUser(userService.getIdUserByEmail(user.getEmail()));
+        user_login.setCart(cart);
+        cart.setUser(user_login);
+    }
+
+    @Override
+    public void deleteAllProduct(User user) {
+        List<CartItem> listCartItems = new ArrayList<>();
+        Cart cart = user.getCart();
+        if (cart != null) { 
+            cart.getCartItem().clear();
+        }
     }
 }

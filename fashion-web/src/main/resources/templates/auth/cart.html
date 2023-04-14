@@ -30,7 +30,7 @@
 
                             
                             <li class="account">
-                                <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                                <a th:href="@{/auth/profile}" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
                                     My Account
                                     <i class="fa fa-angle-down"></i>
                                 </a>
@@ -60,12 +60,11 @@
                             <li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
                         </ul>
                         <ul class="navbar_user">
-                            <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                            <li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                             <li class="checkout">
                                 <a th:href="@{/auth/checkout}">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="checkout_items" class="checkout_items" th:text="*{size}"></span>
+                                    <span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}"></span>
                                 </a>
                             </li>
                         </ul>
@@ -85,10 +84,7 @@
       
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
-                <div>
-                  <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
-                        class="fas fa-angle-down mt-1"></i></a></p>
-                </div>
+                
               </div>
       
               <div class="card rounded-3 mb-4">
@@ -125,11 +121,11 @@
                   </div>
                   
                 </div>
-                <div id="total_box">
+                <div id="total_box" th:if="*{total != null}">
                     <span calss="total" style="margin-left: 67%; color: #282828; font-family: inherit;
                     font-weight: 500;
-                    line-height: 1.2; font-size: 16px;">Total :  </span>
-                    <span th:text="'$'+*{total}" style="color:#282828; font-family: inherit;
+                    line-height: 1.2; font-size: 16px;">  </span>
+                    <span th:if="'Total :$'+*{total}" style="color:#282828; font-family: inherit;
                     font-weight: 500;
                     line-height: 1.2; font-size: 16px;"></span>
                 </div>
@@ -138,7 +134,7 @@
               <div class="card">
                 
                 <div class="card-body">
-                  <button type="button" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+                  <a th:href="@{/auth/checkout/payment}"><button type="submit" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button></a>
                 </div>
               </div>
       

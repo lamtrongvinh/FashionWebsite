@@ -1,5 +1,10 @@
 package comcircus.fashionweb.controller.Admin;
 
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import comcircus.fashionweb.dto.OrderDetailsDto;
 import comcircus.fashionweb.dto.ProductDto;
+import comcircus.fashionweb.model.cart.CartItemPaid;
+import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.category.CategoryService;
+import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
 import comcircus.fashionweb.service.product.ProductService;
 
 @Controller
@@ -23,6 +32,9 @@ public class AdminController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private OrderDetailsService orderDetailsService;
 
     @GetMapping("/addProduct")
     public String addProduct(Model model) {
@@ -50,8 +62,8 @@ public class AdminController {
         product.setProduct_stock(productDto.isProduct_stock());
         product.setProduct_image_name(productDto.getProduct_image_name());
         product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
-        System.out.println(product.toString());
-
+        productService.increaseQuantity(1, productDto.getProduct_id());
+        
         productService.saveProduct(product, productDto.getCategory_id());
 
         return "/admin/add_product_succes";
@@ -105,4 +117,69 @@ public class AdminController {
     public String getDashboard() {
         return "/admin/admin_dashboard";
     }
+
+    @PostMapping("/dashboard")
+    public String handleLoginADMIN(HttpServletRequest request) {
+        // String username = request.getParameter("username");
+        // String password = request.getParameter("password");
+        // if (username.equals("ADMIN") && password.equals("ADMIN")) {
+            
+        //     return "/admin/admin_dashboard"; 
+        // }
+        // return "redirect:/admin-login";
+        return "/admin/admin_dashboard"; 
+    }
+
+    @GetMapping("/order-waiting")
+    public String getOrderWaitingADMIN(Model model) {
+        List<OrderDetails> orderDetails = orderDetailsService.getAllOrderWaiting();
+        if (orderDetails == null) {
+            return "/admin/admin-dashboard";
+        }
+        List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(orderDetails);
+        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfo(orderDetailsDtotmp);
+        model.addAttribute("orderDetailsDtos", orderDetailsDto);
+
+        return "/admin/orders_waiting";
+    }
+
+    @GetMapping("/order-confirmed")
+    public String getOrderDeliveryADMIN(Model model) {
+        List<OrderDetails> orderDetails = orderDetailsService.getAllOrderDelivery();
+        if (orderDetails == null) {
+            return "redirect:/admin/admin-dashboard";
+        }
+        List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(orderDetails);
+        List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfo(orderDetailsDtotmp);
+        model.addAttribute("orderDetailsDtos", orderDetailsDto);
+
+        return "/admin/orders_delivery";
+    }
+
+    @GetMapping("/confirm-order/{id}")
+    public String confirmedOrder(Model model, @PathVariable Long id) {
+        try {
+            System.out.println(id);
+            orderDetailsService.confirmOrder(Long.valueOf(id));
+        } catch (Exception e) {
+            System.out.println("Confirmed error");
+        }
+        return "redirect:/admin/order-waiting";
+    }
+
+    @PostMapping("/admin-login")
+    public String getAdminDashboard() {
+        
+        return "/admin/admin-dashboard";
+    }
+
+    @GetMapping("/order_waiting/view/{id}")
+    public String showOrderWaitingItem(Model model, @PathVariable Long id) {
+        OrderDetails orderDetails = orderDetailsService.getById(id);
+        OrderDetailsDto orderDetailsDto = orderDetailsService.maptoDto(orderDetails);
+        List<CartItemPaid> cartItemPaids = orderDetailsDto.getCartItemPaid();
+        model.addAttribute("cartItemPaids", cartItemPaids);
+        return "/admin/show_order_waiting";
+    }
+
 }

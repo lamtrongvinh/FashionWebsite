@@ -23,7 +23,11 @@ confirmPasswordInput.onblur = function () {
 emailInput.onblur = function () {
     checkEmail();
 }
+<<<<<<< HEAD
 const submit = document.querySelector("#submit1");
+=======
+const submit = document.querySelector('#submit1');
+>>>>>>> 455e5b311cabc8b5d4b7159102f768a4a914650c
 
 
 submit.addEventListener("submit", (event) => {

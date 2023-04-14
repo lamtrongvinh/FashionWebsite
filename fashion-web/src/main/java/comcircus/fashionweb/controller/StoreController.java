@@ -2,6 +2,8 @@ package comcircus.fashionweb.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,17 @@ public class StoreController {
     private ProductService productService;
 
     @GetMapping(value = {"/", "/home"})
-    public String getHomeScreen(Model model) {
-        List<Product> products = productService.getProducts();
-        model.addAttribute("products", products);
+    public String getHomeScreen(Model model, HttpServletRequest request) {
+        String keyword = request.getParameter("keyword");
+        List<Product> bestSelleProducts = productService.getBestSellerProduct();
+        model.addAttribute("bestSelleProducts", bestSelleProducts);
+        if (keyword != null) {
+            List<Product> products = productService.getProductsByKeyword(keyword);
+            model.addAttribute("products", products);
+        } else {
+            List<Product> products = productService.getProducts();
+            model.addAttribute("products", products);
+        }
         return "index";
     }
 
@@ -31,7 +41,8 @@ public class StoreController {
 
     @GetMapping("/category")
     public String getCategory() {
-        return "categories";
+        return "/categories/categories";
     }
 
+    
 }

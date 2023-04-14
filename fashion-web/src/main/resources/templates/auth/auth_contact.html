@@ -44,7 +44,7 @@
 
 				
 								<li class="account">
-									<a href="#"  th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+									<a th:href="@{/auth/profile}"  th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
 										My Account
 										<i class="fa fa-angle-down"></i>
 									</a>
@@ -75,11 +75,11 @@
 								<li><a th:href="@{/auth/contact}">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+								<li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
 									<a th:href="@{/auth/checkout}">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items" th:text="*{size}"></span>
+										<span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}"></span>
 									</a>
 								</li>
 							</ul>
@@ -102,30 +102,8 @@
 		<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
 		<div class="hamburger_menu_content text-right">
 			<ul class="menu_top_nav">
-				<li class="menu_item has-children">
-					<a href="#">
-						usd
-						<i class="fa fa-angle-down"></i>
-					</a>
-					<ul class="menu_selection">
-						<li><a href="#">cad</a></li>
-						<li><a href="#">aud</a></li>
-						<li><a href="#">eur</a></li>
-						<li><a href="#">gbp</a></li>
-					</ul>
-				</li>
-				<li class="menu_item has-children">
-					<a href="#">
-						English
-						<i class="fa fa-angle-down"></i>
-					</a>
-					<ul class="menu_selection">
-						<li><a href="#">French</a></li>
-						<li><a href="#">Italian</a></li>
-						<li><a href="#">German</a></li>
-						<li><a href="#">Spanish</a></li>
-					</ul>
-				</li>
+
+				
 				<li class="menu_item has-children">
 					<a href="#">
 						My Account
@@ -136,9 +114,9 @@
 						<li><a th:href="@{/register}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 					</ul>
 				</li>
-				<li class="menu_item"><a th:href="@{/home}">home</a></li>
-				<li class="menu_item"><a th:href="@{/shopping/shop}">shop</a></li>
-				<li class="menu_item"><a th:href="@{/contact}">contact</a></li>
+				<li class="menu_item"><a th:href="@{/auth/homepage}">home</a></li>
+				<li class="menu_item"><a th:href="@{/auth/shop}">shop</a></li>
+				<li class="menu_item"><a th:href="@{/auth/contact}">contact</a></li>
 			</ul>
 		</div>
 	</div>
@@ -151,7 +129,7 @@
 
 				<div class="breadcrumbs d-flex flex-row align-items-center">
 					<ul>
-						<li><a th:href="@{/home}">Home</a></li>
+						<li><a th:href="@{/auth/homepage}">Home</a></li>
 						<li class="active"><a th:href="@{/contact}"><i class="fa fa-angle-right" aria-hidden="true"></i>Contact</a></li>
 					</ul>
 				</div>

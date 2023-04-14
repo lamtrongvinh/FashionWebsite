@@ -14,5 +14,7 @@ public interface UserService {
     public List<User> getUsers();
     public User updateUser(Long id, User user);
     public boolean checkUserExist(String email, String password);
+    public boolean checkEmailExist(String email);
     public Long getIdUserByEmail(String email);
+    public void deleteAllCartItem(User user);
 }

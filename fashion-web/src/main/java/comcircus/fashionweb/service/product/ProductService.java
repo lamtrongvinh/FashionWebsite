@@ -10,8 +10,15 @@ public interface ProductService {
     public Product saveProduct(Product product, Long category_id);
     public void deleteProduct(Long id);
     public List<Product> getProducts();
+    public List<Product> getProductsByKeyword(String keyword);
+    
+    public List<Product> getProductsByCategory(String keyword);
     public Product updateProduct(Long id, Product product);
     public Product updateProductCategory(Long id, Product product, Long category_id);
     public int getIndexById(Long id);
     public Product updateProductFromDto(Long id, ProductDto productDto);
+
+    public void decreaseQuantity(int quantity, Long product_id);
+    public void increaseQuantity(int quantity, Long product_id);
+    public List<Product> getBestSellerProduct();
 }
