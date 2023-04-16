@@ -288,13 +288,13 @@ public class AuthController {
     //Payment
     @PostMapping("/checkout/payment-process")
     public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model, HttpSession session) {
-        System.out.println(customerDto.getFirst_name());
+        
         UserDto userDto = (UserDto) session.getAttribute("userDto");
-        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
+        User user_login = userService.maptoUserByUserDto(userDto);
         model.addAttribute("user_login", user_login);
+
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        System.out.println(cartItem.size());
         // List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
         double total = cartService.getTotalPrice(cartItem);
         model.addAttribute("total", total);
@@ -327,7 +327,7 @@ public class AuthController {
 
         //delete all cart item after proceed payment
         // cartService.deleteAllProduct(user_login);
-        userService.deleteAllCartItem(user_login);
+        cartService.deleteAllProduct(user_login);
 
         return "/auth/checkout/payment-success";
     }

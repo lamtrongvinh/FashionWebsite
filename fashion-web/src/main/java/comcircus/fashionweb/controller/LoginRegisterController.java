@@ -68,6 +68,11 @@ public class LoginRegisterController {
         return "register_success";
     }
 
+    @GetMapping("/register-admin")
+    public String registerAdminProcess(Model model) {
+        return "admin-register";
+    }
+
     @GetMapping("/login")
     public String showLoginForm(Model model) {
         model.addAttribute("userDto", new UserDto());

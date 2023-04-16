@@ -51,20 +51,15 @@ public class AdminController {
 
     @PostMapping("/addProduct")
     public String addProductpPost(@ModelAttribute("productDto") ProductDto productDto) {
-        Product product = new Product();
-        product.setProduct_id(productDto.getProduct_id());
-        product.setProduct_name(productDto.getProduct_name());
-        product.setProduct_desciption(productDto.getProduct_desciption());
-        product.setProduct_price(productDto.getProduct_price());
-        product.setProduct_discount(productDto.getProduct_discount());
-        product.setProduct_quantity(productDto.getProduct_quantity());
-        product.setProduct_live(productDto.isProduct_live());
-        product.setProduct_stock(productDto.isProduct_stock());
-        product.setProduct_image_name(productDto.getProduct_image_name());
-        product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
-        productService.increaseQuantity(1, productDto.getProduct_id());
-        
-        productService.saveProduct(product, productDto.getCategory_id());
+        Product product = productService.maptoProduct(productDto);
+
+        if (productService.getProduct(productDto.getProduct_id()) != null) {
+            Product product_exist = productService.getProduct(productDto.getProduct_id());
+            product_exist.setProduct_quantity(product_exist.getProduct_quantity() + productDto.getProduct_quantity());
+            productService.saveProduct(product_exist, productDto.getCategory_id());
+        } else {
+            productService.saveProduct(product, productDto.getCategory_id());
+        }
 
         return "/admin/add_product_succes";
     }

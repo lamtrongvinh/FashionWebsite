@@ -49,6 +49,7 @@ comcircus\fashionweb\controller\ShoppingController.class
 comcircus\fashionweb\dto\ProductDto.class
 comcircus\fashionweb\dto\UserDto.class
 comcircus\fashionweb\dto\ItemDetailsCart.class
+comcircus\fashionweb\model\product\Size.class
 comcircus\fashionweb\repository\CartRepository.class
 comcircus\fashionweb\service\orderdetails\OrderDetailsServiceImp.class
 comcircus\fashionweb\dto\ItemRequestDto.class
