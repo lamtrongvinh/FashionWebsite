@@ -70,41 +70,36 @@
     </div>
     <!-- end main nav -->
     <div style="margin: 20px;">
-        <h3>ORDER WAITING</h3>
-        <table class="table">
-            <tr>
-                <th scope="col">#ID</th>
-                <th scope="col">Order Date</th>
-                <th scope="col">Full Name</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Address</th>
-                <th scope="col">Email</th>
-                <th scope="col">Product</th>
-                <th scope="col">Total</th>
-                <th scope="col">Confirm</th>
-            </tr>
-            <tr th:each="order : ${orderDetailsDtos}">
-                <td th:text="${'#'+order.id}">Emil</td>
-                <td th:text="${order.order_date}">Tobias</td>
-                <td th:text="${order.first_name} + ' ' + ${order.last_name}">Linus</td>
-                <td th:text="${order.phone_number}">Linus</td>
-                <td th:text="${order.address}">Linus</td>
-                <td th:text="${order.email}">Linus</td>
-                <td >
-                <a th:href="@{/admin/order_waiting/view/{id}(id=${order.id})}"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
-                    View
-                </button></a>
+        <h3>ORDER CONFIRMED</h1>
+            <table class="table">
+                <tr>
+                  <th scope="col">#ID</th>
+                  <th scope="col">Order Date</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">DELIVERY</th>
+                </tr>
+                <tr th:each="order,iterator : ${orderDetailsDtos}" th:limit="5">
+                  
+                  <td th:text="${'#'+order.id}">Emil</td>
+                  <td th:text="${order.order_date}">Tobias</td>
+                  <td th:text="${order.first_name}">Linus</td>
+                  <td th:text="${order.last_name}">Linus</td>
+                  <td th:text="${order.phone_number}">Linus</td>
+                  <td th:text="${order.address}">Linus</td>
+                  <td th:text="${order.email}">Linus</td>
+                  <td th:text="${'$'+order.total_money}">Linus</td>
+                  <td ><button type="button" class="btn btn-info btn-sm" >Done</button></td>
+                </tr>
                 
-                </td>
-                <td th:text="${'$'+order.total_money}">Linus</td>
-                <td>
-                <a th:href="@{/admin/confirm-order/{id}(id=${order.id})}"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Confirm</button></a>
-                </td>
-            </tr>
-        </table>
+              </table>
     </div>
 
-<!-- footer -->
+      <!-- footer -->
 <footer class="footer">
     <div class="container">
         <div class="row">
@@ -147,6 +142,5 @@
       <script th:src="@{~/js/custom.js}"></script>
       <script th:src="@{~/js/categories_custom.js}"></script>
       <script th:src="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
-      <script th:src="@{~/js/confirm.js}"></script>
 </body>
 </html>

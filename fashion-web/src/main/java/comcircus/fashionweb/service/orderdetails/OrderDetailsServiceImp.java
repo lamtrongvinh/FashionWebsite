@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import comcircus.fashionweb.dto.OrderDetailsDto;
+import comcircus.fashionweb.model.cart.CartItemPaid;
 import comcircus.fashionweb.model.cart.CartPaid;
 import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.person.customer.Customer;
@@ -102,5 +103,125 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
 
         return orderDetailsDto;
     }
+
+    @Override
+    public List<OrderDetails> getAllOrderWaiting() {
+        List<OrderDetails> orderDetailsWaiting = (List<OrderDetails>) oDetailsRepository.findAll();
+        List<OrderDetails> res = new ArrayList<>();
+        for (int i = 0; i < orderDetailsWaiting.size(); i++) {
+            if(orderDetailsWaiting.get(i).getStatus().equals("WAITING")) {
+                res.add(orderDetailsWaiting.get(i));
+            }
+        }
+        return res;
+    }
     
+    @Override
+    public List<OrderDetailsDto> addCustomerInfo(List<OrderDetailsDto> orderDetailsDto) {
+        for (int i = 0; i < orderDetailsDto.size(); i++) {
+            OrderDetailsDto oDetailsDto = orderDetailsDto.get(i);
+            Long customer_id = orderDetailsDto.get(i).getCustomer_id();
+            Customer customer = customerService.getCustomer(customer_id);
+            oDetailsDto.setFirst_name(customer.getFirst_name());
+            oDetailsDto.setLast_name(customer.getLast_name());
+            oDetailsDto.setEmail(customer.getEmail());
+            oDetailsDto.setPhone_number(customer.getPhone_number());
+            oDetailsDto.setAddress(customer.getAddress());
+
+            User user = this.getUserByOrderDetailsId(oDetailsDto.getId());
+            List<CartItemPaid> cartItemPaid = this.getCartItemPaidByUser(user);
+            oDetailsDto.setCartItemPaid(cartItemPaid);
+
+        }
+
+        return orderDetailsDto;
+    }
+
+    @Override
+    public List<OrderDetails> getAllOrderDelivery() {
+        List<OrderDetails> orderDetailsDelivery = (List<OrderDetails>) oDetailsRepository.findAll();
+        List<OrderDetails> res = new ArrayList<>();
+        for (int i = 0; i < orderDetailsDelivery.size(); i++) {
+            if(orderDetailsDelivery.get(i).getStatus().equals("DELIVERY")) {
+                res.add(orderDetailsDelivery.get(i));
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public void confirmOrder(Long id) {
+        try {
+            OrderDetails orderDetails = this.oDetailsRepository.findById(id).get();
+            orderDetails.setStatus("DELIVERY");
+            oDetailsRepository.save(orderDetails);
+        } catch (Exception e) {
+            System.out.println("confirmOrder ERROR!");
+        }
+    }
+
+    @Override
+    public List<CartItemPaid> getCartItemPaidByUser(User user) {
+        List<CartItemPaid> cartItemPaid = (List<CartItemPaid>) user.getCartPaid().getCartItemPaid();
+        return cartItemPaid;
+    }
+
+    @Override
+    public User getUserByOrderDetailsId(Long id) {
+        List<OrderDetails> orderDetails = (List<OrderDetails>) this.oDetailsRepository.findAll();
+        for (int i = 0; i < orderDetails.size(); i++) {
+            if (orderDetails.get(i).getId() == id) {
+                User user = new User();
+                user = orderDetails.get(i).getUser_id();
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<OrderDetails> getAll() {
+        return (List<OrderDetails>) this.oDetailsRepository.findAll();
+    }
+
+    @Override
+    public OrderDetails getById(Long id) {
+        List<OrderDetails> list = this.getAll();
+        for (int i = 0; i < list.size(); i++) {
+            if (id == list.get(i).getId()) {
+                return list.get(i);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public OrderDetailsDto maptoDto(OrderDetails oDetails) {
+        OrderDetailsDto oDetailsDto = new OrderDetailsDto();
+        oDetailsDto.setId(oDetails.getId());
+        oDetailsDto.setCustomer_id(oDetails.getCustomer_id().getCustomer_id());
+        oDetailsDto.setUser_id(oDetails.getUser_id().getId());
+        oDetailsDto.setStatus(oDetails.getStatus());
+        oDetailsDto.setOrder_date(oDetails.getOrder_date());
+        oDetailsDto.setTotal_money(oDetails.getTotal_money());
+        User user = this.getUserByOrderDetailsId(oDetailsDto.getId());
+        List<CartItemPaid> cartItemPaid = this.getCartPaidsByOrderId(user, oDetails.getId());
+        oDetailsDto.setCartItemPaid(cartItemPaid);
+        return oDetailsDto;
+    }
+
+    @Override
+    public List<CartItemPaid> getCartPaidsByOrderId(User user, Long id) {
+        List<CartItemPaid> list = this.getCartItemPaidByUser(user);
+        List<CartItemPaid> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            CartItemPaid cartItemPaid = list.get(i);
+            if (cartItemPaid.getOrderDetails_id() == id) {
+                res.add(cartItemPaid);
+            }
+        }
+        return res;
+    }
 }

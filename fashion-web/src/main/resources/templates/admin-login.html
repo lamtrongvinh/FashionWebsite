@@ -29,18 +29,16 @@
       
                   <h3 class="mb-5">Login with ADMIN</h3>
       
-                    <form th:action="@{/admin/dashboard}" th:object="${admin}" method="post">
+                    <form th:action="@{/admin/admin-login}" th:object="${admin}" method="post">
                         <div class="form-outline mb-4">
-                            <input type="text" id="typeEmailX-2" class="form-control form-control-lg" name="username"/>
                             <label class="form-label" for="typeEmailX-2">Email</label>
+                            <input type="text" id="typeEmailX-2" class="form-control form-control-lg" name="username"/>
                           </div>
               
                           <div class="form-outline mb-4">
-                            <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="password" />
                             <label class="form-label" for="typePasswordX-2">Password</label>
+                            <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="password" />
                           </div>
-              
-              
                           <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
                     </form>
       

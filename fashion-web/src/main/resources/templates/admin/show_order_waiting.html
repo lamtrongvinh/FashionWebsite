@@ -12,78 +12,88 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_responsive.css}">
     <title>Document</title>
 </head>
 <body>
-    <div class="top_nav">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="top_nav_left">Create, Delete and Update for ADMIN</div>
-                </div>
-                <div class="col-md-6 text-right">
-                    <div class="top_nav_right">
-                        <ul class="top_nav_menu">
-
-                            <!-- Currency / Language / My Account -->
-
-                            
-                            <li class="account">
-                                <a th:href="@{/admin/dashboard}">
-                                    Welcome: ADMIN
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-                                <ul class="account_selection">
-                                    <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+<!-- top nav -->
+<div class="top_nav">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="top_nav_left">Create, Delete and Update for ADMIN</div>
             </div>
-        </div>
-    </div>
-    <!-- main nav -->
-    <div class="main_nav_container">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-right">
-                    <div class="logo_container">
-                        <a th:href="@{/admin/dashboard}">ad<span>min</span></a>
-                    </div>
-                    <nav class="navbar">
-                        <ul class="navbar_menu">
-                            <li><a th:href="@{/admin/dashboard}">dashboard</a></li>
-                            <li><a th:href="@{/admin/products}">products</a></li>
-                            <li><a th:href="@{/admin/addProduct}">add product</a></li>
-                        </ul>
+            <div class="col-md-6 text-right">
+                <div class="top_nav_right">
+                    <ul class="top_nav_menu">
+
+                        <!-- Currency / Language / My Account -->
+
                         
-                    </nav>
+                        <li class="account">
+                            <a href="#">
+                                Welcome: ADMIN
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="account_selection">
+                                <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end main nav -->
-    <div class="row">
-        <div class="col text-center">
-            <div class="section_title new_arrivals_title">
-                <h2>ADMIN DASHBOARD</h2>
+</div>
+<!-- end top nav -->
+<!-- main nav -->
+<div class="main_nav_container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-right">
+                <div class="logo_container">
+                    <a th:href="@{/admin/dashboard}">ad<span>min</span></a>
+                </div>
+                <nav class="navbar">
+                    <ul class="navbar_menu">
+                        <li><a th:href="@{/admin/dashboard}">dashboard</a></li>
+                        <li><a th:href="@{/admin/products}">products</a></li>
+                        <li><a th:href="@{/admin/addProduct}">add product</a></li>
+                    </ul>
+                    
+                </nav>
             </div>
         </div>
     </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/products}"><button type="button" class="btn btn-success" style="align-items: center;">Product List</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/addProduct}"><button type="button" class="btn btn-danger">Add Product</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/order-waiting}"><button type="button" class="btn btn-success">Orders Waiting</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/order-confirmed}"><button type="button" class="btn btn-danger">Orders Confirmed</button></a>
-    </div>
-    
+</div>
+<!-- end main nav -->
+<div style="margin: 20px;">
+    <table class="table">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th></th>
+            <th></th>
+            <th scope="col">Total Price</th>
+        </tr>
+        <tr th:each="item,iterator : ${cartItemPaids}">
+            <div th:each="product : ${item.getProduct()}">
+                <td th:text="${iterator.count}">1</td>
+                <td th:text="${product.product_name}">Jacket</td>
+                <td th:text="${'x'+item.quantity}">1</td>
+                <td th:text="${'$'+product.product_price}">$5</td>
+                <td></td>
+                <td></td>
+                <td th:text="${'$'+item.total_price}">$5</td>
+            </div>
+        </tr>
+    </table>
+</div>
+
 <!-- footer -->
 <footer class="footer">
     <div class="container">
@@ -125,5 +135,8 @@
 <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
 <script th:src="@{~/plugins/easing/easing.js}"></script>
 <script th:src="@{~/js/custom.js}"></script>
+<script th:src="@{~/js/categories_custom.js}"></script>
+<script th:src="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
+<script th:src="@{~/js/confirm.js}"></script>
 </body>
 </html>

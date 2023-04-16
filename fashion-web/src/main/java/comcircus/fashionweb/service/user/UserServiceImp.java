@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import comcircus.fashionweb.model.cart.Cart;
+import comcircus.fashionweb.model.cart.CartItem;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.repository.UserRepository;
 
@@ -26,7 +28,9 @@ public class UserServiceImp implements UserService{
     public User saveUser(User user) {
         user.setRole("USER");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        
         return userRepository.save(user);
+
     }
 
     @Override
@@ -64,15 +68,37 @@ public class UserServiceImp implements UserService{
     @Override
     public Long getIdUserByEmail(String email) {
         try {
-            for (User u : (List<User>) userRepository.findAll()) {
-                if (u.getEmail().equals(email)) {
-                    return u.getId();
+            List<User> users = (List<User>) userRepository.findAll();
+            for (int i = 0; i < users.size(); i++) {
+                User user = users.get(i);
+                if (user.getEmail().equals(email)) {
+                    return user.getId();
                 }
             }
         } catch (Exception e) {
-            
+            System.out.println("user not exist!");
         }
         return Long.valueOf(-1);
+    }
+
+    @Override
+    public boolean checkEmailExist(String email) {
+        List<User> users = (List<User>) userRepository.findAll();
+        for (User u : users) {
+            if (u.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void deleteAllCartItem(User user) {
+        Cart cart = user.getCart();
+        List<CartItem> list = cart.getCartItem();
+        if (!list.isEmpty()) {
+            list.clear();
+        }
     }
 
 

@@ -2,11 +2,11 @@ package comcircus.fashionweb.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,7 @@ import comcircus.fashionweb.dto.CustomerDto;
 import comcircus.fashionweb.dto.ItemDetailsCart;
 import comcircus.fashionweb.dto.ItemRequestDto;
 import comcircus.fashionweb.dto.OrderDetailsDto;
+import comcircus.fashionweb.dto.UserDto;
 import comcircus.fashionweb.model.cart.Cart;
 import comcircus.fashionweb.model.cart.CartItem;
 import comcircus.fashionweb.model.category.Category;
@@ -62,56 +63,37 @@ public class AuthController {
     @Autowired
     private CategoryService categoryService;
 
-    
-    List<User> user_login_list = new ArrayList<>();
-
     @PostMapping("/login")
-    public String processLogin(HttpServletRequest request, Model model) {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String keyword = request.getParameter("keyword");
-        if (userService.checkUserExist(email, password))
-        {
-            User user_login = userService.getUser(userService.getIdUserByEmail(email));
-            model.addAttribute("user_login", user_login);
-            user_login_list.clear();
-            user_login_list.add(user_login);
-            System.out.println(keyword);
-            if (keyword != null) {
-                List<Product> products = productService.getProductsByKeyword(keyword);
-                model.addAttribute("products", products);
-            } else {
-                List<Product> products = productService.getProducts();
-                model.addAttribute("products", products);
-            }
-
-
-            if (user_login.getCart() == null) {
-                Cart cartOfUer = new Cart();
-                user_login.setCart(cartOfUer);
-                model.addAttribute("size", "no-item");
-            } else {
-                List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-                if (!cartItem.isEmpty()) {
-                    List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
-                    model.addAttribute("size", itemsDetailCart.size());
-                } else {
-                    model.addAttribute("size", "no-item");
-                }
-            }
-            
-            return "/auth/login_success";
+    public String processLogin(HttpServletRequest request, Model model, HttpSession session, @ModelAttribute("userDto") UserDto userDto) {
+        String error = "";
+        if (userDto == null) {
+            model.addAttribute("error", "Please enter your account!");
+            return "/login";
         }
-        return "redirect:/login";
+
+        if (userService.checkUserExist(userDto.getEmail(), userDto.getPassword())) {
+            session.setAttribute("userDto", userDto);
+            
+            return "redirect:/auth/homepage";
+        }
+        error = "Email or password incorect";
+        model.addAttribute("error", error);
+        return "/login";    
     }
 
     @GetMapping("/homepage")
-    public String showHomePage(Model model, HttpServletRequest request) {
+    public String showHomePage(Model model, HttpServletRequest request, HttpSession session) {
+        //test session
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        System.out.println(userDto.getEmail());
+        System.out.println(userDto.getPassword());
+
         String keyword = request.getParameter("keyword");
-        User user_login = user_login_list.get(0);
-        System.out.println(user_login_list.size());
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         if (userService.getUser(user_login.getId()) != null) {
             model.addAttribute("user_login", user_login);
+            List<Product> bestSelleProducts = productService.getBestSellerProduct();
+            model.addAttribute("bestSelleProducts", bestSelleProducts);
             if (keyword != null) {
                 List<Product> products = productService.getProductsByKeyword(keyword);
                 model.addAttribute("products", products);
@@ -138,10 +120,12 @@ public class AuthController {
 
 
     @GetMapping("/shop")
-    public String moveToShopAuth(Model model, HttpServletRequest request) {
+    public String moveToShopAuth(Model model, HttpServletRequest request, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
+
         String keyword = request.getParameter("keyword");
         String category_id = request.getParameter("category_id");
-        User user_login = user_login_list.get(0);
         List<Category> categories = categoryService.getCategorys();
         model.addAttribute("categories", categories);
         if (category_id != null) {
@@ -172,8 +156,9 @@ public class AuthController {
     }
 
     @GetMapping("/contact")
-    public String moveToContactAuth(Model model) {
-        User user_login = user_login_list.get(0);
+    public String moveToContactAuth(Model model, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         if (user_login.getCart() == null) {
             Cart cartOfUer = new Cart();
@@ -192,8 +177,9 @@ public class AuthController {
     } 
     
     @GetMapping("/checkout")
-    public String getCart(Model model) {
-        User user_login = user_login_list.get(0);
+    public String getCart(Model model, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
@@ -212,8 +198,9 @@ public class AuthController {
 
     //Details product
     @GetMapping("/details/{id}")
-    public String showDetailsProduct(@PathVariable Long id, Model model) {
-        User user_login = user_login_list.get(0);
+    public String showDetailsProduct(@PathVariable Long id, Model model, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         Product product = productService.getProduct(id);
         if (id > 0 && product != null) {
             model.addAttribute("product", product);
@@ -231,8 +218,9 @@ public class AuthController {
 
     //add product to cart
     @GetMapping("/checkout/add/{id}")
-    public String addProductToCart(@PathVariable Long id, Model model) {
-        User user_login = user_login_list.get(0);
+    public String addProductToCart(@PathVariable Long id, Model model, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
 
         Product product = productService.getProduct(id);
@@ -254,8 +242,9 @@ public class AuthController {
 
     //Delete product from cart
     @GetMapping("/checkout/delete/{id}")
-    public String deleteProductInCart(Model model, @PathVariable Long id) {
-        User user_login = user_login_list.get(0);
+    public String deleteProductInCart(Model model, @PathVariable Long id, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         List<CartItem> cartItem = cartService.deleteProduct(id, user_login.getEmail());
 
@@ -273,8 +262,9 @@ public class AuthController {
 
     // Checkout payment
     @GetMapping("/checkout/payment")
-    public String processPayment(Model model) {
-        User user_login = user_login_list.get(0);
+    public String processPayment(Model model, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         
         //Get cartItem
@@ -297,9 +287,10 @@ public class AuthController {
 
     //Payment
     @PostMapping("/checkout/payment-process")
-    public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model) {
+    public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model, HttpSession session) {
         System.out.println(customerDto.getFirst_name());
-        User user_login = user_login_list.get(0);
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
@@ -310,8 +301,13 @@ public class AuthController {
         model.addAttribute("size", "no-item");
 
         //Cusomter info
-        Customer customer = customerService.mapCustomerDtoToCustomer(customerDto);
-        
+        Customer customer = new Customer();
+        CustomerDto cDto = customerService.checkCustomerDtoValid(customerDto);
+        if (cDto == null) {
+            return "redirect:/auth/checkout/payment";
+        }
+        customer = customerService.mapCustomerDtoToCustomer(cDto);
+
         //OrderDetails
         LocalDateTime ldt = LocalDateTime.now();
         String formattedDateStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);
@@ -330,14 +326,16 @@ public class AuthController {
         cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
 
         //delete all cart item after proceed payment
-        cartService.deleteAllProduct(user_login.getEmail());
+        // cartService.deleteAllProduct(user_login);
+        userService.deleteAllCartItem(user_login);
 
         return "/auth/checkout/payment-success";
     }
 
     @GetMapping("/profile")
-    public String getProfile(Model model) {
-        User user_login = user_login_list.get(0);
+    public String getProfile(Model model, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
@@ -354,8 +352,9 @@ public class AuthController {
     }
 
     @GetMapping("/orders/waiting")
-    public String getOrdersWaiting(Model model) {
-        User user_login = user_login_list.get(0);
+    public String getOrdersWaiting(Model model, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
@@ -378,9 +377,11 @@ public class AuthController {
         return "/auth/orders_waiting";
     }
     @GetMapping("/orders/delivery")
-    public String getOrdersDelivery(Model model) {
-        User user_login = user_login_list.get(0);
+    public String getOrdersDelivery(Model model, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
+
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         

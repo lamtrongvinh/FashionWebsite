@@ -15,4 +15,5 @@ public interface CustomerService {
     public List<Customer> getCustomers();
     public Customer updateCustomer(Long id, Customer customer);
     public Customer mapCustomerDtoToCustomer(CustomerDto customer);
+    public CustomerDto checkCustomerDtoValid(CustomerDto customerDto);
 }

@@ -59,5 +59,23 @@ public class CustomerServiceImp implements CustomerService{
 
         return customerRepository.save(customer);
     }
+
+    @Override
+    public CustomerDto checkCustomerDtoValid(CustomerDto customerDto) {
+        if (customerDto.getLast_name() == null || customerDto.getLast_name().equals("")) {
+            return null;
+        }
+        if (customerDto.getEmail() == null || customerDto.getEmail().equals("")) {
+            return null;
+        }
+        if (customerDto.getAddress() == null || customerDto.getAddress().equals("")) {
+            return null;
+        }
+        if (customerDto.getPhone_number() == null || customerDto.getPhone_number().equals("")) {
+            return null;
+        }
+        
+        return customerDto;
+    }
     
 }
