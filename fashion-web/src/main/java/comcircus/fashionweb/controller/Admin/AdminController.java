@@ -3,7 +3,6 @@ package comcircus.fashionweb.controller.Admin;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,14 +51,8 @@ public class AdminController {
     @PostMapping("/addProduct")
     public String addProductpPost(@ModelAttribute("productDto") ProductDto productDto) {
         Product product = productService.maptoProduct(productDto);
-
-        if (productService.getProduct(productDto.getProduct_id()) != null) {
-            Product product_exist = productService.getProduct(productDto.getProduct_id());
-            product_exist.setProduct_quantity(product_exist.getProduct_quantity() + productDto.getProduct_quantity());
-            productService.saveProduct(product_exist, productDto.getCategory_id());
-        } else {
-            productService.saveProduct(product, productDto.getCategory_id());
-        }
+       
+        productService.saveProduct(product, productDto.getCategory_id());
 
         return "/admin/add_product_succes";
     }
@@ -68,6 +61,7 @@ public class AdminController {
     public String deleteProductAdmin(@PathVariable Long id, Model model) {
         String delete_success = "";
         if (id > 0 && productService.getProduct(id) != null) {
+            System.out.println(id);
             String product_delete_name = productService.getProduct(id).getProduct_name();
             delete_success = "Delete Success : " + product_delete_name;
             productService.deleteProduct(id);
@@ -92,6 +86,8 @@ public class AdminController {
             productDto.setProduct_live(product.isProduct_live());
             productDto.setProduct_stock(product.isProduct_stock());
             productDto.setCategory_id(product.getCategory().getId());
+            productDto.setSize(product.getSize());
+            productDto.setProduct_code(product.getProduct_code());
 
             model.addAttribute("productDto", productDto);
             model.addAttribute("categories", categoryService.getCategorys());
@@ -108,22 +104,11 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping(value = {"/dashboard", ""})
     public String getDashboard() {
         return "/admin/admin_dashboard";
     }
 
-    @PostMapping("/dashboard")
-    public String handleLoginADMIN(HttpServletRequest request) {
-        // String username = request.getParameter("username");
-        // String password = request.getParameter("password");
-        // if (username.equals("ADMIN") && password.equals("ADMIN")) {
-            
-        //     return "/admin/admin_dashboard"; 
-        // }
-        // return "redirect:/admin-login";
-        return "/admin/admin_dashboard"; 
-    }
 
     @GetMapping("/order-waiting")
     public String getOrderWaitingADMIN(Model model) {
