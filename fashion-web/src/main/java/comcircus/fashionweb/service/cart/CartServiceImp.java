@@ -182,10 +182,13 @@ public class CartServiceImp implements CartService{
 
     @Override
     public void deleteAllProduct(User user) {
-        List<CartItem> listCartItems = new ArrayList<>();
         Cart cart = user.getCart();
-        if (cart != null) { 
-            cart.getCartItem().clear();
+        List<Cart> carts = (List<Cart>) cartRepository.findAll();
+        for (int i = 0; i < carts.size(); i++) {
+            if (carts.get(i).getId() == cart.getId()) {
+                carts.get(i).getCartItem().clear();
+            }
         }
     }
+
 }
