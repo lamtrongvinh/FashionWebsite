@@ -6,15 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import comcircus.fashionweb.dto.UserDto;
 import comcircus.fashionweb.model.cart.Cart;
 import comcircus.fashionweb.model.cart.CartItem;
 import comcircus.fashionweb.model.person.user.User;
+import comcircus.fashionweb.repository.CartRepository;
 import comcircus.fashionweb.repository.UserRepository;
 
 @Service
 public class UserServiceImp implements UserService{
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -95,11 +100,21 @@ public class UserServiceImp implements UserService{
     @Override
     public void deleteAllCartItem(User user) {
         Cart cart = user.getCart();
-        List<CartItem> list = cart.getCartItem();
+        List<CartItem> list = cartRepository.findById(cart.getId()).get().getCartItem();
         if (!list.isEmpty()) {
             list.clear();
+            if (user.getCart().getCartItem().size() > 0) {
+                System.out.println("error");
+            }
         }
     }
+
+    @Override
+    public User maptoUserByUserDto(UserDto userDto) {
+        User user = this.getUser(this.getIdUserByEmail(userDto.getEmail()));
+        return user;
+    }
+
 
 
 }

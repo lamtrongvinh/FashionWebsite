@@ -36,6 +36,7 @@ comcircus\fashionweb\service\user\UserServiceImp.class
 comcircus\fashionweb\model\oders\OrderDetails.class
 comcircus\fashionweb\repository\UserRepository.class
 comcircus\fashionweb\security\CustomUserDetails.class
+comcircus\fashionweb\dto\ItemDto.class
 comcircus\fashionweb\controller\user\UserController.class
 comcircus\fashionweb\repository\OrderDetailsRepository.class
 comcircus\fashionweb\dto\CartDto.class

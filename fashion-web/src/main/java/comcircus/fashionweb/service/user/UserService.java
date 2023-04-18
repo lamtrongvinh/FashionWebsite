@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import comcircus.fashionweb.dto.UserDto;
 import comcircus.fashionweb.model.person.user.User;
 
 @Service
@@ -17,4 +18,5 @@ public interface UserService {
     public boolean checkEmailExist(String email);
     public Long getIdUserByEmail(String email);
     public void deleteAllCartItem(User user);
+    public User maptoUserByUserDto(UserDto userDto);
 }

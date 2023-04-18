@@ -1,5 +1,6 @@
 package comcircus.fashionweb.model.product;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
+    @Column(name = "product_id", unique = true, nullable = false)
     private Long product_id;
 
     @Column(name = "product_name")
@@ -49,8 +50,13 @@ public class Product {
     @Column(name = "product_image_name")
     private String product_image_name;
 
+    @Column(name = "product_code")
+    private String product_code;
 
-    @ManyToOne
+    @Column(name = "size")
+    private String size;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 

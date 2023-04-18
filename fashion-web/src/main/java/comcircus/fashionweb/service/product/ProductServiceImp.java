@@ -39,7 +39,8 @@ public class ProductServiceImp implements ProductService{
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+       productRepository.deleteById(id);
+        
     }
 
     @Override
@@ -55,8 +56,8 @@ public class ProductServiceImp implements ProductService{
         productExist.setProduct_desciption(product.getProduct_desciption());
         productExist.setProduct_discount(product.getProduct_discount());
         productExist.setProduct_price(product.getProduct_price());
-        productExist.setProduct_live(product.isProduct_live());
-        productExist.setProduct_stock(product.isProduct_stock());
+        productExist.setProduct_live(true);
+        productExist.setProduct_stock(true);
         productExist.setProduct_image_name(product.getProduct_image_name());
         productExist.setProduct_quantity(product.getProduct_quantity());
         
@@ -105,9 +106,11 @@ public class ProductServiceImp implements ProductService{
         productExist.setProduct_id(productDto.getProduct_id());
         productExist.setProduct_quantity(productDto.getProduct_quantity());
         productExist.setProduct_image_name(productDto.getProduct_image_name());
-        productExist.setProduct_live(productDto.isProduct_live());
-        productExist.setProduct_stock(productDto.isProduct_stock());
+        productExist.setProduct_live(true);
+        productExist.setProduct_stock(true);
         productExist.setCategory(categoryService.getCategory(productDto.getCategory_id()));
+        productExist.setSize(productDto.getSize());
+        productExist.setProduct_code(productDto.getProduct_code());
         
         return  productRepository.save(productExist);
     }
@@ -182,6 +185,24 @@ public class ProductServiceImp implements ProductService{
             }
         }
         return bestSeller;
+    }
+
+    @Override
+    public Product maptoProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setProduct_name(productDto.getProduct_name());
+        product.setProduct_desciption(productDto.getProduct_desciption());
+        product.setProduct_price(productDto.getProduct_price());
+        product.setProduct_discount(productDto.getProduct_discount());
+        product.setProduct_quantity(productDto.getProduct_quantity());
+        product.setProduct_live(productDto.isProduct_live());
+        product.setProduct_stock(productDto.isProduct_stock());
+        product.setProduct_image_name(productDto.getProduct_image_name());
+        product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
+        product.setProduct_code(productDto.getProduct_code());
+        product.setSize(productDto.getSize());
+
+        return product;
     }
     
 }

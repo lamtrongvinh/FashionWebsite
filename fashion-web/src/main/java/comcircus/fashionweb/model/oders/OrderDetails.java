@@ -1,5 +1,6 @@
 package comcircus.fashionweb.model.oders;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,10 +34,10 @@ public class OrderDetails {
     @Column(name = "total_money")
     private double total_money;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Customer customer_id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user_id;
 
 }

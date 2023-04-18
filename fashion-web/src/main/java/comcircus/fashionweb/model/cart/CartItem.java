@@ -1,5 +1,6 @@
 package comcircus.fashionweb.model.cart;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class CartItem {
     @ManyToOne
     private Cart cart;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Product product;
 
 }

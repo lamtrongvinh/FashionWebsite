@@ -61,7 +61,7 @@ const hideError = (input) => {
 const checkUsername = () => {
     const usernameValue = usernameFirstname.value.trim();
     if (usernameValue === "") {
-        showError(usernameFirstname, "Tên không được bỏ trống");
+        showError(usernameFirstname, "Firstname is not blank!");
     } else {
         hideError(usernameFirstname);
     }
@@ -70,7 +70,7 @@ const checkUsername = () => {
 const checkUsername2 = () => {
     const usernameValue = usernameLastname.value.trim();
     if (usernameValue === "") {
-        showError(usernameLastname, "Tên không được bỏ trống");
+        showError(usernameLastname, "Lastname is not blank!");
     } else {
         hideError(usernameLastname);
     }
@@ -79,9 +79,9 @@ const checkUsername2 = () => {
 const checkPassword = () => {
     const passwordValue = passwordInput.value.trim();
     if (passwordValue === "") {
-        showError(passwordInput, "Mật khẩu không được bỏ trống");
+        showError(passwordInput, "Passwords is not blank!");
     } else if (passwordValue.length < 8) {
-        showError(passwordInput, "Mật khẩu phải chứa ít nhất 8 ký tự");
+        showError(passwordInput, "Passwords must be at least 8 characters!");
     } else {
         hideError(passwordInput);
     }
@@ -91,9 +91,9 @@ const checkConfirmPassword = () => {
     const confirmPasswordValue = confirmPasswordInput.value.trim();
     const passwordValue = passwordInput.value.trim();
     if (confirmPasswordValue === "") {
-        showError(confirmPasswordInput, "Vui lòng nhập lại mật khẩu");
+        showError(confirmPasswordInput, "Please enter password!");
     } else if (confirmPasswordValue !== passwordValue) {
-        showError(confirmPasswordInput, "Mật khẩu nhập lại không khớp");
+        showError(confirmPasswordInput, "Passwords must match!");
     } else {
         hideError(confirmPasswordInput);
     }
@@ -103,9 +103,9 @@ const checkEmail = () => {
     const emailValue = emailInput.value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailValue === "") {
-        showError(emailInput, "Email không được bỏ trống");
+        showError(emailInput, "Email is not blank!");
     } else if (!emailRegex.test(emailValue)) {
-        showError(emailInput, "Email không hợp lệ");
+        showError(emailInput, "Email invalid!");
     } else {
         hideError(emailInput);
     }
