@@ -85,6 +85,9 @@ public class AuthController {
     public String showHomePage(Model model, HttpServletRequest request, HttpSession session) {
         //test session
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         System.out.println(userDto.getEmail());
         System.out.println(userDto.getPassword());
 
@@ -122,6 +125,9 @@ public class AuthController {
     @GetMapping("/shop")
     public String moveToShopAuth(Model model, HttpServletRequest request, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
 
         String keyword = request.getParameter("keyword");
@@ -158,6 +164,9 @@ public class AuthController {
     @GetMapping("/contact")
     public String moveToContactAuth(Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         if (user_login.getCart() == null) {
@@ -179,6 +188,9 @@ public class AuthController {
     @GetMapping("/checkout")
     public String getCart(Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         
@@ -200,6 +212,9 @@ public class AuthController {
     @GetMapping("/details/{id}")
     public String showDetailsProduct(@PathVariable Long id, Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         Product product = productService.getProduct(id);
         if (id > 0 && product != null) {
@@ -244,6 +259,9 @@ public class AuthController {
     @GetMapping("/checkout/delete/{id}")
     public String deleteProductInCart(Model model, @PathVariable Long id, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         List<CartItem> cartItem = cartService.deleteProduct(id, user_login.getEmail());
@@ -264,6 +282,9 @@ public class AuthController {
     @GetMapping("/checkout/payment")
     public String processPayment(Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         
@@ -290,6 +311,9 @@ public class AuthController {
     public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model, HttpSession session) {
         System.out.println(customerDto.getFirst_name());
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         //Get cartItem
@@ -334,6 +358,9 @@ public class AuthController {
     @GetMapping("/profile")
     public String getProfile(Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         //Get cartItem
@@ -353,6 +380,9 @@ public class AuthController {
     @GetMapping("/orders/waiting")
     public String getOrdersWaiting(Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         //Get cartItem
@@ -378,6 +408,9 @@ public class AuthController {
     @GetMapping("/orders/delivery")
     public String getOrdersDelivery(Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        if (userDto == null) {
+            return "/login";
+        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
 

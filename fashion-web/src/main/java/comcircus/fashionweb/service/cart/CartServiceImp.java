@@ -101,6 +101,7 @@ public class CartServiceImp implements CartService{
 
     @Override
     public List<ItemDetailsCart> changeToItemsDeltails(List<CartItem> cartItem) {
+        System.out.println(cartItem.size());
         List<ItemDetailsCart> itemsDetailCart = new ArrayList<>();
         for (int i = 0; i < cartItem.size(); i++) {
             CartItem itemOfList = cartItem.get(i);
@@ -110,6 +111,7 @@ public class CartServiceImp implements CartService{
             iDetailsCart.setQuantity(itemOfList.getQuantity());
             iDetailsCart.setTotal_price(itemOfList.getTotal_price());
             Product productOfItemsCart = itemOfList.getProduct();
+            System.out.println(productOfItemsCart);
             iDetailsCart.setProduct_id(productOfItemsCart.getProduct_id());
             iDetailsCart.setProduct_price(productOfItemsCart.getProduct_price());
             iDetailsCart.setProduct_desciption(productOfItemsCart.getProduct_desciption());
@@ -120,7 +122,7 @@ public class CartServiceImp implements CartService{
             iDetailsCart.setProduct_name(productOfItemsCart.getProduct_name());
             iDetailsCart.setProduct_live(productOfItemsCart.isProduct_live());
             iDetailsCart.setCategory_id(productOfItemsCart.getCategory().getId());
-
+            
             // Add iDetailsCart to List
             itemsDetailCart.add(iDetailsCart);
         }
@@ -190,5 +192,4 @@ public class CartServiceImp implements CartService{
             }
         }
     }
-
 }

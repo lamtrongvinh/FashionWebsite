@@ -54,14 +54,6 @@ public class SecurityConfig {
             .and()
             .httpBasic();
 
-            //     .authorizeRequests()
-            //     .antMatchers("/admin/**").hasRole("ADMIN")
-            //     .antMatchers("/**").hasRole("USER")
-			// 	.antMatchers("/**").permitAll()
-            //     .and()
-            //     .formLogin().loginPage("/signin").loginProcessingUrl("/login")
-			// 	.defaultSuccessUrl("/user/").and().csrf().disable();
-
             return http.build();
     }
 
