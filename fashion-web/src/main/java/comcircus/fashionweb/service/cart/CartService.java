@@ -18,8 +18,7 @@ public interface CartService {
     public List<CartItem> deleteProduct(Long id, String email);
     public void deleteAllProduct(User user);
     public List<ItemDetailsCart> changeToItemsDeltails(List<CartItem> cartItem);
-
     public double getTotalPrice(List<CartItem> cartItem);
-
     public List<CartItem> getCartItems(String email);
+    
 }

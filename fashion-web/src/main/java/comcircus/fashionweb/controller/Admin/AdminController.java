@@ -58,8 +58,8 @@ public class AdminController {
         product.setProduct_price(productDto.getProduct_price());
         product.setProduct_discount(productDto.getProduct_discount());
         product.setProduct_quantity(productDto.getProduct_quantity());
-        product.setProduct_live(productDto.isProduct_live());
-        product.setProduct_stock(productDto.isProduct_stock());
+        product.setProduct_live(true);
+        product.setProduct_stock(true);
         product.setProduct_image_name(productDto.getProduct_image_name());
         product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
         productService.increaseQuantity(1, productDto.getProduct_id());
@@ -120,13 +120,7 @@ public class AdminController {
 
     @PostMapping("/dashboard")
     public String handleLoginADMIN(HttpServletRequest request) {
-        // String username = request.getParameter("username");
-        // String password = request.getParameter("password");
-        // if (username.equals("ADMIN") && password.equals("ADMIN")) {
-            
-        //     return "/admin/admin_dashboard"; 
-        // }
-        // return "redirect:/admin-login";
+
         return "/admin/admin_dashboard"; 
     }
 

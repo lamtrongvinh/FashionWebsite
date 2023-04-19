@@ -2,6 +2,7 @@ package comcircus.fashionweb.service.product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,12 @@ public class ProductServiceImp implements ProductService{
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            product = null;
+            productRepository.deleteById(id);
+        }
+        
     }
 
     @Override

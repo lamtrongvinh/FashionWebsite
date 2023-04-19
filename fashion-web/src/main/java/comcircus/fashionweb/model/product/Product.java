@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import comcircus.fashionweb.model.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
