@@ -334,7 +334,7 @@ public class AuthController {
 
         //OrderDetails
         LocalDateTime ldt = LocalDateTime.now();
-        String formattedDateStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);
+        String formattedDateStr = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(ldt);
 
         OrderDetailsDto orderDetailsDto = new OrderDetailsDto();
         orderDetailsDto.setCustomer_id(customer.getCustomer_id());
