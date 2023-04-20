@@ -1,5 +1,6 @@
 package comcircus.fashionweb.model.product;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,10 +53,10 @@ public class Product {
     @Column(name = "product_image_name")
     private String product_image_name;
 
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private CartItem cartItem;
 
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private CartItemPaid cartItemPaid;
 
     @ManyToOne
