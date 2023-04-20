@@ -76,7 +76,6 @@ public class UserServiceImp implements UserService{
                 }
             }
         } catch (Exception e) {
-            System.out.println("user not exist!");
         }
         return Long.valueOf(-1);
     }
