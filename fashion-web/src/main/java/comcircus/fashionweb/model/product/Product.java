@@ -7,7 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import comcircus.fashionweb.model.cart.CartItem;
+import comcircus.fashionweb.model.cart.CartItemPaid;
 import comcircus.fashionweb.model.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,6 +52,11 @@ public class Product {
     @Column(name = "product_image_name")
     private String product_image_name;
 
+    @OneToOne(mappedBy = "product")
+    private CartItem cartItem;
+
+    @OneToOne(mappedBy = "product")
+    private CartItemPaid cartItemPaid;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
