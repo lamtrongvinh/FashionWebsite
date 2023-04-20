@@ -91,7 +91,7 @@ public class CartPaidServiceImp implements CartPaidService {
         List<CartPaid> cartPaids = this.getCartPaids();
         List<CartItemPaid> listCartItemPaids = new ArrayList<>();
         for (int i = 0; i < cartPaids.size(); i++) {
-            if (cartPaids.get(i).getId() == cartPaid.getId()) {
+            if (cartPaids.get(i).getId() - cartPaid.getId() == 0) {
                 listCartItemPaids = cartPaids.get(i).getCartItemPaid();
             }
         }
@@ -100,7 +100,7 @@ public class CartPaidServiceImp implements CartPaidService {
         List<CartItemPaid> res = new ArrayList<>();
         for (int i = 0; i < listCartItemPaids.size(); i++) {
             CartItemPaid cartItemPaid = listCartItemPaids.get(i);
-            if (cartItemPaid.getOrderDetails_id() == orderDetail_id) {
+            if (cartItemPaid.getOrderDetails_id() - orderDetail_id == 0) {
                 res.add(cartItemPaid);
             }
         }

@@ -399,7 +399,6 @@ public class AuthController {
         List<OrderDetails> orderDetails = orderDetailsService.getWaitingOrderDetailsOfUser(user_login);
         List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(orderDetails);
         List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfoAndCartItemPaid(orderDetailsDtotmp, user_login);
-
         model.addAttribute("orderDetailsDto", orderDetailsDto);
         
 
