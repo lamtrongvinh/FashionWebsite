@@ -111,7 +111,6 @@ public class CartServiceImp implements CartService{
             iDetailsCart.setQuantity(itemOfList.getQuantity());
             iDetailsCart.setTotal_price(itemOfList.getTotal_price());
             Product productOfItemsCart = itemOfList.getProduct();
-            System.out.println(productOfItemsCart);
             iDetailsCart.setProduct_id(productOfItemsCart.getProduct_id());
             iDetailsCart.setProduct_price(productOfItemsCart.getProduct_price());
             iDetailsCart.setProduct_desciption(productOfItemsCart.getProduct_desciption());
@@ -169,7 +168,6 @@ public class CartServiceImp implements CartService{
             Product product = listCartItems.get(i).getProduct();
             if (product.getProduct_id() == id) {
                 listCartItems.remove(listCartItems.get(i));
-                System.out.println(listCartItems.size());
             }
         }
         return listCartItems;
