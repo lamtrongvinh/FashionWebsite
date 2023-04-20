@@ -14,11 +14,12 @@ import javax.persistence.Table;
 
 import comcircus.fashionweb.model.person.user.User;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter @Setter
 @Entity
 @Table(name = "Cart_paid")
 public class CartPaid {
