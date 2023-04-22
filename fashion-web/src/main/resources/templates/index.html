@@ -280,18 +280,20 @@
 							<!-- Slide 1 -->
 
 							<div class="owl-item product_slider_item" th:each="product : ${bestSelleProducts}">
-								<div class="product-item">
-									<div class="product discount">
-										<div class="product_image">
-											<img th:src="@{'~/./image/'+ ${product.product_image_name}}" alt="">
-										</div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
-											<div class="product_price" th:text="${ '$' +product.product_price}">$520.00</div>
+								<a th:href="@{/shopping/single/{id}(id=${product.product_id})}">
+									<div class="product-item">
+										<div class="product discount">
+											<div class="product_image">
+												<img th:src="@{'~/./image/'+ ${product.product_image_name}}" alt="">
+											</div>
+											<div class="favorite favorite_left"></div>
+											<div class="product_info">
+												<h6 class="product_name" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</h6>
+												<div class="product_price" th:text="${ '$' +product.product_price}">$520.00</div>
+											</div>
 										</div>
 									</div>
-								</div>
+								</a>
 							</div>
 						</div>
 

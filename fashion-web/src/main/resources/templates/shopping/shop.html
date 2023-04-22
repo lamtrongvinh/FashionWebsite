@@ -106,17 +106,12 @@
                     <form th:action="@{/shopping/shop}" method="get">
                         <div class="form-group">
                             <label for="exampleInputText">Category</label>
-                            <select class="form-select" name="category_id" id="category_id">
+                            <select class="form-select" name="category_id" id="category_id" >
                                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                             </select>
                         </div>
                         <button class="filter_button" type="submit"><span>filter</span></button>
                     </form>
-                    <!-- <ul class="sidebar_categories" th:each="category : ${categories}"> -->
-                        <!-- <li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Women</a></li> -->
-                        <!-- <li><a th:href="@{/shopping/shop}" th:text="${category.name}">Clothes</a></li> -->
-                        
-                    <!-- </ul> -->
                 </div>
                 <!-- Price Range Filtering -->
                 <div class="sidebar_section">

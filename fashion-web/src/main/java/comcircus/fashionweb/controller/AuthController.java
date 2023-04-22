@@ -88,15 +88,13 @@ public class AuthController {
         if (userDto == null) {
             return "/login";
         }
-        System.out.println(userDto.getEmail());
-        System.out.println(userDto.getPassword());
-
+        
         String keyword = request.getParameter("keyword");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         if (userService.getUser(user_login.getId()) != null) {
             model.addAttribute("user_login", user_login);
-            List<Product> bestSelleProducts = productService.getBestSellerProduct();
-            model.addAttribute("bestSelleProducts", bestSelleProducts);
+            List<Product> bestSellerProducts = productService.getBestSellerProduct();
+            model.addAttribute("bestSellerProducts", bestSellerProducts);
             if (keyword != null) {
                 List<Product> products = productService.getProductsByKeyword(keyword);
                 model.addAttribute("products", products);
