@@ -101,7 +101,7 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
-    public Product updateProductFromDto(Long id, ProductDto productDto) {
+    public Product updateProductFromDto(Long id, ProductDto productDto, String image_name) {
 
         Product productExist = productRepository.findById(id).get();
         productExist.setProduct_name(productDto.getProduct_name());
@@ -110,9 +110,9 @@ public class ProductServiceImp implements ProductService{
         productExist.setProduct_discount(productDto.getProduct_discount());
         productExist.setProduct_id(productDto.getProduct_id());
         productExist.setProduct_quantity(productDto.getProduct_quantity());
-        productExist.setProduct_image_name(productDto.getProduct_image_name());
-        productExist.setProduct_live(productDto.isProduct_live());
-        productExist.setProduct_stock(productDto.isProduct_stock());
+        productExist.setProduct_image_name(image_name);
+        productExist.setProduct_live(true);
+        productExist.setProduct_stock(true);
         productExist.setCategory(categoryService.getCategory(productDto.getCategory_id()));
         
         return  productRepository.save(productExist);

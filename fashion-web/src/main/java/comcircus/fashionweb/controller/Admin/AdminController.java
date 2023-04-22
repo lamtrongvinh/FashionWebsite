@@ -72,7 +72,7 @@ public class AdminController {
             productService.saveProduct(product, productDto.getCategory_id());
             return "/admin/add_product_succes";
         } catch (IOException e) {
-            // TODO: handle exception
+            System.out.println("add Product false");
             return "File upload failed!";
         }
 
@@ -96,13 +96,13 @@ public class AdminController {
         if (id > 0 && productService.getProduct(id) != null) {
             Product product = productService.getProduct(id);
             ProductDto productDto = new ProductDto();
+            productDto.setProduct_code(product.getProduct_code());
             productDto.setProduct_name(product.getProduct_name());
             productDto.setProduct_desciption(product.getProduct_desciption());
             productDto.setProduct_price(product.getProduct_price());
             productDto.setProduct_discount(product.getProduct_discount());
             productDto.setProduct_id(product.getProduct_id());
             productDto.setProduct_quantity(product.getProduct_quantity());
-            productDto.setProduct_image_name(product.getProduct_image_name());
             productDto.setProduct_live(product.isProduct_live());
             productDto.setProduct_stock(product.isProduct_stock());
             productDto.setCategory_id(product.getCategory().getId());
@@ -115,11 +115,20 @@ public class AdminController {
     }
 
     @PostMapping("/updateProduct")
-    public String updateProduct( @ModelAttribute("productDto") ProductDto productDto) {
-        System.out.println("id=" + productDto.getProduct_id());
-        productService.updateProductFromDto(productDto.getProduct_id(), productDto);
-
-        return "redirect:/admin/products";
+    public String updateProduct( @ModelAttribute("productDto") ProductDto productDto, @RequestParam("file") MultipartFile file) {
+        try {
+            // Save file to project directory
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get("src/main/resources/static/image/" + file.getOriginalFilename());
+            System.out.println("name image :" + file.getOriginalFilename());
+            Files.write(path, bytes);
+            productService.updateProductFromDto(productDto.getProduct_id(), productDto, file.getOriginalFilename());
+            return "redirect:/admin/products";
+        } catch (IOException e) {
+            System.out.println("update product failed!");
+            return "redirect:/admin/update_product";
+        }
+        
     }
 
     @GetMapping("/dashboard")

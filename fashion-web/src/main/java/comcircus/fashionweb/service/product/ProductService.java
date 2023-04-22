@@ -16,7 +16,7 @@ public interface ProductService {
     public Product updateProduct(Long id, Product product);
     public Product updateProductCategory(Long id, Product product, Long category_id);
     public int getIndexById(Long id);
-    public Product updateProductFromDto(Long id, ProductDto productDto);
+    public Product updateProductFromDto(Long id, ProductDto productDto, String image_name);
     public Product mapToProduct(ProductDto productDto, Category category);
     public void decreaseQuantity(int quantity, Long product_id);
     public void increaseQuantity(int quantity, Long product_id);
