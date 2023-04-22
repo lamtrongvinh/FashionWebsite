@@ -1,5 +1,5 @@
 package comcircus.fashionweb.exception;
 
-public class UserExistException {
+public class UserNotFoundException {
     
 }
