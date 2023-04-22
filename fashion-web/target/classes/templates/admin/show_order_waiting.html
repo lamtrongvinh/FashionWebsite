@@ -73,6 +73,8 @@
     <table class="table">
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col"></th>
             <th scope="col">Product name</th>
             <th scope="col">Quantity</th>
             <th scope="col">Price</th>
@@ -83,6 +85,10 @@
         <tr th:each="item,iterator : ${cartItemPaids}">
             <div th:each="product : ${item.getProduct()}">
                 <td th:text="${iterator.count}">1</td>
+                <th>
+                    <img th:src="@{'~/./image/'+${product.product_image_name}}" style="max-height: 30px;" alt="Product Image">
+                </th>
+                <td></td>
                 <td th:text="${product.product_name}">Jacket</td>
                 <td th:text="${'x'+item.quantity}">1</td>
                 <td th:text="${'$'+product.product_price}">$5</td>

@@ -80,8 +80,9 @@
                   <th scope="col">Phone Number</th>
                   <th scope="col">Address</th>
                   <th scope="col">Email</th>
+                  <th scope="col">Product</th>
                   <th scope="col">Total</th>
-                  <th scope="col">DELIVERY</th>
+                  <th scope="col">STATUS</th>
                 </tr>
                 <tr th:each="order,iterator : ${orderDetailsDtos}" th:limit="5">
                   
@@ -92,6 +93,11 @@
                   <td th:text="${order.phone_number}">Linus</td>
                   <td th:text="${order.address}">Linus</td>
                   <td th:text="${order.email}">Linus</td>
+                  <td >
+                    <a th:href="@{/admin/order_confirm/view/{id}(id=${order.id})}"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                        View
+                    </button></a>
+                  </td>
                   <td th:text="${'$'+order.total_money}">Linus</td>
                   <td ><button type="button" class="btn btn-info btn-sm" >Done</button></td>
                 </tr>

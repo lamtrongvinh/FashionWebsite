@@ -189,5 +189,29 @@ public class ProductServiceImp implements ProductService{
         }
         return bestSeller;
     }
+
+    @Override
+    public boolean checkProductExist(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (!product.isPresent()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Product mapToProduct(ProductDto productDto, Category category) {
+        Product product = new Product();
+        product.setProduct_id(productDto.getProduct_id());
+        product.setProduct_name(productDto.getProduct_name());
+        product.setProduct_desciption(productDto.getProduct_desciption());
+        product.setProduct_price(productDto.getProduct_price());
+        product.setProduct_discount(productDto.getProduct_discount());
+        product.setProduct_quantity(productDto.getProduct_quantity());
+        product.setProduct_live(true);
+        product.setProduct_stock(true);
+        product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
+        return product;
+    }
     
 }

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Circus</title>
+<title>Circus Shop</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Colo Shop Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -199,7 +200,7 @@
 								<div class="product-item men" >
 									<div class="product discount product_filter">
 										<div class="product_image">
-											<img th:src="${product.product_image_name} + '.png'" alt="">
+											<img th:src="'./image/'+${product.product_image_name}" alt="">
 										</div>
 										<div class="favorite favorite_left"></div>
 										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="'-' + ${product.product_discount} + '%' ">-$20</span></div>
@@ -282,7 +283,7 @@
 								<div class="product-item">
 									<div class="product discount">
 										<div class="product_image">
-											<img th:src="@{'~/'+ ${product.product_image_name} + '.png'}" alt="">
+											<img th:src="@{'~/./image/'+ ${product.product_image_name}}" alt="">
 										</div>
 										<div class="favorite favorite_left"></div>
 										<div class="product_info">
