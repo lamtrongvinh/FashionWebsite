@@ -122,6 +122,7 @@ public class AdminController {
             Path path = Paths.get("src/main/resources/static/image/" + file.getOriginalFilename());
             System.out.println("name image :" + file.getOriginalFilename());
             Files.write(path, bytes);
+            
             productService.updateProductFromDto(productDto.getProduct_id(), productDto, file.getOriginalFilename());
             return "redirect:/admin/products";
         } catch (IOException e) {

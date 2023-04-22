@@ -104,6 +104,7 @@ public class ProductServiceImp implements ProductService{
     public Product updateProductFromDto(Long id, ProductDto productDto, String image_name) {
 
         Product productExist = productRepository.findById(id).get();
+        productExist.setProduct_code(productDto.getProduct_code());
         productExist.setProduct_name(productDto.getProduct_name());
         productExist.setProduct_desciption(productDto.getProduct_desciption());
         productExist.setProduct_price(productDto.getProduct_price());

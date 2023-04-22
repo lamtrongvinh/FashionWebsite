@@ -156,6 +156,9 @@
                             <div class="text-95 text-secondary-d3" th:each="product : ${item.getProduct()}">
                                 <div class="row mb-2 mb-sm-0 py-25">
                                     <div class="d-none d-sm-block col-1" th:text="${iterator.count}"></div>
+                                    <!-- <div class="d-none d-sm-block col-1">
+                                        <img th:src="@{'~/./image/'+ ${product.product_image_name}}" alt="" style="max-height: 30px;">
+                                    </div> -->
                                     <div class="col-9 col-sm-5" th:text="${product.product_name}"></div>
                                     <div class="d-none d-sm-block col-2" th:text="'x'+  ${item.quantity}"></div>
                                     <div class="d-none d-sm-block col-2 text-95" th:text="${product.product_price}"></div>
