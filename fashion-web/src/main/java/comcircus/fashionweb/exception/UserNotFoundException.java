@@ -1,5 +1,7 @@
 package comcircus.fashionweb.exception;
 
-public class UserNotFoundException {
+import javax.persistence.EntityNotFoundException;
+
+public class UserNotFoundException extends EntityNotFoundException{
     
 }

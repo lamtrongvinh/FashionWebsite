@@ -8,7 +8,6 @@ comcircus\fashionweb\service\user\UserService.class
 comcircus\fashionweb\model\cart\Cart.class
 comcircus\fashionweb\FashionWebApplication.class
 comcircus\fashionweb\model\person\user\User.class
-comcircus\fashionweb\exception\UserExistException.class
 comcircus\fashionweb\service\category\CategoryServiceImp.class
 comcircus\fashionweb\model\cart\CartItemPaid.class
 comcircus\fashionweb\controller\Admin\AdminController.class
@@ -43,6 +42,7 @@ comcircus\fashionweb\service\user\UserServiceImp.class
 comcircus\fashionweb\security\CustomUserDetails.class
 comcircus\fashionweb\controller\user\UserController.class
 comcircus\fashionweb\dto\CartDto.class
+comcircus\fashionweb\exception\UserNotFoundException.class
 comcircus\fashionweb\model\cart\CartPaid.class
 comcircus\fashionweb\service\cart\CartPaidServiceImp.class
 comcircus\fashionweb\service\orderdetails\OrderDetailsService.class

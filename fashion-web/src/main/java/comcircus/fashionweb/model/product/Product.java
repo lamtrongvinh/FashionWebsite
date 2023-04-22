@@ -48,6 +48,8 @@ public class Product {
     @Column(name = "product_image_name")
     private String product_image_name;
 
+    @Column(name = "product_code")
+    private String product_code;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")

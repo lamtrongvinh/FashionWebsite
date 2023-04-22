@@ -203,6 +203,7 @@ public class ProductServiceImp implements ProductService{
     public Product mapToProduct(ProductDto productDto, Category category) {
         Product product = new Product();
         product.setProduct_id(productDto.getProduct_id());
+        product.setProduct_code(productDto.getProduct_code());
         product.setProduct_name(productDto.getProduct_name());
         product.setProduct_desciption(productDto.getProduct_desciption());
         product.setProduct_price(productDto.getProduct_price());
