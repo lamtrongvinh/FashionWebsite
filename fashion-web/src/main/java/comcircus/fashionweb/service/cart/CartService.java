@@ -20,5 +20,6 @@ public interface CartService {
     public List<ItemDetailsCart> changeToItemsDeltails(List<CartItem> cartItem);
     public double getTotalPrice(List<CartItem> cartItem);
     public List<CartItem> getCartItems(String email);
-    
+    public void increaseQuantityItem(ItemDetailsCart item, User user);
+    public void decrementQuantityItem(ItemDetailsCart item, User user_login);
 }

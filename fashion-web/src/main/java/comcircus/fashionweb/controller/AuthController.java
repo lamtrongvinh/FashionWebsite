@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -231,7 +233,7 @@ public class AuthController {
 
     //add product to cart
     @GetMapping("/checkout/add/{id}")
-    public String addProductToCart(@PathVariable Long id, Model model, HttpSession session) {
+    public ResponseEntity<HttpStatus> addProductToCart(@PathVariable Long id, Model model, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
@@ -250,16 +252,13 @@ public class AuthController {
             model.addAttribute("size", itemsDetailCart.size());
         }
 
-        return "/auth/cart";
+        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 
     //Delete product from cart
     @GetMapping("/checkout/delete/{id}")
-    public String deleteProductInCart(Model model, @PathVariable Long id, HttpSession session) {
+    public ResponseEntity<HttpStatus> deleteProductInCart(Model model, @PathVariable Long id, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
-        if (userDto == null) {
-            return "/login";
-        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         List<CartItem> cartItem = cartService.deleteProduct(id, user_login.getEmail());
@@ -273,7 +272,7 @@ public class AuthController {
         } else {
             model.addAttribute("size", "no-item");
         }
-        return "/auth/cart";
+        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 
     // Checkout payment

@@ -13,7 +13,64 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Cart</title>
+    <script>
+        $(document).ready(function() {
+            $(".increment-btn").click(function() {
+                var productId = $(this).attr("data-product-id");
+                var quantity = parseInt($("#quantity-" + productId).text());
+                $.ajax({
+                    type: "GET",
+                    url: "/product/" + productId + "/increment",
+                    success: function(data) {
+                        $("#quantity-" + productId).text(data.quantity);
+                        $("#total-" + productId).text(data.total);
+                        var total = 0;
+                        $(".total").each(function() {
+                            total += parseFloat($(this).text());
+                        });
+                        $("#grand-total").text(total.toFixed(2));
+                        location.reload();
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $(".decrement-btn").click(function() {
+                var productId = $(this).attr("data-product-id");
+                var quantity = parseInt($("#quantity-" + productId).text());
+                $.ajax({
+                    type: "GET",
+                    url: "/product/" + productId + "/decrement",
+                    success: function(data) {
+                        $("#quantity-" + productId).text(data.quantity);
+                        $("#total-" + productId).text(data.total);
+                        var total = 0;
+                        $(".total").each(function() {
+                            total += parseFloat($(this).text());
+                        });
+                        $("#grand-total").text(total.toFixed(2));
+                        location.reload();
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $(".delete-product").click(function() {
+                var productId = $(this).attr("data-product-id");
+                $.ajax({
+                    type: "GET",
+                    url: "/auth/checkout/delete/" + productId,
+                    success: function(data) {
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <!-- top nav -->
@@ -101,29 +158,28 @@
                       <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                      <button class="btn btn-link px-2 decrement-btn" th:data-product-id="${item.product_id}">
                         <i class="fas fa-minus"></i>
                       </button>
       
-                      <input id="form1" min="0" name="quantity" type="number" class="form-control form-control-sm" th:value="${item.quantity}"/>
+                      <input id="form1" min="0" name="quantity" type="number" class="form-control form-control-sm" th:id="'quantity-' + ${item.quantity}" th:value="${item.quantity}"/>
       
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                      <button class="btn btn-link px-2 increment-btn" th:data-product-id="${item.product_id}">
+
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h5 class="mb-0" th:text="'$'+${item.total_price}">$499.00</h5>
+                      <h5 class="mb-0" th:id="'total-' + ${item.product_id}" th:text="'$'+${item.total_price}">$499.00</h5>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                      <a href="" th:data-product-id="${item.product_id}" class="text-danger delete-product"><i class="fas fa-trash fa-lg"></i></a>
                     </div>
                   </div>
                   
                 </div>
                 <div id="total_box" th:if="*{total != null}">
-                    <span calss="total" style="margin-left: 67%; color: #282828; font-family: inherit;
+                    <span class="total" style="margin-left: 67%; color: #282828; font-family: inherit;
                     font-weight: 500;
                     line-height: 1.2; font-size: 16px;">  </span>
                     <span th:if="'Total :$'+*{total}" style="color:#282828; font-family: inherit;

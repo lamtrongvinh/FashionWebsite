@@ -16,6 +16,28 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_responsive.css}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".add-to-cart").click(function() {
+                var productId = $(this).attr("data-product-id");
+                $.ajax({
+                    type: "GET",
+                    url: "/auth/checkout/add/" + productId,
+                    success: function(data) {
+                        location.reload();
+                        // $("#quantity-" + productId).text(data.quantity);
+                        // $("#total-" + productId).text(data.total);
+                        // var total = 0;
+                        // $(".total").each(function() {
+                        // 	total += parseFloat($(this).text());
+                        // });
+                        // $("#grand-total").text(total.toFixed(2));
+                    }
+                });
+            });
+        });
+    </script>
     <title>Shop</title>
 </head>
 <body>
@@ -146,7 +168,7 @@
                                         <div class="product_price" th:text="'$'+${product.product_price}">$520.00<span>$590.00</span></div>
                                     </div>
                                 </div>
-                                <div class="red_button add_to_cart_button"><a th:href="@{/auth/checkout/add/{id}(id=${product.product_id})}">add to cart</a></div>
+                                <div class="red_button add_to_cart_button"><a href="" class="add-to-cart"  th:data-product-id="${product.product_id}">add to cart</a></div>
                             </div>
                         </a>
                     </div>
