@@ -215,5 +215,44 @@ public class ProductServiceImp implements ProductService{
         product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
         return product;
     }
+
+    @Override
+    public boolean checkProductExistByCode(String product_code) {
+        List<Product> list = this.getProducts();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getProduct_code().equals(product_code)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void updateProductExitsByCode(Product product) {
+        Product productExist = this.getProductByProductCode(product.getProduct_code());
+        productExist.setProduct_quantity(productExist.getProduct_quantity() + product.getProduct_quantity());
+
+        productRepository.save(productExist);
+    }
+
+    @Override
+    public Product getProductByProductCode(String product_code) {
+        try {
+            Product productExist = new Product();
+        List<Product> list = this.getProducts();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getProduct_code().equals(product_code)) {
+                productExist = list.get(i);
+            }
+        }
+
+        return productExist;
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("product_code not exist!");
+            return null;
+        }
+    }
     
 }

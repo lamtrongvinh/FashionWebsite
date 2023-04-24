@@ -27,6 +27,7 @@ import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.category.CategoryService;
 import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
+import comcircus.fashionweb.service.product.ItemService;
 import comcircus.fashionweb.service.product.ProductService;
 
 @Controller
@@ -41,6 +42,9 @@ public class AdminController {
 
     @Autowired
     private OrderDetailsService orderDetailsService;
+
+    @Autowired
+    private ItemService itemService;
 
     @GetMapping("/addProduct")
     public String addProduct(Model model) {
@@ -60,8 +64,6 @@ public class AdminController {
         try {
             Category category = categoryService.getCategory(productDto.getCategory_id());
             Product product = productService.mapToProduct(productDto, category);
-            productService.increaseQuantity(1, productDto.getProduct_id());
-            
             // Save file to project directory
             byte[] bytes = file.getBytes();
             Path path = Paths.get("src/main/resources/static/image/" + file.getOriginalFilename());
@@ -69,7 +71,13 @@ public class AdminController {
             Files.write(path, bytes);
             product.setProduct_image_name(file.getOriginalFilename());
 
-            productService.saveProduct(product, productDto.getCategory_id());
+            if (productService.checkProductExistByCode(productDto.getProduct_code())) {
+                productService.updateProductExitsByCode(product);
+            }else {
+                productService.saveProduct(product, productDto.getCategory_id());
+            }
+            
+            itemService.saveItem(product, "38");
             return "/admin/add_product_succes";
         } catch (IOException e) {
             System.out.println("add Product false");
