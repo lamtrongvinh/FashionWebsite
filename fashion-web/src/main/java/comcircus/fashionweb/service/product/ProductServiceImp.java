@@ -240,16 +240,15 @@ public class ProductServiceImp implements ProductService{
     public Product getProductByProductCode(String product_code) {
         try {
             Product productExist = new Product();
-        List<Product> list = this.getProducts();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getProduct_code().equals(product_code)) {
-                productExist = list.get(i);
+            List<Product> list = this.getProducts();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getProduct_code().equals(product_code)) {
+                    productExist = list.get(i);
+                }
             }
-        }
 
-        return productExist;
+            return productExist;
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println("product_code not exist!");
             return null;
         }

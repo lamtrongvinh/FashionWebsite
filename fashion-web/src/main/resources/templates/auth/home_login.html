@@ -300,7 +300,7 @@
 							<!-- Slide 2 -->
 
 							<div class="owl-item product_slider_item" th:each="product : ${bestSellerProducts}">
-								<a th:href="/auth/details/{id}(id=${product.product_id})">
+								<a th:href="@{/auth/details/{id}(id=${product.product_id})}">
 									<div class="product-item">
 										<div class="product discount">
 											<div class="product_image">
