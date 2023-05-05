@@ -30,6 +30,7 @@ comcircus\fashionweb\dto\ItemDetailsCart.class
 comcircus\fashionweb\model\product\Size.class
 comcircus\fashionweb\service\cart\CartServiceImp.class
 comcircus\fashionweb\controller\Customers\CustomerController.class
+comcircus\fashionweb\service\product\SizeServiceImp.class
 comcircus\fashionweb\controller\AuthController.class
 comcircus\fashionweb\model\product\Item.class
 comcircus\fashionweb\service\cart\CartService.class
@@ -50,6 +51,7 @@ comcircus\fashionweb\controller\user\UserController.class
 comcircus\fashionweb\dto\CartDto.class
 comcircus\fashionweb\exception\UserNotFoundException.class
 comcircus\fashionweb\model\cart\CartPaid.class
+comcircus\fashionweb\service\product\SizeService.class
 comcircus\fashionweb\service\cart\CartPaidServiceImp.class
 comcircus\fashionweb\service\orderdetails\OrderDetailsService.class
 comcircus\fashionweb\controller\Product\ProductController.class

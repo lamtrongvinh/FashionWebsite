@@ -173,9 +173,10 @@
 					</div>
 					<div class="original_price" th:text="'$' + *{product_discount}">$629.99</div>
 					<div class="product_price" th:text="'$' + *{product_price}">$495.00</div>
-					<div>
+					<div th:if="${sizes} != null">
 						<select id="ddlViewBy">
-							<option value="1">S</option>
+							<option selected>Open this select menu size</option>
+							<option  th:each="size : ${sizes}" th:text="${size.name}" >S</option>
 						</select>
 					</div>
 					<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">

@@ -15,6 +15,7 @@ import comcircus.fashionweb.model.category.Category;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.category.CategoryService;
 import comcircus.fashionweb.service.product.ProductService;
+import comcircus.fashionweb.service.product.SizeService;
 
 @Controller
 @RequestMapping("/shopping")
@@ -24,6 +25,9 @@ public class ShoppingController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private SizeService sizeService;
 
     @GetMapping("/shop")
     public String moveToShop(Model model, HttpServletRequest request) {
@@ -50,6 +54,11 @@ public class ShoppingController {
     @GetMapping("/single/{id}")
     public String moveToSingle(@PathVariable Long id, Model model) {
         Product product = productService.getProduct(id);
+        if (product.getCategory().getName().equals("Clothes") || product.getCategory().getName().equals("Jeans")) {
+            model.addAttribute("sizes", sizeService.getListSizeChar());
+        }else if (product.getCategory().getName().equals("Sneaker")) {
+            model.addAttribute("sizes", sizeService.getListSizeNumber());
+        }
         model.addAttribute("product", product);
         return "/shopping/single";
     }

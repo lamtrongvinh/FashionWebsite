@@ -24,9 +24,11 @@ C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcir
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\dto\CartDto.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\dto\ProductDto.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\security\CustomUserDetailService.java
+C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\product\SizeService.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\controller\AuthController.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\cart\CartPaidServiceImp.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\product\ItemServiceImp.java
+C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\product\SizeServiceImp.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\model\product\Size.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\controller\user\UserController.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\exception\ForbiddenException.java

@@ -22,18 +22,14 @@
 	$(document).ready(function() {
 		$(".add-to-cart").click(function() {
 			var productId = $(this).attr("data-product-id");
+			var e = document.getElementById("ddlViewBy");
+			var size_choose = e.options[e.selectedIndex].text;;
 			$.ajax({
 				type: "GET",
 				url: "/auth/checkout/add/" + productId,
+				data : {size : size_choose},
 				success: function(data) {
 					location.reload();
-					// $("#quantity-" + productId).text(data.quantity);
-					// $("#total-" + productId).text(data.total);
-					// var total = 0;
-					// $(".total").each(function() {
-					// 	total += parseFloat($(this).text());
-					// });
-					// $("#grand-total").text(total.toFixed(2));
 				}
 			});
 		});
@@ -192,9 +188,10 @@
 					</div>
 					<div class="original_price" th:text="'$' + *{product_discount}">$629.99</div>
 					<div class="product_price" th:text="'$' + *{product_price}">$495.00</div>
-					<div>
+					<div th:if="${sizes} != null">
 						<select id="ddlViewBy">
-							<option value="1">S</option>
+							<option selected>Open this select menu size</option>
+							<option  th:each="size : ${sizes}" th:text="${size.name}" >S</option>
 						</select>
 					</div>
 					

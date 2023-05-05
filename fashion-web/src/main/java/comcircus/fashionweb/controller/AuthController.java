@@ -38,6 +38,7 @@ import comcircus.fashionweb.service.category.CategoryService;
 import comcircus.fashionweb.service.customer.CustomerService;
 import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
 import comcircus.fashionweb.service.product.ProductService;
+import comcircus.fashionweb.service.product.SizeService;
 import comcircus.fashionweb.service.user.UserService;
 
 @Controller
@@ -64,6 +65,9 @@ public class AuthController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private SizeService sizeService;
 
     @PostMapping("/login")
     public String processLogin(HttpServletRequest request, Model model, HttpSession session, @ModelAttribute("userDto") UserDto userDto) {
@@ -220,6 +224,11 @@ public class AuthController {
         if (id > 0 && product != null) {
             model.addAttribute("product", product);
             model.addAttribute("user_login", user_login);
+            if (product.getCategory().getName().equals("Clothes") || product.getCategory().getName().equals("Jeans")) {
+                model.addAttribute("sizes", sizeService.getListSizeChar());
+            }else if (product.getCategory().getName().equals("Sneaker")) {
+                model.addAttribute("sizes", sizeService.getListSizeNumber());
+            }
         }
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         if (!cartItem.isEmpty()) {
@@ -233,13 +242,15 @@ public class AuthController {
 
     //add product to cart
     @GetMapping("/checkout/add/{id}")
-    public ResponseEntity<HttpStatus> addProductToCart(@PathVariable Long id, Model model, HttpSession session) {
+    public ResponseEntity<HttpStatus> addProductToCart(@PathVariable Long id, Model model, HttpSession session, HttpServletRequest request) {
+        String size = request.getParameter("size");
+        System.out.println("size:" + size);
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
 
         Product product = productService.getProduct(id);
-        ItemRequestDto item = new ItemRequestDto(product.getProduct_id(), 1);
+        ItemRequestDto item = new ItemRequestDto(product.getProduct_id(), 1, size);
 
         CartDto cartDto = cartService.addItemToCart(item, user_login.getEmail());
         List<CartItem> cartItem = cartDto.getCartItem();

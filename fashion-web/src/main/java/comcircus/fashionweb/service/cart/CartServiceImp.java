@@ -35,6 +35,8 @@ public class CartServiceImp implements CartService{
     public CartDto addItemToCart(ItemRequestDto item, String email) {
         Long product_id = item.getProduct_id();
         int quantity = item.getQuantity();
+        String size = item.getSize();
+
         CartDto cartDto = new CartDto();
 
         Product product = productService.getProduct(product_id);
@@ -56,6 +58,7 @@ public class CartServiceImp implements CartService{
         cartItem.setProduct(product);
         cartItem.setQuantity(quantity);
         cartItem.setTotal_price(total_price);
+        cartItem.setSize(size);
 
         //Cart of user
         List<CartItem> items = new ArrayList<>();
@@ -110,6 +113,7 @@ public class CartServiceImp implements CartService{
             iDetailsCart.setCartItem_id(itemOfList.getId());
             iDetailsCart.setQuantity(itemOfList.getQuantity());
             iDetailsCart.setTotal_price(itemOfList.getTotal_price());
+            iDetailsCart.setSize(itemOfList.getSize());
             Product productOfItemsCart = itemOfList.getProduct();
             System.out.println(productOfItemsCart);
             iDetailsCart.setProduct_id(productOfItemsCart.getProduct_id());
