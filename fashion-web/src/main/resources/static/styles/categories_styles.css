@@ -540,7 +540,7 @@ section
 .navbar
 {
 	width: auto;
-	height: 100px;
+	height: 83px;
 	float: right;
 	padding-left: 0px;
 	padding-right: 0px;
@@ -793,7 +793,7 @@ section
 3.6 Logo
 *********************************/
 
-.logo_container
+/* .logo_container
 {
 	position: absolute;
 	top: 50%;
@@ -803,7 +803,7 @@ section
 	-o-transform: translateY(-50%);
 	transform: translateY(-50%);
 	left: 15px;
-}
+} */
 .logo_container a
 {
 	font-size: 24px;
@@ -1715,4 +1715,20 @@ section
 .footer_social ul li a:hover
 {
 	color: #fe4c50;
+}
+
+#keyword {
+	width: 500px;
+	border-right-style: none;
+	border-top-right-radius: 0%;
+	border-bottom-right-radius: 0%;
+}
+
+#search-button {
+	border-top-left-radius: 0%;
+	border-bottom-left-radius: 0%;
+	border-top: 1px;
+	border-bottom: 1px;
+	border-style: solid;
+	border-color: rgb(206, 212, 218);
 }

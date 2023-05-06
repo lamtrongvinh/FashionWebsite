@@ -16,6 +16,15 @@
 <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
 <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
 
+<link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
+<link rel="stylesheet" href="../../static/styles/main_styles.css">
+<link rel="stylesheet" href="../../static/styles/responsive.css">
+<link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" href="../../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+
+
 </head>
 
 <body>
@@ -57,43 +66,74 @@
 
 		<!-- Main Navigation -->
 
+		<!-- <div class="main_nav_container">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="logo">
+                    <a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
+                </div>
+                <div>
+                    <form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0" method="get">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
+                        <button id="search-button" class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+                <nav class="navbar">
+                    <ul class="navbar_menu">
+                        <li><a th:href="@{/auth/homepage}">home</a></li>
+                        <li><a th:href="@{/auth/shop}">shop</a></li>
+                        <li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
+                    </ul>
+                    <ul class="navbar_user">
+                        <li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                        <li class="checkout">
+                            <a th:href="@{/auth/checkout}">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="hamburger_container">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div> -->
 		<div class="main_nav_container">
 			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 text-right">
-						<div class="logo_container">
-							<a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
-						</div>
-						<nav class="navbar">
-							<ul class="navbar_menu">
-								<form id="form_main" method="post" th:object="${user_login}">
-									<li><a th:href="@{/auth/homepage}"> home</a></li>
-									<li><a th:href="@{/auth/shop}">shop</a></li>
-									<li><a id="contact_btn" th:href="@{/auth/contact}">contact</a></li>
-								</form>
-							</ul>
-							<form th:action="@{/auth/homepage}" class="form-inline my-2 my-lg-0" method="get">
-								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
-								<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-							</form>
-							<ul class="navbar_user">
-								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
-								<li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-								<li class="checkout">
-									<a th:href="@{/auth/checkout}">
-										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
-									</a>
-								</li>
-							</ul>
-							<div class="hamburger_container">
-								<i class="fa fa-bars" aria-hidden="true"></i>
+					<div class="d-flex align-items-center justify-content-between">
+							<div class="logo">
+									<a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
 							</div>
-						</nav>
+							<div>
+									<form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0" method="get">
+											<input class="form-control" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
+											<button id="search-button" class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+									</form>
+							</div>
+							<nav class="navbar">
+									<ul class="navbar_menu">
+											<li><a th:href="@{/auth/homepage}">home</a></li>
+											<li><a th:href="@{/auth/shop}">shop</a></li>
+											<li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
+									</ul>
+									<ul class="navbar_user">
+											<li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+											<li class="checkout">
+													<a th:href="@{/auth/checkout}">
+															<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+															<span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
+													</a>
+											</li>
+									</ul>
+									<div class="hamburger_container">
+											<i class="fa fa-bars" aria-hidden="true"></i>
+									</div>
+							</nav>
 					</div>
-				</div>
 			</div>
-		</div>
+	</div>
 
 	</header>
 
@@ -126,7 +166,7 @@
 
 	<!-- Slider -->
 
-	<div class="main_slider" style="background-image: url(../../image/slider_2.jpeg);">
+	<div class="main_slider" style="background-image: url(../../static/image/slider_2.jpeg);">
 		
 		<div class="container fill_height">
 			<div class="row align-items-center fill_height">
@@ -143,27 +183,27 @@
 
 	<!-- Banner -->
 
-	<div class="banner">
+	<div class="banner mt-5">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4">
-					<div class="banner_item align-items-center" style=" background-image:url(../../image/banner_1.jpg)">
+					<div class="banner_item align-items-center" style=" background-image:url(../../static/image/banner_1.jpg)">
 						<div class="banner_category">
 							<a href="categories.html">women's</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="banner_item align-items-center" style="background-image:url(../../image/banner_2.jpg)">
+					<div class="banner_item align-items-center" style="background-image:url(../../static/image/banner_3.jpg)">
 						<div class="banner_category">
-							<a href="categories.html">accessories's</a>
+							<a href="categories.html">men's</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="banner_item align-items-center" style="background-image:url(../../image/banner_3.jpg)">
+					<div class="banner_item align-items-center" style="background-image:url(../../static/image/banner_2.jpg)">
 						<div class="banner_category">
-							<a href="categories.html">men's</a>
+							<a href="categories.html">accessories's</a>
 						</div>
 					</div>
 				</div>
@@ -176,7 +216,7 @@
 	<div class="new_arrivals">
 		<div class="container">
 			<div class="row">
-				<div class="col text-center">
+				<div class="col text-center mt-5">
 					<div class="section_title new_arrivals_title">
 						<h2>New Arrivals</h2>
 					</div>
@@ -204,7 +244,7 @@
 								<div class="product-item men" >
 									<div class="product discount product_filter">
 										<div class="product_image">
-											<img th:src="@{ '../../'+${product.product_image_name} + '.png'}" alt="">
+											<img src="../../static/image/hoodie.png" th:src="@{ '../../'+${product.product_image_name} + '.png'}" alt="">
 										</div>
 										<div class="favorite favorite_left"></div>
 										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="'-' + ${product.product_discount} + '%' ">-$20</span></div>
@@ -272,7 +312,7 @@
 	<div class="best_sellers">
 		<div class="container">
 			<div class="row">
-				<div class="col text-center">
+				<div class="col text-center mt-5">
 					<div class="section_title new_arrivals_title">
 						<h2>Best Sellers</h2>
 					</div>
@@ -490,7 +530,7 @@
 					<div class="benefit_item d-flex flex-row align-items-center">
 						<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
 						<div class="benefit_content">
-							<h6>cach on delivery</h6>
+							<h6>cash on delivery</h6>
 							<p>The Internet Tend To Repeat</p>
 						</div>
 					</div>

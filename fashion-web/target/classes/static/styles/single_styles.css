@@ -124,7 +124,7 @@ p::selection
 	background: #fde0db;
 }
 h1{font-size: 72px;}
-h2{font-size: 36px;}
+h2{font-size: 42px;}
 h3{font-size: 28px;}
 h4{font-size: 24px;}
 h5{font-size: 16px;}
@@ -533,7 +533,7 @@ section
 .navbar
 {
 	width: auto;
-	height: 100px;
+	height: 83px;
 	float: right;
 	padding-left: 0px;
 	padding-right: 0px;
@@ -786,7 +786,7 @@ section
 3.6 Logo
 *********************************/
 
-.logo_container
+/* .logo_container
 {
 	position: absolute;
 	top: 50%;
@@ -796,7 +796,7 @@ section
 	-o-transform: translateY(-50%);
 	transform: translateY(-50%);
 	left: 15px;
-}
+} */
 .logo_container a
 {
 	font-size: 24px;
@@ -834,14 +834,13 @@ section
 }
 .red_button a
 {
-	display: block;
-	color: #FFFFFF;
+	display: inline-block;
+	color: #FFFFFF !important;
 	text-transform: uppercase;
-	font-size: 12px;
-	font-weight: 500;
-	text-align: center;
+	font-size: 16px;
+	font-weight: 700;
+	text-align: right;
 	line-height: 40px;
-	width: 100%;
 }
 .shop_now_button
 {
@@ -1100,9 +1099,7 @@ section
 }
 .add_to_cart_button
 {
-	width: 160px;
-	margin-left: 19px;
-	font-size: 12px !important;
+	width: 200px;
 }
 .product_favorite
 {
@@ -1468,32 +1465,32 @@ section
 }
 ::-webkit-input-placeholder
 {
-	font-size: 14px !important;
-	font-weight: 400;
+	font-size: 16px !important;
+	font-weight: 500;
 	color: #b9b4c7 !important;
 }
 :-moz-placeholder /* older Firefox*/
 {
-	font-size: 14px !important;
-	font-weight: 400;
+	font-size: 16px !important;
+	font-weight: 500;
 	color: #b9b4c7 !important;
 }
 ::-moz-placeholder /* Firefox 19+ */
 {
-	font-size: 14px !important;
-	font-weight: 400;
+	font-size: 16px !important;
+	font-weight: 500;
 	color: #b9b4c7 !important;
 }
 :-ms-input-placeholder
 {
-	font-size: 14px !important;
-	font-weight: 400;
+	font-size: 16px !important;
+	font-weight: 500;
 	color: #b9b4c7 !important;
 }
 ::input-placeholder
 {
-	font-size: 14px !important;
-	font-weight: 400;
+	font-size: 16px !important;
+	font-weight: 500;
 	color: #b9b4c7 !important;
 }
 .newsletter_submit_btn
@@ -1579,4 +1576,20 @@ section
 .footer_social ul li a:hover
 {
 	color: #fe4c50;
+}
+
+#keyword {
+	width: 500px;
+	border-right-style: none;
+	border-top-right-radius: 0%;
+	border-bottom-right-radius: 0%;
+}
+
+#search-button {
+	border-top-left-radius: 0%;
+	border-bottom-left-radius: 0%;
+	border-top: 1px;
+	border-bottom: 1px;
+	border-style: solid;
+	border-color: rgb(206, 212, 218);
 }
