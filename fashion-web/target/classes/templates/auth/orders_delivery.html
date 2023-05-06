@@ -162,7 +162,7 @@
                                     <div class="row mb-2 mb-sm-0 py-25">
                                         <div class="d-none d-sm-block col-1" th:text="${iterator.count}">1</div>
                                         <div class="col-9 col-sm-5" th:text="${product.product_name}">Domain registration</div>
-                                        <div class="d-none d-sm-block col-2" th:text="'x'+  ${item.quantity}">2</div>
+                                        <div class="d-none d-sm-block col-2" th:text="'x'+  ${item.quantity} + ' Size:' + ${item.size}">2</div>
                                         <div class="d-none d-sm-block col-2 text-95" th:text="'$'+${product.product_price}">$10</div>
                                         <div class="col-2 text-secondary-d2" th:text="'$'+${item.total_price}">$20</div>
                                     </div>

@@ -76,7 +76,7 @@ public class CartServiceImp implements CartService{
             boolean flag = false;
             for (int i = 0; i < items.size(); i++) {
                 Long id = items.get(i).getProduct().getProduct_id();
-                if (id == product_id) {
+                if (id == product_id && items.get(i).getSize().equals(size)) {
                     flag = true;
                     items.get(i).setQuantity(items.get(i).getQuantity() + 1);
                     items.get(i).setTotal_price(items.get(i).getQuantity() * items.get(i).getProduct().getProduct_price());

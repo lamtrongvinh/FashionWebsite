@@ -10,7 +10,9 @@ import comcircus.fashionweb.model.cart.CartItem;
 import comcircus.fashionweb.model.cart.CartItemPaid;
 import comcircus.fashionweb.model.cart.CartPaid;
 import comcircus.fashionweb.model.person.user.User;
+import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.repository.CartPaidRepository;
+import comcircus.fashionweb.service.product.ItemService;
 import comcircus.fashionweb.service.product.ProductService;
 import comcircus.fashionweb.service.user.UserService;
 
@@ -26,11 +28,16 @@ public class CartPaidServiceImp implements CartPaidService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ItemService itemService;
+
     @Override
     public CartItemPaid changeCartItemToCartItemPaid(CartItem cartItem, String email, Long orderDetails_id) {
-        User user = userService.getUser(userService.getIdUserByEmail(email));
         
         //CartItem paid
+        Product product = cartItem.getProduct();
+        itemService.decreaseItemQuantity(product, cartItem.getSize(), cartItem.getQuantity());
+        // productService.decreaseQuantity(cartItem.getQuantity(), product.getProduct_id());
         CartItemPaid cartItemPaid = new CartItemPaid();
         cartItemPaid.setQuantity(cartItem.getQuantity());
         cartItemPaid.setProduct(cartItem.getProduct());
@@ -39,7 +46,13 @@ public class CartPaidServiceImp implements CartPaidService {
 
         cartItemPaid.setTotal_price(cartItem.getTotal_price());
         cartItemPaid.setOrderDetails_id(orderDetails_id);
-        //CartPaid of user
+        
+        return cartItemPaid;
+    }
+
+    @Override
+    public void changeListCartItemToCartItemPaid(List<CartItem> cartItems, String email, Long orderDetails_id) {
+        User user = userService.getUser(userService.getIdUserByEmail(email));
         List<CartItemPaid> items = new ArrayList<>();
         CartPaid cartPaidOfUser = user.getCartPaid();
         if (cartPaidOfUser == null) {
@@ -47,21 +60,17 @@ public class CartPaidServiceImp implements CartPaidService {
         } else {
             items = cartPaidOfUser.getCartItemPaid();
         }
-        cartItemPaid.setCartPaid(cartPaidOfUser);
         cartPaidOfUser.setUser(user);
-        cartPaidOfUser.setCartItemPaid(items); 
-        items.add(cartItemPaid);
-        //save
-        cartPaidRepository.save(cartPaidOfUser);
-        return cartItemPaid;
-    }
 
-    @Override
-    public void changeListCartItemToCartItemPaid(List<CartItem> cartItems, String email, Long orderDetails_id) {
         for (int i = 0; i < cartItems.size(); i++) {
             CartItem cartItem = cartItems.get(i);
-            this.changeCartItemToCartItemPaid(cartItem, email, orderDetails_id);
+            CartItemPaid cartItemPaid = this.changeCartItemToCartItemPaid(cartItem, email, orderDetails_id);
+            cartItemPaid.setCartPaid(cartPaidOfUser);
+            items.add(cartItemPaid);
         }
+        cartPaidOfUser.setCartItemPaid(items);
+        //save
+        cartPaidRepository.save(cartPaidOfUser); 
     }
 
     @Override

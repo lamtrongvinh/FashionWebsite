@@ -23,15 +23,30 @@
 		$(".add-to-cart").click(function() {
 			var productId = $(this).attr("data-product-id");
 			var e = document.getElementById("ddlViewBy");
-			var size_choose = e.options[e.selectedIndex].text;;
-			$.ajax({
-				type: "GET",
-				url: "/auth/checkout/add/" + productId,
-				data : {size : size_choose},
-				success: function(data) {
-					location.reload();
+			if (e != null) {
+				var size_choose = e.options[e.selectedIndex].text;
+				if (size_choose != 'Open this select menu size') {
+					$.ajax({
+						type: "GET",
+						url: "/auth/checkout/add/" + productId,
+						data : {size : size_choose},
+						success: function(data) {
+							location.reload();
+						}
+					});
+				} else {
+					alert("Vui Lòng Chọn Size");
 				}
-			});
+			} else {
+				$.ajax({
+					type: "GET",
+					url: "/auth/checkout/add/" + productId,
+					data : {size : size_choose},
+					success: function(data) {
+						location.reload();
+					}
+				});
+			}
 		});
 	});
 </script>
