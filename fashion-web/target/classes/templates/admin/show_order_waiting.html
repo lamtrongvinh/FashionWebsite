@@ -78,6 +78,9 @@
             <th scope="col">Image</th>
             <th scope="col"></th>
             <th scope="col">Product name</th>
+            <th scope="col"></th>
+            <th scope="col">Size</th>
+            <th scope="col"></th>
             <th scope="col">Quantity</th>
             <th scope="col">Price</th>
             <th></th>
@@ -92,6 +95,9 @@
                 </th>
                 <td></td>
                 <td th:text="${product.product_name}">Jacket</td>
+                <td></td>
+                <td th:text="${item.size}">Size</td>
+                <td></td>
                 <td th:text="${'x'+item.quantity}">1</td>
                 <td th:text="${'$'+product.product_price}">$5</td>
                 <td></td>
