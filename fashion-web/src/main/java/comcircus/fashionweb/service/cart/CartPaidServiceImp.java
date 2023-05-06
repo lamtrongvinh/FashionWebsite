@@ -34,6 +34,7 @@ public class CartPaidServiceImp implements CartPaidService {
         CartItemPaid cartItemPaid = new CartItemPaid();
         cartItemPaid.setQuantity(cartItem.getQuantity());
         cartItemPaid.setProduct(cartItem.getProduct());
+        cartItemPaid.setSize(cartItem.getSize());
         productService.decreaseQuantity(cartItem.getQuantity(), cartItem.getProduct().getProduct_id());
 
         cartItemPaid.setTotal_price(cartItem.getTotal_price());
