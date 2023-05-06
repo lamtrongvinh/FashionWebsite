@@ -245,6 +245,9 @@ public class AuthController {
     public ResponseEntity<HttpStatus> addProductToCart(@PathVariable Long id, Model model, HttpSession session, HttpServletRequest request) {
         String size = request.getParameter("size");
         System.out.println("size:" + size);
+        if (size == null || size.equals("Open this select menu size")) {
+            
+        }
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);

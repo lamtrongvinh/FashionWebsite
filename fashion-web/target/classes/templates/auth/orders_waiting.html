@@ -159,8 +159,8 @@
                                     <!-- <div class="d-none d-sm-block col-1">
                                         <img th:src="@{'~/./image/'+ ${product.product_image_name}}" alt="" style="max-height: 30px;">
                                     </div> -->
-                                    <div class="col-9 col-sm-5" th:text="${product.product_name}"></div>
-                                    <div class="d-none d-sm-block col-2" th:text="'x'+  ${item.quantity}"></div>
+                                    <div class="col-9 col-sm-5" th:text="${product.product_name} "></div>
+                                    <div class="d-none d-sm-block col-2" th:text="'x'+  ${item.quantity} + ' Size:' + ${item.size}"></div>
                                     <div class="d-none d-sm-block col-2 text-95" th:text="'$'+${product.product_price}"></div>
                                     <div class="col-2 text-secondary-d2" th:text="'$'+${item.total_price}"></div>
                                 </div>
