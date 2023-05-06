@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
@@ -115,17 +116,12 @@
                     <form th:action="@{/shopping/shop}" method="get">
                         <div class="form-group">
                             <label for="exampleInputText">Category</label>
-                            <select class="form-select" name="category_id" id="category_id">
+                            <select class="form-select" name="category_id" id="category_id" >
                                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                             </select>
                         </div>
                         <button class="filter_button" type="submit"><span>filter</span></button>
                     </form>
-                    <!-- <ul class="sidebar_categories" th:each="category : ${categories}"> -->
-                        <!-- <li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Women</a></li> -->
-                        <!-- <li><a th:href="@{/shopping/shop}" th:text="${category.name}">Clothes</a></li> -->
-                        
-                    <!-- </ul> -->
                 </div>
                 <!-- Price Range Filtering -->
                 <div class="sidebar_section">
@@ -148,7 +144,7 @@
                             <div class="product-item men">
                                 <div class="product discount product_filter">
                                     <div class="product_image">
-                                        <img th:src="@{ '~/'+${product.product_image_name} + '.png'}" alt="">
+                                        <img th:src="@{ '~/image/'+${product.product_image_name}}" alt="">
                                     </div>
                                     <div class="favorite favorite_left"></div>
                                     <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="${'-' + product.product_discount} + '%'">-$20</span></div>
@@ -157,7 +153,6 @@
                                         <div class="product_price" th:text="'$'+${product.product_price}">$520.00<span>$590.00</span></div>
                                     </div>
                                 </div>
-                                <div class="red_button add_to_cart_button"><a th:href="@{/login}">add to cart</a></div>
                             </div>
                         </a>
                     </div>

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
@@ -15,7 +17,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_responsive.css}">
-    <title>Document</title>
+    <title>Show Product in Orders Waiting</title>
 </head>
 <body>
 <!-- top nav -->
@@ -73,7 +75,12 @@
     <table class="table">
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col"></th>
             <th scope="col">Product name</th>
+            <th scope="col"></th>
+            <th scope="col">Size</th>
+            <th scope="col"></th>
             <th scope="col">Quantity</th>
             <th scope="col">Price</th>
             <th></th>
@@ -83,7 +90,14 @@
         <tr th:each="item,iterator : ${cartItemPaids}">
             <div th:each="product : ${item.getProduct()}">
                 <td th:text="${iterator.count}">1</td>
+                <th>
+                    <img th:src="@{'~/./image/'+${product.product_image_name}}" style="max-height: 30px;" alt="Product Image">
+                </th>
+                <td></td>
                 <td th:text="${product.product_name}">Jacket</td>
+                <td></td>
+                <td th:text="${item.size}">Size</td>
+                <td></td>
                 <td th:text="${'x'+item.quantity}">1</td>
                 <td th:text="${'$'+product.product_price}">$5</td>
                 <td></td>

@@ -1,6 +1,9 @@
 package comcircus.fashionweb.controller.Admin;
 
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,14 +16,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import comcircus.fashionweb.dto.OrderDetailsDto;
 import comcircus.fashionweb.dto.ProductDto;
 import comcircus.fashionweb.model.cart.CartItemPaid;
+import comcircus.fashionweb.model.category.Category;
 import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.service.category.CategoryService;
 import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
+import comcircus.fashionweb.service.product.ItemService;
 import comcircus.fashionweb.service.product.ProductService;
 
 @Controller
@@ -36,6 +43,9 @@ public class AdminController {
     @Autowired
     private OrderDetailsService orderDetailsService;
 
+    @Autowired
+    private ItemService itemService;
+
     @GetMapping("/addProduct")
     public String addProduct(Model model) {
         model.addAttribute("productDto", new ProductDto());
@@ -50,23 +60,30 @@ public class AdminController {
     }
 
     @PostMapping("/addProduct")
-    public String addProductpPost(@ModelAttribute("productDto") ProductDto productDto) {
-        Product product = new Product();
-        product.setProduct_id(productDto.getProduct_id());
-        product.setProduct_name(productDto.getProduct_name());
-        product.setProduct_desciption(productDto.getProduct_desciption());
-        product.setProduct_price(productDto.getProduct_price());
-        product.setProduct_discount(productDto.getProduct_discount());
-        product.setProduct_quantity(productDto.getProduct_quantity());
-        product.setProduct_live(true);
-        product.setProduct_stock(true);
-        product.setProduct_image_name(productDto.getProduct_image_name());
-        product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
-        productService.increaseQuantity(1, productDto.getProduct_id());
-        
-        productService.saveProduct(product, productDto.getCategory_id());
+    public String addProductpPost(@ModelAttribute("productDto") ProductDto productDto, @RequestParam("file") MultipartFile file) {
+        try {
+            Category category = categoryService.getCategory(productDto.getCategory_id());
+            Product product = productService.mapToProduct(productDto, category);
+            // Save file to project directory
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get("src/main/resources/static/image/" + file.getOriginalFilename());
+            System.out.println("name image :" + file.getOriginalFilename());
+            Files.write(path, bytes);
+            product.setProduct_image_name(file.getOriginalFilename());
 
-        return "/admin/add_product_succes";
+            if (productService.checkProductExistByCode(productDto.getProduct_code())) {
+                productService.updateProductExitsByCode(product);
+            }else {
+                productService.saveProduct(product, productDto.getCategory_id());
+            }
+            
+            itemService.saveItem(product, "38");
+            return "/admin/add_product_succes";
+        } catch (IOException e) {
+            System.out.println("add Product false");
+            return "File upload failed!";
+        }
+
     }
 
     @GetMapping("/deleteProduct/{id}")
@@ -87,13 +104,13 @@ public class AdminController {
         if (id > 0 && productService.getProduct(id) != null) {
             Product product = productService.getProduct(id);
             ProductDto productDto = new ProductDto();
+            productDto.setProduct_code(product.getProduct_code());
             productDto.setProduct_name(product.getProduct_name());
             productDto.setProduct_desciption(product.getProduct_desciption());
             productDto.setProduct_price(product.getProduct_price());
             productDto.setProduct_discount(product.getProduct_discount());
             productDto.setProduct_id(product.getProduct_id());
             productDto.setProduct_quantity(product.getProduct_quantity());
-            productDto.setProduct_image_name(product.getProduct_image_name());
             productDto.setProduct_live(product.isProduct_live());
             productDto.setProduct_stock(product.isProduct_stock());
             productDto.setCategory_id(product.getCategory().getId());
@@ -106,11 +123,21 @@ public class AdminController {
     }
 
     @PostMapping("/updateProduct")
-    public String updateProduct( @ModelAttribute("productDto") ProductDto productDto) {
-        System.out.println("id=" + productDto.getProduct_id());
-        productService.updateProductFromDto(productDto.getProduct_id(), productDto);
-
-        return "redirect:/admin/products";
+    public String updateProduct( @ModelAttribute("productDto") ProductDto productDto, @RequestParam("file") MultipartFile file) {
+        try {
+            // Save file to project directory
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get("src/main/resources/static/image/" + file.getOriginalFilename());
+            System.out.println("name image :" + file.getOriginalFilename());
+            Files.write(path, bytes);
+            
+            productService.updateProductFromDto(productDto.getProduct_id(), productDto, file.getOriginalFilename());
+            return "redirect:/admin/products";
+        } catch (IOException e) {
+            System.out.println("update product failed!");
+            return "redirect:/admin/update_product";
+        }
+        
     }
 
     @GetMapping("/dashboard")
@@ -172,8 +199,33 @@ public class AdminController {
         OrderDetails orderDetails = orderDetailsService.getById(id);
         OrderDetailsDto orderDetailsDto = orderDetailsService.maptoDto(orderDetails);
         List<CartItemPaid> cartItemPaids = orderDetailsDto.getCartItemPaid();
+        for (int i = 0; i < cartItemPaids.size(); i++) {
+            Long product_id = cartItemPaids.get(i).getProduct().getProduct_id();
+            if (productService.checkProductExist(product_id)) {
+                System.out.println("Sản phẩm "+ product_id + "tồn tại!");
+            } else {
+                System.out.println("Sản phẩm" + product_id+ "hông tồn tại!");
+            }
+        }
         model.addAttribute("cartItemPaids", cartItemPaids);
         return "/admin/show_order_waiting";
+    }
+
+    @GetMapping("/order_confirm/view/{id}")
+    public String showOrderConfirmed(Model model, @PathVariable Long id) {
+        OrderDetails orderDetails = orderDetailsService.getById(id);
+        OrderDetailsDto orderDetailsDto = orderDetailsService.maptoDto(orderDetails);
+        List<CartItemPaid> cartItemPaids = orderDetailsDto.getCartItemPaid();
+        for (int i = 0; i < cartItemPaids.size(); i++) {
+            Long product_id = cartItemPaids.get(i).getProduct().getProduct_id();
+            if (productService.checkProductExist(product_id)) {
+                System.out.println("Sản phẩm "+ product_id + "tồn tại!");
+            } else {
+                System.out.println("Sản phẩm" + product_id+ "hông tồn tại!");
+            }
+        }
+        model.addAttribute("cartItemPaids", cartItemPaids);
+        return "/admin/show_order_confirm";
     }
 
 }

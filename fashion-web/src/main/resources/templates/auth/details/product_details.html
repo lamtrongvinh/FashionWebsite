@@ -6,6 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Colo Shop Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
 <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
@@ -16,6 +17,39 @@
 <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
 <link rel="stylesheet" type="text/css" th:href="@{~/styles/single_styles.css}">
 <link rel="stylesheet" type="text/css" th:href="@{~/styles/single_responsive.css}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$(".add-to-cart").click(function() {
+			var productId = $(this).attr("data-product-id");
+			var e = document.getElementById("ddlViewBy");
+			if (e != null) {
+				var size_choose = e.options[e.selectedIndex].text;
+				if (size_choose != 'Open this select menu size') {
+					$.ajax({
+						type: "GET",
+						url: "/auth/checkout/add/" + productId,
+						data : {size : size_choose},
+						success: function(data) {
+							location.reload();
+						}
+					});
+				} else {
+					alert("Vui Lòng Chọn Size");
+				}
+			} else {
+				$.ajax({
+					type: "GET",
+					url: "/auth/checkout/add/" + productId,
+					data : {size : size_choose},
+					success: function(data) {
+						location.reload();
+					}
+				});
+			}
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -127,7 +161,6 @@
 				<div class="breadcrumbs d-flex flex-row align-items-center">
 					<ul>
 						<li><a th:href="@{/auth/homepage}">Home</a></li>
-						<li><a href="categories.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Men's</a></li>
 						<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single Product</a></li>
 					</ul>
 				</div>
@@ -142,16 +175,16 @@
 						<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
 							<div class="single_product_thumbnails">
 								<ul>
-									<li><img th:src="@{ '~/'+${product.product_image_name} + '.png'}" alt="" data-image="images/single_1.jpg"></li>
-									<li class="active"><img th:src="@{ '~/'+${product.product_image_name} + '.png'}" alt="" data-image="images/single_2.jpg"></li>
-									<li><img th:src="@{ '~/'+${product.product_image_name} + '.png'}" alt="" data-image="images/single_3.jpg"></li>
+									<li><img th:src="@{ '~/./image/'+${product.product_image_name}}" alt="" data-image="images/single_1.jpg"></li>
+									<li class="active"><img th:src="@{ '~/./image/'+${product.product_image_name}}" alt="" data-image="images/single_2.jpg"></li>
+									<li><img th:src="@{ '~/./image/'+${product.product_image_name}}" alt="" data-image="images/single_3.jpg"></li>
 								</ul>
 							</div>
 						</div>
 						<div class="col-lg-9 image_col order-lg-2 order-1">
 							<div class="single_product_image">
 								<div class="single_product_image_background" style="background-image:url('')">
-									<img th:src="@{ '~/'+${product.product_image_name} + '.png'}" alt="" style="height: 100%; width: 100%; background-size: cover;
+									<img th:src="@{ '~/./image/'+${product.product_image_name}}" alt="" style="height: 100%; width: 100%; background-size: cover;
 									background-position: center; object-fit: contain;">
 								</div>
 							</div>
@@ -170,10 +203,16 @@
 					</div>
 					<div class="original_price" th:text="'$' + *{product_discount}">$629.99</div>
 					<div class="product_price" th:text="'$' + *{product_price}">$495.00</div>
+					<div th:if="${sizes} != null">
+						<select id="ddlViewBy">
+							<option selected>Open this select menu size</option>
+							<option  th:each="size : ${sizes}" th:text="${size.name}" >S</option>
+						</select>
+					</div>
 					
 					<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
 						
-						<div class="red_button add_to_cart_button"><a th:href="@{/auth/checkout/add/{id}(id=${product.product_id})}">add to cart</a></div>
+						<div class="red_button add_to_cart_button"><a href="" class="add-to-cart" th:data-product-id="${product.product_id}">add to cart</a></div>
 					</div>
 				</div>
 			</div>

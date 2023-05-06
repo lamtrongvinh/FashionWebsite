@@ -46,7 +46,9 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
         List<OrderDetails> orderDetailsOfUser = new ArrayList<>();
         for (int i = 0; i < orderDetails.size(); i++) {
             OrderDetails oDetails = orderDetails.get(i);
-            if (oDetails.getUser_id().getId() == user_login.getId() && oDetails.getStatus().equals("WAITING")) {
+            Long user_id = user_login.getId();
+            Long order_detail_id = oDetails.getUser_id().getId();
+            if (order_detail_id - user_id == 0 && oDetails.getStatus().equals("WAITING")) {
                 orderDetailsOfUser.add(oDetails);
             }
         }
@@ -55,6 +57,7 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
 
     @Override
     public List<OrderDetailsDto> changeToOrderDetailsDto(List<OrderDetails> orderDetails) {
+        System.out.println(orderDetails.size());
         List<OrderDetailsDto> orderDetailsDto = new ArrayList<>();
         for (int i = 0; i < orderDetails.size(); i++) {
             OrderDetailsDto oDetailsDto = new OrderDetailsDto();
@@ -99,6 +102,7 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
             oDetailsDto.setAddress(customer.getAddress());
             CartPaid cartPaid = user_login.getCartPaid();
             oDetailsDto.setCartItemPaid(cartPaidService.getCartItemPaidsByOrderDetailID(cartPaid, oDetailsDto.getId()));
+            
         }
 
         return orderDetailsDto;
@@ -189,7 +193,8 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
     public OrderDetails getById(Long id) {
         List<OrderDetails> list = this.getAll();
         for (int i = 0; i < list.size(); i++) {
-            if (id == list.get(i).getId()) {
+            Long order_detail_id = list.get(i).getId();
+            if (id - order_detail_id == 0) {
                 return list.get(i);
             }
         }
@@ -218,7 +223,8 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
         List<CartItemPaid> res = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             CartItemPaid cartItemPaid = list.get(i);
-            if (cartItemPaid.getOrderDetails_id() == id) {
+            Long order_details_id = cartItemPaid.getOrderDetails_id();
+            if (order_details_id - id == 0) {
                 res.add(cartItemPaid);
             }
         }

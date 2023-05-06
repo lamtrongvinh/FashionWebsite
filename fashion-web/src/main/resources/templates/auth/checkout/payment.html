@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
@@ -22,7 +23,7 @@
     <link rel="stylesheet" href="../../../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" href="../../../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../../static/styles/delivery.css">
-    <title>Document</title>
+    <title>Payment</title>
 </head>
 <body>
     <div class="top_nav">
@@ -39,7 +40,7 @@
 
                             
                             <li class="account">
-                                <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                                <a th:href="@{/auth/profile}" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
                                     My Account
                                     <i class="fa fa-angle-down"></i>
                                 </a>
@@ -69,8 +70,7 @@
                             <li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
                         </ul>
                         <ul class="navbar_user">
-                            <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                            <li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                             <li class="checkout">
                                 <a th:href="@{/auth/checkout}">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>

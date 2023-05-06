@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
@@ -12,40 +13,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
-
-    <link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
-    <link rel="stylesheet" href="../../static/styles/main_styles.css">
-    <link rel="stylesheet" href="../../static/styles/responsive.css">
-    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/animate.css">
-    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-    <link rel="stylesheet" href="../../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../../static/styles/delivery.css">
-
-    <style>
-        .card {
-            background: none;
-        }
-
-        .card-body {
-            background-color: #FFF;
-        }
-
-        .back-to-shop {
-            display: inline;
-            background-color: wheat;
-            border-radius: 5px;
-        }
-
-        #info-bar {
-            background-color: #eee;
-        }
-
-        #form1 {
-            width: 3rem;
-        }
-    </style>
-    <title>Your Cart</title>
+    <title>Document</title>
 </head>
 <body>
     <!-- top nav -->
@@ -128,31 +96,30 @@
                   <div class="row d-flex justify-content-between align-items-center" th:each="item: ${itemsDetailCart}">
                     <div class="col-md-2 col-lg-2 col-xl-2">
                       <img
-                        th:src="@{'~/' + ${item.product_image_name} + '.png'}"
+                        th:src="@{'~/./image/' + ${item.product_image_name}}"
                         class="img-fluid rounded-3" alt="Cotton T-shirt">
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
                       <p class="lead fw-normal mb-2" th:text="${item.product_desciption}">Basic T-shirt</p>
-                      <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
+                      <p th:if="${item.size} != null"> Size:<span class="text-muted"  th:text="' ' + ${item.size}"> </span></p>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                      <button class="btn btn-link px-2 decrement-btn" th:data-product-id="${item.product_id}">
                         <i class="fas fa-minus"></i>
                       </button>
       
-                      <input id="form1" min="0" name="quantity" type="number" class="form-control form-control-sm" th:value="${item.quantity}"/>
+                      <input id="form1" min="0" name="quantity" type="number" class="form-control form-control-sm" th:id="'quantity-' + ${item.quantity}" th:value="${item.quantity}"/>
       
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                      <button class="btn btn-link px-2 increment-btn" th:data-product-id="${item.product_id}">
+
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h5 class="mb-0" th:text="'$'+${item.total_price}">$499.00</h5>
+                      <h5 class="mb-0" th:id="'total-' + ${item.product_id}" th:text="'$'+${item.total_price}">$499.00</h5>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                      <a href="" th:data-product-id="${item.product_id}" class="text-danger delete-product"><i class="fas fa-trash fa-lg"></i></a>
                     </div>
                 </div>  
               </div>

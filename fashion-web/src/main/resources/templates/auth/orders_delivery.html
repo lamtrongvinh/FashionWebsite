@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{~/styles/delivery.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
@@ -93,7 +94,7 @@
 
         <div id="list-user-info">
             <ul class="list-page">
-                <li><a th:href="@{/login}">Profile</a></li>
+                <li><a th:href="@{/auth/profile}">Profile</a></li>
                 <li><a th:href="@{/auth/orders/waiting}">Waiting orders</a></li>
                 <li><a th:href="@{/auth/orders/delivery}">Delivery orders</a></li>
             </ul>
@@ -161,9 +162,9 @@
                                     <div class="row mb-2 mb-sm-0 py-25">
                                         <div class="d-none d-sm-block col-1" th:text="${iterator.count}">1</div>
                                         <div class="col-9 col-sm-5" th:text="${product.product_name}">Domain registration</div>
-                                        <div class="d-none d-sm-block col-2">2</div>
-                                        <div class="d-none d-sm-block col-2 text-95">$10</div>
-                                        <div class="col-2 text-secondary-d2">$20</div>
+                                        <div class="d-none d-sm-block col-2" th:text="'x'+  ${item.quantity} + ' Size:' + ${item.size}">2</div>
+                                        <div class="d-none d-sm-block col-2 text-95" th:text="'$'+${product.product_price}">$10</div>
+                                        <div class="col-2 text-secondary-d2" th:text="'$'+${item.total_price}">$20</div>
                                     </div>
                                 </div>
                             </div>

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,7 @@ import comcircus.fashionweb.service.category.CategoryService;
 import comcircus.fashionweb.service.customer.CustomerService;
 import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
 import comcircus.fashionweb.service.product.ProductService;
+import comcircus.fashionweb.service.product.SizeService;
 import comcircus.fashionweb.service.user.UserService;
 
 @Controller
@@ -63,6 +66,9 @@ public class AuthController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private SizeService sizeService;
+
     @PostMapping("/login")
     public String processLogin(HttpServletRequest request, Model model, HttpSession session, @ModelAttribute("userDto") UserDto userDto) {
         String error = "";
@@ -88,15 +94,13 @@ public class AuthController {
         if (userDto == null) {
             return "/login";
         }
-        System.out.println(userDto.getEmail());
-        System.out.println(userDto.getPassword());
-
+        
         String keyword = request.getParameter("keyword");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         if (userService.getUser(user_login.getId()) != null) {
             model.addAttribute("user_login", user_login);
-            List<Product> bestSelleProducts = productService.getBestSellerProduct();
-            model.addAttribute("bestSelleProducts", bestSelleProducts);
+            List<Product> bestSellerProducts = productService.getBestSellerProduct();
+            model.addAttribute("bestSellerProducts", bestSellerProducts);
             if (keyword != null) {
                 List<Product> products = productService.getProductsByKeyword(keyword);
                 model.addAttribute("products", products);
@@ -220,6 +224,11 @@ public class AuthController {
         if (id > 0 && product != null) {
             model.addAttribute("product", product);
             model.addAttribute("user_login", user_login);
+            if (product.getCategory().getName().equals("Clothes") || product.getCategory().getName().equals("Jeans")) {
+                model.addAttribute("sizes", sizeService.getListSizeChar());
+            }else if (product.getCategory().getName().equals("Sneaker")) {
+                model.addAttribute("sizes", sizeService.getListSizeNumber());
+            }
         }
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
         if (!cartItem.isEmpty()) {
@@ -233,13 +242,14 @@ public class AuthController {
 
     //add product to cart
     @GetMapping("/checkout/add/{id}")
-    public String addProductToCart(@PathVariable Long id, Model model, HttpSession session) {
+    public ResponseEntity<HttpStatus> addProductToCart(@PathVariable Long id, Model model, HttpSession session, HttpServletRequest request) {
+        String size = request.getParameter("size");
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
 
         Product product = productService.getProduct(id);
-        ItemRequestDto item = new ItemRequestDto(product.getProduct_id(), 1);
+        ItemRequestDto item = new ItemRequestDto(product.getProduct_id(), 1, size);
 
         CartDto cartDto = cartService.addItemToCart(item, user_login.getEmail());
         List<CartItem> cartItem = cartDto.getCartItem();
@@ -252,16 +262,13 @@ public class AuthController {
             model.addAttribute("size", itemsDetailCart.size());
         }
 
-        return "/auth/cart";
+        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 
     //Delete product from cart
     @GetMapping("/checkout/delete/{id}")
-    public String deleteProductInCart(Model model, @PathVariable Long id, HttpSession session) {
+    public ResponseEntity<HttpStatus> deleteProductInCart(Model model, @PathVariable Long id, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
-        if (userDto == null) {
-            return "/login";
-        }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
         List<CartItem> cartItem = cartService.deleteProduct(id, user_login.getEmail());
@@ -275,7 +282,7 @@ public class AuthController {
         } else {
             model.addAttribute("size", "no-item");
         }
-        return "/auth/cart";
+        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 
     // Checkout payment
@@ -399,7 +406,6 @@ public class AuthController {
         List<OrderDetails> orderDetails = orderDetailsService.getWaitingOrderDetailsOfUser(user_login);
         List<OrderDetailsDto> orderDetailsDtotmp = orderDetailsService.changeToOrderDetailsDto(orderDetails);
         List<OrderDetailsDto> orderDetailsDto = orderDetailsService.addCustomerInfoAndCartItemPaid(orderDetailsDtotmp, user_login);
-
         model.addAttribute("orderDetailsDto", orderDetailsDto);
         
 

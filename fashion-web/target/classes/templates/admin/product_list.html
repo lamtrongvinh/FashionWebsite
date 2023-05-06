@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
@@ -12,7 +14,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
-    <title>Document</title>
+    <title>Product List</title>
 </head>
 <body>
     <!-- top nav -->
@@ -87,7 +89,7 @@
                       <div class="row">
                         <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                           <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                            <img th:src="@{'~/'+ ${product.product_image_name} + '.png'}"
+                            <img th:src="@{'~/./image/'+ ${product.product_image_name}}"
                               class="w-100" />
                             <a href="#!">
                               <div class="hover-overlay">

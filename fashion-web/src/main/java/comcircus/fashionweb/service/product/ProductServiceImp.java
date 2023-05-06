@@ -100,18 +100,19 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
-    public Product updateProductFromDto(Long id, ProductDto productDto) {
+    public Product updateProductFromDto(Long id, ProductDto productDto, String image_name) {
 
         Product productExist = productRepository.findById(id).get();
+        productExist.setProduct_code(productDto.getProduct_code());
         productExist.setProduct_name(productDto.getProduct_name());
         productExist.setProduct_desciption(productDto.getProduct_desciption());
         productExist.setProduct_price(productDto.getProduct_price());
         productExist.setProduct_discount(productDto.getProduct_discount());
         productExist.setProduct_id(productDto.getProduct_id());
         productExist.setProduct_quantity(productDto.getProduct_quantity());
-        productExist.setProduct_image_name(productDto.getProduct_image_name());
-        productExist.setProduct_live(productDto.isProduct_live());
-        productExist.setProduct_stock(productDto.isProduct_stock());
+        productExist.setProduct_image_name(image_name);
+        productExist.setProduct_live(true);
+        productExist.setProduct_stock(true);
         productExist.setCategory(categoryService.getCategory(productDto.getCategory_id()));
         
         return  productRepository.save(productExist);
@@ -188,5 +189,68 @@ public class ProductServiceImp implements ProductService{
         }
         return bestSeller;
     }
-    
+
+    @Override
+    public boolean checkProductExist(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (!product.isPresent()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Product mapToProduct(ProductDto productDto, Category category) {
+        Product product = new Product();
+        product.setProduct_id(productDto.getProduct_id());
+        product.setProduct_code(productDto.getProduct_code());
+        product.setProduct_name(productDto.getProduct_name());
+        product.setProduct_desciption(productDto.getProduct_desciption());
+        product.setProduct_price(productDto.getProduct_price());
+        product.setProduct_discount(productDto.getProduct_discount());
+        product.setProduct_quantity(productDto.getProduct_quantity());
+        product.setProduct_live(true);
+        product.setProduct_stock(true);
+        product.setCategory(categoryService.getCategory(productDto.getCategory_id()));
+        return product;
+    }
+
+    @Override
+    public boolean checkProductExistByCode(String product_code) {
+        List<Product> list = this.getProducts();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getProduct_code().equals(product_code)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void updateProductExitsByCode(Product product) {
+        Product productExist = this.getProductByProductCode(product.getProduct_code());
+        productExist.setProduct_quantity(productExist.getProduct_quantity() + product.getProduct_quantity());
+
+        productRepository.save(productExist);
+    }
+
+    @Override
+    public Product getProductByProductCode(String product_code) {
+        try {
+            Product productExist = new Product();
+            List<Product> list = this.getProducts();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getProduct_code().equals(product_code)) {
+                    productExist = list.get(i);
+                }
+            }
+
+            return productExist;
+        } catch (Exception e) {
+            System.out.println("product_code not exist!");
+            return null;
+        }
+    }
+
 }

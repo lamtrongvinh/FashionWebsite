@@ -35,6 +35,8 @@ public class CartServiceImp implements CartService{
     public CartDto addItemToCart(ItemRequestDto item, String email) {
         Long product_id = item.getProduct_id();
         int quantity = item.getQuantity();
+        String size = item.getSize();
+
         CartDto cartDto = new CartDto();
 
         Product product = productService.getProduct(product_id);
@@ -56,6 +58,7 @@ public class CartServiceImp implements CartService{
         cartItem.setProduct(product);
         cartItem.setQuantity(quantity);
         cartItem.setTotal_price(total_price);
+        cartItem.setSize(size);
 
         //Cart of user
         List<CartItem> items = new ArrayList<>();
@@ -73,7 +76,7 @@ public class CartServiceImp implements CartService{
             boolean flag = false;
             for (int i = 0; i < items.size(); i++) {
                 Long id = items.get(i).getProduct().getProduct_id();
-                if (id == product_id) {
+                if (id == product_id && items.get(i).getSize().equals(size)) {
                     flag = true;
                     items.get(i).setQuantity(items.get(i).getQuantity() + 1);
                     items.get(i).setTotal_price(items.get(i).getQuantity() * items.get(i).getProduct().getProduct_price());
@@ -110,6 +113,7 @@ public class CartServiceImp implements CartService{
             iDetailsCart.setCartItem_id(itemOfList.getId());
             iDetailsCart.setQuantity(itemOfList.getQuantity());
             iDetailsCart.setTotal_price(itemOfList.getTotal_price());
+            iDetailsCart.setSize(itemOfList.getSize());
             Product productOfItemsCart = itemOfList.getProduct();
             iDetailsCart.setProduct_id(productOfItemsCart.getProduct_id());
             iDetailsCart.setProduct_price(productOfItemsCart.getProduct_price());
@@ -187,6 +191,46 @@ public class CartServiceImp implements CartService{
         for (int i = 0; i < carts.size(); i++) {
             if (carts.get(i).getId() == cart.getId()) {
                 carts.get(i).getCartItem().clear();
+            }
+        }
+    }
+
+    @Override
+    public void increaseQuantityItem(ItemDetailsCart item, User user) {
+        Cart cart = user.getCart();
+        List<Cart> carts = (List<Cart>) cartRepository.findAll();
+        List<CartItem> listCartItems = new ArrayList<>();
+        for (int i = 0; i < carts.size(); i++) {
+            if (carts.get(i).getId() == cart.getId()) {
+                listCartItems = carts.get(i).getCartItem();
+            }
+        }
+
+        for (int i = 0; i < listCartItems.size(); i++) {
+            CartItem cartItem = listCartItems.get(i);
+            if (cartItem.getProduct().getProduct_id() - item.getProduct_id() == 0) {
+                cartItem.setQuantity(cartItem.getQuantity() + 1);
+                cartItem.setTotal_price(cartItem.getQuantity() * cartItem.getProduct().getProduct_price());
+            }
+        }
+    }
+
+    @Override
+    public void decrementQuantityItem(ItemDetailsCart item, User user_login) {
+        Cart cart = user_login.getCart();
+        List<Cart> carts = (List<Cart>) cartRepository.findAll();
+        List<CartItem> listCartItems = new ArrayList<>();
+        for (int i = 0; i < carts.size(); i++) {
+            if (carts.get(i).getId() == cart.getId()) {
+                listCartItems = carts.get(i).getCartItem();
+            }
+        }
+
+        for (int i = 0; i < listCartItems.size(); i++) {
+            CartItem cartItem = listCartItems.get(i);
+            if (cartItem.getProduct().getProduct_id() - item.getProduct_id() == 0 && cartItem.getQuantity() > 1) {
+                cartItem.setQuantity(cartItem.getQuantity() - 1);
+                cartItem.setTotal_price(cartItem.getQuantity() * cartItem.getProduct().getProduct_price());                
             }
         }
     }

@@ -31,6 +31,8 @@ public class CartItem {
     private int quantity;
     @Column(name = "total_price")
     private double total_price;
+    @Column(name = "size")
+    private String size;
 
     //Relationship with Cart table
     @ManyToOne

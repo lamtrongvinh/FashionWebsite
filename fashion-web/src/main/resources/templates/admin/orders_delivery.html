@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
@@ -15,7 +17,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_responsive.css}">
-    <title>Document</title>
+    <title>Orders Confirmed</title>
 </head>
 <body>
     <!-- top nav -->
@@ -80,8 +82,9 @@
                   <th scope="col">Phone Number</th>
                   <th scope="col">Address</th>
                   <th scope="col">Email</th>
+                  <th scope="col">Product</th>
                   <th scope="col">Total</th>
-                  <th scope="col">DELIVERY</th>
+                  <th scope="col">STATUS</th>
                 </tr>
                 <tr th:each="order,iterator : ${orderDetailsDtos}" th:limit="5">
                   
@@ -92,6 +95,11 @@
                   <td th:text="${order.phone_number}">Linus</td>
                   <td th:text="${order.address}">Linus</td>
                   <td th:text="${order.email}">Linus</td>
+                  <td >
+                    <a th:href="@{/admin/order_confirm/view/{id}(id=${order.id})}"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                        View
+                    </button></a>
+                  </td>
                   <td th:text="${'$'+order.total_money}">Linus</td>
                   <td ><button type="button" class="btn btn-info btn-sm" >Done</button></td>
                 </tr>

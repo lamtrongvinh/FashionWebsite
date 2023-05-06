@@ -53,11 +53,8 @@ public class Product {
     @Column(name = "product_image_name")
     private String product_image_name;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private CartItem cartItem;
-
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private CartItemPaid cartItemPaid;
+    @Column(name = "product_code")
+    private String product_code;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
