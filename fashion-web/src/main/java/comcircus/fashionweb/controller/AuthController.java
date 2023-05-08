@@ -441,8 +441,6 @@ public class AuthController {
     @GetMapping("/orders/cancel/{id}")
     public String cancelOrder(HttpSession session, Model model,@PathVariable Long id) {
         orderDetailsService.cancelOrder(id);
-
-
         return "/auth/orders/waiting";
     }
 
