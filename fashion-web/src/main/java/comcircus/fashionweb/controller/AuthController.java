@@ -439,12 +439,11 @@ public class AuthController {
     }
 
     @GetMapping("/orders/cancel/{id}")
-    public ResponseEntity<HttpStatus> cancelOrder(HttpSession session, Model model,@PathVariable Long id) {
-        UserDto userDto = (UserDto) session.getAttribute("userDto");
-        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
-        model.addAttribute("user_login", user_login);
-        System.out.println("id:" + id);
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+    public String cancelOrder(HttpSession session, Model model,@PathVariable Long id) {
+        orderDetailsService.cancelOrder(id);
+
+
+        return "/auth/orders/waiting";
     }
 
 }

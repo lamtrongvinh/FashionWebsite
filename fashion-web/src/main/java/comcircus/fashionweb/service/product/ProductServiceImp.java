@@ -267,4 +267,10 @@ public class ProductServiceImp implements ProductService{
         return (List<Product>) productRepository.findAll();
     }
 
+    @Override
+    public void cancelOrder(Product product, int quantity) {
+        Product p = this.productRepository.findById(product.getProduct_id()).get();
+        p.setProduct_quantity(p.getProduct_quantity() + quantity);
+    }
+
 }

@@ -26,4 +26,5 @@ public interface ProductService {
     public boolean checkProductExist(Long id);
     public boolean checkProductExistByCode(String product_code);
     public void updateProductExitsByCode(Product product);
+    public void cancelOrder(Product product, int quantity);
 }
