@@ -325,7 +325,6 @@ public class AuthController {
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        System.out.println(cartItem.size());
         // List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
         double total = cartService.getTotalPrice(cartItem);
         model.addAttribute("total", total);

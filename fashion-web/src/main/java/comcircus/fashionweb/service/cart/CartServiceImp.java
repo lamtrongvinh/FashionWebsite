@@ -211,7 +211,11 @@ public class CartServiceImp implements CartService{
         for (int i = 0; i < listCartItems.size(); i++) {
             CartItem cartItem = listCartItems.get(i);
             if (cartItem.getProduct().getProduct_id() - item.getProduct_id() == 0) {
-                cartItem.setQuantity(cartItem.getQuantity() + 1);
+                int after_quantity = cartItem.getQuantity() + 1;
+                if (cartItem.getProduct().getProduct_quantity() - after_quantity >= 0) {
+                    cartItem.setQuantity(cartItem.getQuantity() + 1);
+                }
+                
                 cartItem.setTotal_price(cartItem.getQuantity() * cartItem.getProduct().getProduct_price());
             }
         }
@@ -232,6 +236,9 @@ public class CartServiceImp implements CartService{
             CartItem cartItem = listCartItems.get(i);
             if (cartItem.getProduct().getProduct_id() - item.getProduct_id() == 0 && cartItem.getQuantity() > 1) {
                 cartItem.setQuantity(cartItem.getQuantity() - 1);
+                if (cartItem.getQuantity() <= 0) {
+                    cartItem.setQuantity(0);
+                }
                 cartItem.setTotal_price(cartItem.getQuantity() * cartItem.getProduct().getProduct_price());                
             }
         }

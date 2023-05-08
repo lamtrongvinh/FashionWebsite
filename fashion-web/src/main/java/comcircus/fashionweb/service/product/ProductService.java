@@ -11,6 +11,7 @@ public interface ProductService {
     public Product saveProduct(Product product, Long category_id);
     public void deleteProduct(Long id);
     public List<Product> getProducts();
+    public List<Product> getAllProduct();
     public List<Product> getProductsByKeyword(String keyword);
     public List<Product> getProductsByCategory(String keyword);
     public Product getProductByProductCode(String product_code);

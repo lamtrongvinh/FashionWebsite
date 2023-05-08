@@ -19,4 +19,5 @@ public class ProductDto {
     private String product_desciption;
     private String product_image_name;
     private Long category_id;
+    private String size;    
 }

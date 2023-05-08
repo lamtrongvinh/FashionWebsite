@@ -66,27 +66,25 @@
         </div>
     </div>
     <!-- end main nav -->
-    <div class="row">
-        <div class="col text-center">
-            <div class="section_title new_arrivals_title">
-                <h2>ADMIN DASHBOARD</h2>
-            </div>
-        </div>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/products}"><button type="button" class="btn btn-success" style="align-items: center;">Product List</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/addProduct}"><button type="button" class="btn btn-danger">Add Product</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/order-waiting}"><button type="button" class="btn btn-success">Orders Waiting</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/order-confirmed}"><button type="button" class="btn btn-danger">Orders Confirmed</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/items}"><button type="button" class="btn btn-danger">Items</button></a>
+    <div style="margin: 20px;">
+        <h3>Items</h1>
+            <table class="table">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Product Code</th>
+                  <th scope="col">Product Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Size</th>
+                </tr>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.id}"></td>
+                  <td th:text="${item.product_code}">123</td>
+                  <td th:text="${item.product_name}">123</td>
+                  <td th:text="${item.quantity}">123</td>
+                  <td th:text="${item.size}">123</td>
+                </tr>
+                
+              </table>
     </div>
     
 <!-- footer -->
