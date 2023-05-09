@@ -366,25 +366,32 @@ public class AuthController {
         String cancelUrl = Utils.getBaseURL(request) + "/auth/payment/cancel";
         String successUrl = Utils.getBaseURL(request) + "/auth/payment/success";
         if (optionSelected.equals("option2")) {
+            session.setAttribute("orderDetailsDto", orderDetailsDto);
+            session.setAttribute("customer", customer);
+            session.setAttribute("user_login", user_login);
+            session.setAttribute("cartItem", cartItem);
             try {
                 Payment payment = paypalService.createPayment(
-                                    total,
-                                    "USD",
-                                    PaypalPaymentMethod.paypal,
-                                    PaypalPaymentIntent.sale,
-                                    "payment description",
-                                    cancelUrl,
-                                    successUrl);
+                        total,
+                        "USD",
+                        PaypalPaymentMethod.paypal,
+                        PaypalPaymentIntent.sale,
+                        "payment description",
+                        cancelUrl,
+                        successUrl);
                 for(Links links : payment.getLinks()){
                     if(links.getRel().equals("approval_url")){
                         System.out.println("redirect:" + links.getHref());
                         return "redirect:" + links.getHref();
                     }
                 }
+
+                
+
                 } catch (PayPalRESTException e) {
                     System.out.println(e.getMessage());
                 }
-            return "redirect:/auth/checkout/payment";
+                return "redirect:/auth/checkout/payment";
         } else {
             //handle save orderDetails
             OrderDetails orderDetails = orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
@@ -400,14 +407,35 @@ public class AuthController {
     }
 
     @GetMapping("/payment/success")
-    public String paymentSuccess() {
+    public String paymentSuccess(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, HttpSession session, Model model) {
+        try {
+			Payment payment = paypalService.executePayment(paymentId, payerId);
+			if(payment.getState().equals("approved")) {
+                //get by session
+                OrderDetailsDto orderDetailsDto = (OrderDetailsDto) session.getAttribute("orderDetailsDto");
+                User user_login = (User) session.getAttribute("user_login");
+                Customer customer = (Customer) session.getAttribute("customer");
+                List<CartItem> cartItem = (List<CartItem>) session.getAttribute("cartItem");
+                model.addAttribute("user_login", user_login);
+                model.addAttribute("size", "no-item");
 
-        return "/auth/checkout/success";
+                //handle save orderDetails
+                OrderDetails orderDetails = orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
+                //Add list to history purchase
+                cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
+                //delete all cart item after proceed payment
+                cartService.deleteAllProduct(user_login);
+				return "/auth/checkout/payment-success";
+			}
+		} catch (PayPalRESTException e) {
+			System.out.println(e.getMessage());
+		}
+        return "/auth/checkout/payment";
     }
     @GetMapping("/payment/cancel")
     public String paymentCancel() {
-
-        return "/auth/checkout/cancel";
+        
+        return "redirect:/auth/checkout/payment";
     }
 
     @GetMapping("/profile")
