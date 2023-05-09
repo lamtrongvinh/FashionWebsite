@@ -76,8 +76,8 @@ public class AuthController {
             model.addAttribute("error", "Please enter your account!");
             return "/login";
         }
-
-        if (userService.checkUserExist(userDto.getEmail(), userDto.getPassword())) {
+        boolean flag = userService.checkUserExist(userDto.getEmail(), userDto.getPassword());
+        if (flag) {
             session.setAttribute("userDto", userDto);
             
             return "redirect:/auth/homepage";

@@ -14,9 +14,11 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+
     <title>Dashboard</title>
+
 </head>
-<body>
+<body style="overflow: hidden;">
     <div class="top_nav">
         <div class="container">
             <div class="row">
@@ -46,6 +48,9 @@
         </div>
     </div>
     <!-- main nav -->
+    <div style=" background-image: url('/image/admin.jpg');
+            background-size: 100% auto;
+            background-repeat: no-repeat;  height: 100vh; ">
     <div class="main_nav_container">
         <div class="container">
             <div class="row">
@@ -55,9 +60,11 @@
                     </div>
                     <nav class="navbar">
                         <ul class="navbar_menu">
-                            <li><a th:href="@{/admin/dashboard}">dashboard</a></li>
                             <li><a th:href="@{/admin/products}">products</a></li>
                             <li><a th:href="@{/admin/addProduct}">add product</a></li>
+                            <li><a th:href="@{/admin/order-waiting}" >Orders Waiting</a></li>
+                            <li><a th:href="@{/admin/order-confirmed}">Orders Confirmed</a></li>
+                            <li><a th:href="@{/admin/items}">Items</a></li>
                         </ul>
                         
                     </nav>
@@ -66,31 +73,13 @@
         </div>
     </div>
     <!-- end main nav -->
-    <div class="row">
-        <div class="col text-center">
-            <div class="section_title new_arrivals_title">
-                <h2>ADMIN DASHBOARD</h2>
-            </div>
-        </div>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/products}"><button type="button" class="btn btn-success" style="align-items: center;">Product List</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/addProduct}"><button type="button" class="btn btn-danger">Add Product</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/order-waiting}"><button type="button" class="btn btn-success">Orders Waiting</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/order-confirmed}"><button type="button" class="btn btn-danger">Orders Confirmed</button></a>
-    </div>
-    <div class="row" style="margin: 20px;">
-        <a th:href="@{/admin/items}"><button type="button" class="btn btn-danger">Items</button></a>
-    </div>
     
+
+
 <!-- footer -->
-<footer class="footer">
+<footer class="footer" style="position: fixed;
+  bottom: 0;
+  height: 20vh;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
@@ -117,12 +106,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="footer_nav_container">
-                    <div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Circus</a> &amp; distributed by <a href="">Circus</a></div>
+                    <div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a> &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+    </div>
 <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
 <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
 <script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
