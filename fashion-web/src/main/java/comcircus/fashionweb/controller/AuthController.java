@@ -18,7 +18,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
+
+import comcircus.fashionweb.config.PaypalPaymentIntent;
+import comcircus.fashionweb.config.PaypalPaymentMethod;
 import comcircus.fashionweb.dto.CartDto;
 import comcircus.fashionweb.dto.CustomerDto;
 import comcircus.fashionweb.dto.ItemDetailsCart;
@@ -32,6 +39,7 @@ import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.model.product.Product;
+import comcircus.fashionweb.service.PaypalPaymentService;
 import comcircus.fashionweb.service.cart.CartPaidService;
 import comcircus.fashionweb.service.cart.CartService;
 import comcircus.fashionweb.service.category.CategoryService;
@@ -40,6 +48,7 @@ import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
 import comcircus.fashionweb.service.product.ProductService;
 import comcircus.fashionweb.service.product.SizeService;
 import comcircus.fashionweb.service.user.UserService;
+import comcircus.fashionweb.utils.Utils;
 
 @Controller
 @RequestMapping("/auth")
@@ -68,6 +77,9 @@ public class AuthController {
 
     @Autowired
     private SizeService sizeService;
+
+    @Autowired
+    private PaypalPaymentService paypalService;
 
     @PostMapping("/login")
     public String processLogin(HttpServletRequest request, Model model, HttpSession session, @ModelAttribute("userDto") UserDto userDto) {
@@ -315,8 +327,9 @@ public class AuthController {
 
     //Payment
     @PostMapping("/checkout/payment-process")
-    public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model, HttpSession session) {
-        System.out.println(customerDto.getFirst_name());
+    public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model, HttpSession session, 
+                                @RequestParam(value = "flexRadioDefault", required = false) String optionSelected,
+                                HttpServletRequest request) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         if (userDto == null) {
             return "/login";
@@ -348,17 +361,53 @@ public class AuthController {
         orderDetailsDto.setTotal_money(total);
         orderDetailsDto.setOrder_date(formattedDateStr);
         orderDetailsDto.setUser_id(user_login.getId());
-        //handle save orderDetails
-        OrderDetails orderDetails = orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
+        
+        //select payment option
+        String cancelUrl = Utils.getBaseURL(request) + "/auth/payment/cancel";
+        String successUrl = Utils.getBaseURL(request) + "/auth/payment/success";
+        if (optionSelected.equals("option2")) {
+            try {
+                Payment payment = paypalService.createPayment(
+                                    total,
+                                    "USD",
+                                    PaypalPaymentMethod.paypal,
+                                    PaypalPaymentIntent.sale,
+                                    "payment description",
+                                    cancelUrl,
+                                    successUrl);
+                for(Links links : payment.getLinks()){
+                    if(links.getRel().equals("approval_url")){
+                        System.out.println("redirect:" + links.getHref());
+                        return "redirect:" + links.getHref();
+                    }
+                }
+                } catch (PayPalRESTException e) {
+                    System.out.println(e.getMessage());
+                }
+            return "redirect:/auth/checkout/payment";
+        } else {
+            //handle save orderDetails
+            OrderDetails orderDetails = orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
+            //Add list to history purchase
+            // orderHistoryService.addListCartItem(user_login, orderDetails);
+            cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
 
-        //Add list to history purchase
-        // orderHistoryService.addListCartItem(user_login, orderDetails);
-        cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
+            //delete all cart item after proceed payment
+            cartService.deleteAllProduct(user_login);
+            return "/auth/checkout/payment-success";
+        }
+        
+    }
 
-        //delete all cart item after proceed payment
-        cartService.deleteAllProduct(user_login);
+    @GetMapping("/payment/success")
+    public String paymentSuccess() {
 
-        return "/auth/checkout/payment-success";
+        return "/auth/checkout/success";
+    }
+    @GetMapping("/payment/cancel")
+    public String paymentCancel() {
+
+        return "/auth/checkout/cancel";
     }
 
     @GetMapping("/profile")

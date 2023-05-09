@@ -17,6 +17,8 @@ C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcir
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\customer\CustomerServiceImp.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\dto\CartItemDto.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\model\category\Category.java
+C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\config\PaypalPaymentIntent.java
+C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\PaypalPaymentService.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\model\person\customer\Customer.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\model\cart\CartItemPaid.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\dto\CustomerDto.java
@@ -40,6 +42,7 @@ C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcir
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\user\UserServiceImp.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\orderdetails\OrderDetailsService.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\model\product\Item.java
+C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\config\PaypalPaymentMethod.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\model\cart\CartPaid.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\model\cart\CartItem.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\controller\Customers\CustomerController.java
@@ -52,7 +55,9 @@ C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcir
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\model\person\user\User.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\controller\Product\ProductController.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\product\ProductServiceImp.java
+C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\config\PaypallConfig.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\orderdetails\OrderDetailsServiceImp.java
+C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\utils\Utils.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\controller\StoreController.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\FashionWebApplication.java
 C:\Users\lamtr\OneDrive\Máy tính\FashionWebsite\fashion-web\src\main\java\comcircus\fashionweb\service\cart\CartPaidService.java
