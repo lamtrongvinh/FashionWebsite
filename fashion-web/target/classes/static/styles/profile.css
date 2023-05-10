@@ -2,11 +2,6 @@ body {
     background: white;
 }
 
-.form-control:focus {
-    box-shadow: none;
-    border-color: #BA68C8
-}
-
 .profile-button {
     background: rgb(99, 39, 120);
     box-shadow: none;
@@ -33,7 +28,7 @@ body {
 }
 
 .labels {
-    font-size: 11px
+    font-size: 15px;
 }
 
 .add-experience:hover {
@@ -43,20 +38,44 @@ body {
     border: solid 1px #BA68C8
 }
 
-#profile-area {
+.main_area {
     background: #F5F5F5;
 }
 
-.dashboard li {
+.dashboard button {
+    background: transparent;
     display: flex;
     align-items: center;
     text-align: center;
     line-height: 3em;
-    margin: 10px 0 10px;
+    margin: 5px 0 5px;
     padding: 0 2em 0 2em;
-    border: gray solid 1px;
-    border-radius: 10px;    
-}
-.dashboard li i {
+    border: rgb(206, 212, 218) solid 1px;
+    width: 100%;
+    border-radius: 10px;
+    font-weight: 600;
+}    
+
+.dashboard button i {
     margin-right: 0.75em;
 }
+
+.dashboard button:hover {
+    background: #F5F5F5;
+    color: rgb(30, 30, 39);
+    border: none;
+}
+
+.dashboard button:active {
+    background-color: rgb(99, 39, 120);
+    color:  rgb(255, 255, 255);
+}
+
+.dashboard .select_profile {
+    background-color: rgb(99, 39, 120);
+    color:  rgb(255, 255, 255);
+    border: none;
+}
+
+
+

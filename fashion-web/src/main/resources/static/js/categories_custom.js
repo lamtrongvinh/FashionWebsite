@@ -334,7 +334,7 @@ jQuery(document).ready(function($)
 	            }
 	        });
 
-    		// Short based on the value from the sorting_type dropdown
+    		// Sort based on the value from the sorting_type dropdown
 	        sortTypes.each(function()
 	        {
 	        	$(this).on('click', function()

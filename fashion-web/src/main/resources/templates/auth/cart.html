@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
@@ -13,7 +13,29 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
+
+    <link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/styles/main_styles.css">
+    <link rel="stylesheet" href="../../static/styles/responsive.css">
+    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" href="../../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
     <title>Document</title>
+    <script>
+        $(document).ready(function() {
+			$(".delete-product").click(function() {
+					var productId = $(this).attr("data-product-id");
+					$.ajax({
+							type: "GET",
+							url: "/auth/checkout/delete/" + productId,
+							success: function(data) {
+								location.reload();
+							}
+					});
+			});
+		});
+    </script>
 </head>
 <body>
     <!-- top nav -->
@@ -83,7 +105,7 @@
     </div>
     <!-- end main nav -->
     <section class="h-100" >
-        <!-- <div class="container h-100 py-5">
+        <div class="container h-100 py-5">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-10">
       
@@ -100,20 +122,23 @@
                         class="img-fluid rounded-3" alt="Cotton T-shirt">
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class="lead fw-normal mb-2" th:text="${item.product_desciption}">Basic T-shirt</p>
-                      <p th:if="${item.size} != null"> Size:<span class="text-muted"  th:text="' ' + ${item.size}"> </span></p>
+                      <p class="lead fw-normal mb-0" th:text="${item.product_desciption}">Basic T-shirt</p>
+
+                      <small th:if="${item.size} != null">Size:
+                        <span class="text-muted" th:text="' '+ ${item.size}"> </span>
+                      </small>
                     </div>
+                    
                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2 decrement-btn" th:data-product-id="${item.product_id}">
+                      <!-- <button class="btn btn-link px-2 decrement-btn" th:data-product-id="${item.product_id}">
                         <i class="fas fa-minus"></i>
-                      </button>
+                      </button> -->
       
                       <input id="form1" min="0" name="quantity" type="number" class="form-control form-control-sm" th:id="'quantity-' + ${item.quantity}" th:value="${item.quantity}"/>
       
-                      <button class="btn btn-link px-2 increment-btn" th:data-product-id="${item.product_id}">
-
+                      <!-- <button class="btn btn-link px-2 increment-btn" th:data-product-id="${item.product_id}">
                         <i class="fas fa-plus"></i>
-                      </button>
+                      </button> -->
                     </div>
                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                       <h5 class="mb-0" th:id="'total-' + ${item.product_id}" th:text="'$'+${item.total_price}">$499.00</h5>
@@ -142,110 +167,6 @@
       
             </div>
           </div>
-        </div> -->
-        <div class="container">
-            <div class="row mt-4">
-                <div class="col"><h4><b>Your Cart</b></h4></div>
-                <div class="col align-self-center text-right text-muted"><i class="fa fa-trash" aria-hidden="true"></i> Clear Cart</div>
-            </div>
-            <div>There are ? products in your cart</div>  
-            <div class="row">
-                <div class="col-md-9">
-                    <!-- <div class="row">
-                        <div class="row main align-items-center">
-                            <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
-                            <div class="col">
-                                <div class="row text-muted">Shirt</div>
-                                <div class="row">Cotton T-shirt</div>
-                            </div>
-                            <div class="col">
-                                <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                            </div>
-                            <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                        </div>
-                    </div> -->
-                    <div class="card rounded-3 mb-4 mt-4">
-                        <div class="row d-flex justify-content-between align-items-center  py-2 mx-0" id="info-bar">
-                            <div class="col-md-1 col-lg-1 col-xl-1"></div>
-                            <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                                Image
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-3 text-center">
-                                Product Name
-                            </div>
-                            <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                                Unit Price
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 text-center px-0">
-                                Quantity
-                            </div>
-                            <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                                Subtotal
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 p-0 text-center">
-                                Remove
-                            </div>
-                        </div>
-                        <div class="card-body px-0" >
-                            <div class="row d-flex justify-content-between align-items-center mx-0" th:each="item: ${itemsDetailCart}">
-                                <input class="col-md-1 col-lg-1 col-xl-1" type="checkbox">
-                            <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                              <img
-                                th:src="@{'~/' + ${item.product_image_name} + '.png'}"
-                                class="img-fluid rounded-3" alt="Cotton T-shirt">
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-3 text-center">
-                              <p class="lead fw-normal mb-2" th:text="${item.product_desciption}">Basic T-shirt</p>
-                              <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
-                            </div>
-                            <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                                <h5 class="mb-0" th:text="${product.product_price}">$499.00</h5>
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 d-flex text-center">
-                              <!-- <button class="btn btn-link px-2"
-                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                <i class="fas fa-minus"></i>
-                              </button> -->
-              
-                              <input id="form1" min="1" name="quantity" type="number" class="form-control form-control-sm" th:value="${item.quantity}"/>
-              
-                              <!-- <button class="btn btn-link pl-2"
-                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                <i class="fas fa-plus"></i>
-                              </button> -->
-                            </div>
-                            <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                                <h5 class="mb-0" th:text="'$'+${item.total_price}">$499.00</h5>
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 text-center">
-                              <a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-                            </div>
-                            </div>  
-                        </div>
-                    </div>
-                    <a th:href="@{/auth/shop}"><button type="submit" class="btn btn-warning">&leftarrow; Continue shopping</button></a>
-                </div>
-                <div class="col-md-3 py-4 my-4" style="border: 1px solid rgba(0,0,0,.1);">
-                    <form>
-                        <div class="row" style="margin-bottom: 2vh;">
-                            <div class="col">SUB TOTAL</div>
-                            <div class="col text-right" th:text="'$'+${item.total_price}">$132.00</div>
-                        </div>
-                        <div class="row" style="margin-bottom: 2vh;">
-                            <div class="col">Coupon Code</div>
-                            <div class="col text-right">None</div>
-                        </div>
-                        <!-- <select><option class="text-muted">Standard-Delivery- &euro;5.00</option></select> -->
-                    </form>
-                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                        <div class="col">TOTAL</div>
-                        <div class="col text-right" th:text="'$'+${item.total_price}">$132.00</div>
-                    </div>
-                    <a th:href="@{/auth/checkout/payment}"><button type="submit" class="btn btn-warning btn-block">Proceed To Checkout</button></a>
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </div>
-            </div>
-            
         </div>
     </section>
 <!-- footer -->
@@ -284,12 +205,21 @@
 
 </footer>
 
-<script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
-<script th:src="@{~/styles/bootstrap4/popper.js}"></script>
-<script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
-<script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
-<script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
-<script th:src="@{~/plugins/easing/easing.js}"></script>
-<script th:src="@{~/js/custom.js}"></script>
+
+    <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
+    <script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
+    <script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
+    <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
+    <script th:src="@{~/plugins/easing/easing.js}"></script>
+    <script th:src="@{~/js/custom.js}"></script>
+
+    <script src="../../static/js/jquery-3.2.1.min.js"></script>
+    <script src="../../static/styles/bootstrap4/popper.js"></script>
+    <script src="../../static/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="../../static/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="../../static/plugins/easing/easing.js"></script>
+    <script src="../../static/js/custom.js"></script>
 </body>
 </html>

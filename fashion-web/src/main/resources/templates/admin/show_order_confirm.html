@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
     <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
@@ -14,143 +13,150 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_styles.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{~/styles/categories_responsive.css}">
-    <title>Product in Order Confirmed</title>
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/profile.css}">
+
+    <link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/styles/main_styles.css">
+    <link rel="stylesheet" href="../../static/styles/responsive.css">
+    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" href="../../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../static/styles/admin.css">
+
+    <title>product confirmed</title>
+
 </head>
+
 <body>
-<!-- top nav -->
-<div class="top_nav">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="top_nav_left">Create, Delete and Update for ADMIN</div>
-            </div>
-            <div class="col-md-6 text-right">
-                <div class="top_nav_right">
-                    <ul class="top_nav_menu">
+    <!-- top nav -->
+    <div class="top_nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="top_nav_left">ONLY FOR ADMIN</div>
+                </div>
 
-                        <!-- Currency / Language / My Account -->
+                <div class="col-md-6 text-right">
+                    <div class="top_nav_right">
+                        <ul class="top_nav_menu">
 
-                        
-                        <li class="account">
-                            <a href="#">
-                                Welcome: ADMIN
-                                <i class="fa fa-angle-down"></i>
-                            </a>
-                            <ul class="account_selection">
-                                <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                            <li class="account">
+                                <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                                    Welcome, ADMIN
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="account_selection">
+                                    <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- end top nav -->
-<!-- main nav -->
-<div class="main_nav_container">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-right">
+    <!-- end top nav -->
+
+    <!-- main nav -->
+    <div class="main_nav_container">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between" style="height: 83px;">
                 <div class="logo_container">
-                    <a th:href="@{/admin/dashboard}">ad<span>min</span></a>
+                    <a th:href="@{/auth/homepage}">ad<span>min</span></a>
                 </div>
-                <nav class="navbar">
-                    <ul class="navbar_menu">
-                        <li><a th:href="@{/admin/dashboard}">dashboard</a></li>
-                        <li><a th:href="@{/admin/products}">products</a></li>
-                        <li><a th:href="@{/admin/addProduct}">add product</a></li>
-                    </ul>
-                    
-                </nav>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end main nav -->
-<div style="margin: 20px;">
-    <table class="table">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Image</th>
-            <th scope="col"></th>
-            <th scope="col">Product name</th>
-            <th scope="col"></th>
-            <th scope="col">Size</th>
-            <th scope="col"></th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-            <th></th>
-            <th></th>
-            <th scope="col">Total Price</th>
-        </tr>
-        <tr th:each="item,iterator : ${cartItemPaids}">
-            <div th:each="product : ${item.getProduct()}">
-                <td th:text="${iterator.count}">1</td>
-                <th>
-                    <img th:src="@{'~/./image/'+${product.product_image_name}}" style="max-height: 30px;" alt="Product Image">
-                </th>
-                <td></td>
-                <td th:text="${product.product_name}">Jacket</td>
-                <td></td>
-                <td th:text="${item.size}">Size</td>
-                <td></td>
-                <td th:text="${'x'+item.quantity}">1</td>
-                <td th:text="${'$'+product.product_price}">$5</td>
-                <td></td>
-                <td></td>
-                <td th:text="${'$'+item.total_price}">$5</td>
-            </div>
-        </tr>
-    </table>
-</div>
 
-<!-- footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-                    <ul class="footer_nav">
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="contact.html">Contact us</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-                    <ul>
-                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="footer_nav_container">
-                    <div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a> &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>
+                <div>
+                    <form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0" method="get">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
+                        <button id="search-button" class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</footer>
-<script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
-<script th:src="@{~/styles/bootstrap4/popper.js}"></script>
-<script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
-<script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
-<script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
-<script th:src="@{~/plugins/easing/easing.js}"></script>
-<script th:src="@{~/js/custom.js}"></script>
-<script th:src="@{~/js/categories_custom.js}"></script>
-<script th:src="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
-<script th:src="@{~/js/confirm.js}"></script>
+    <!-- end main nav -->
+
+    <div class="container mt-5 mb-5">  
+        <div class="row mt-5 mx-0">
+            <!-- Dashboard -->
+            <div class="col-md-2">
+                <ul class="d-flex flex-column dashboard">
+                    <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                    <li>Manage Products</li>
+                    <li> 
+                        <ul class="list">
+                            <li>
+                                <a th:href="@{/admin/products}">All Products</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/addProduct}">Add Product</a>
+                            </li>
+                        </ul>    
+                    </li>
+                        
+                    <li>Manage Orders</li>
+                    <li> 
+                        <ul class="list">
+                            <li>
+                                <a th:href="@{/admin/order-waiting}">Waiting orders</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/order-confirmed}">Confirmed orders</a>
+                            </li>
+                        </ul>
+                        
+                    </li>    
+                </ul>
+            </div>
+            <!-- Main area -->
+
+            <div  class="col-md-10" style="border-left: grey solid 1px">
+                <table class="table">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Image</th>
+                        <th scope="col"></th>
+                        <th scope="col">Product name</th>
+                        <th scope="col"></th>
+                        <th scope="col">Size</th>
+                        <th scope="col"></th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th></th>
+                        <th></th>
+                        <th scope="col">Total Price</th>
+                    </tr>
+                    <tr th:each="item,iterator : ${cartItemPaids}">
+                        <div th:each="product : ${item.getProduct()}">
+                            <td th:text="${iterator.count}">1</td>
+                            <th>
+                                <img th:src="@{'~/./image/'+${product.product_image_name}}" style="max-height: 30px;" alt="Product Image">
+                            </th>
+                            <td></td>
+                            <td th:text="${product.product_name}">Jacket</td>
+                            <td></td>
+                            <td th:text="${item.size}">Size</td>
+                            <td></td>
+                            <td th:text="${'x'+item.quantity}">1</td>
+                            <td th:text="${'$'+product.product_price}">$5</td>
+                            <td></td>
+                            <td></td>
+                            <td th:text="${'$'+item.total_price}">$5</td>
+                        </div>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
+    <script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
+    <script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
+    <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
+    <script th:src="@{~/plugins/easing/easing.js}"></script>
+    <script th:src="@{~/js/custom.js}"></script>
+    <script th:src="@{~/js/submit.js}"></script>
 </body>
 </html>
