@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -385,9 +386,6 @@ public class AuthController {
                         return "redirect:" + links.getHref();
                     }
                 }
-
-                
-
                 } catch (PayPalRESTException e) {
                     System.out.println(e.getMessage());
                 }
@@ -451,6 +449,7 @@ public class AuthController {
         List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
         double total = cartService.getTotalPrice(cartItem);
         model.addAttribute("total", total);
+
         if (!cartItem.isEmpty()) {
             model.addAttribute("size", itemsDetailCart.size());
         } else {
@@ -519,6 +518,31 @@ public class AuthController {
     public String cancelOrder(HttpSession session, Model model,@PathVariable Long id) {
         orderDetailsService.cancelOrder(id);
         return "/auth/orders/waiting";
+    }
+
+    @GetMapping("/profile/update")
+    public ResponseEntity<Boolean> changePassword(HttpServletRequest request, HttpSession session, Model model) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
+        String first_name = request.getParameter("first_name");
+        String last_name = request.getParameter("last_name");
+        String email = request.getParameter("email");
+        boolean flag = userService.checkEmailExist(email);
+        if (email.equals(user_login.getEmail())) {
+            flag = false;
+        }
+        if (!flag && !last_name.equals("")) {
+            userService.changeInfoUser(user_login, first_name, last_name, email);
+            userDto.setEmail(email);
+            session.setAttribute("userDto", userDto);
+        }
+
+        if (flag && !last_name.equals("")) {
+            userService.changeInfoUser(user_login, first_name, last_name, user_login.getEmail());
+        }
+
+        
+        return ResponseEntity.ok(flag);
     }
 
 }

@@ -17,4 +17,6 @@ public interface UserService {
     public boolean checkEmailExist(String email);
     public Long getIdUserByEmail(String email);
     public void deleteAllCartItem(User user);
+    // public changePassword(User user);
+    public void changeInfoUser(User user,String firstName,String lastName, String email);
 }

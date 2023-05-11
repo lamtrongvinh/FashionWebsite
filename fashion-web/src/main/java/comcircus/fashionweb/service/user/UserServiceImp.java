@@ -55,12 +55,10 @@ public class UserServiceImp implements UserService{
 
     @Override
     public boolean checkUserExist(String email, String password) {
-        List<User> users = (List<User>) userRepository.findAll();
-        for (User u : users) {
-            boolean isPasswordMatches = bCryptPasswordEncoder.matches(password, u.getPassword());
-            if (u.getEmail().equals(email) && isPasswordMatches) {
-                return true;
-            }
+        User user = this.getUser(this.getIdUserByEmail(email));
+        boolean isPasswordMatches = bCryptPasswordEncoder.matches(password, user.getPassword());
+        if (user.getEmail().equals(email) && isPasswordMatches) {
+            return true;
         }
         return false;
     }
@@ -99,6 +97,15 @@ public class UserServiceImp implements UserService{
         if (!list.isEmpty()) {
             list.clear();
         }
+    }
+
+    @Override
+    public void changeInfoUser(User user ,String firstName, String lastName, String email) {
+        user.setFirst_name(firstName);
+        user.setLast_name(lastName);
+        user.setEmail(email);
+        
+        userRepository.save(user);
     }
 
 
