@@ -2,13 +2,10 @@ const usernameFirstname = document.getElementById("firstName");
 const usernameLastname = document.getElementById("lastName");
 const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("rp_password");
-;
+
 const emailInput = document.getElementById("email");
 
-const checkBox = document.getElementById("form2Example3c");
-
 usernameFirstname.onblur = function () {
-console.log(checkBox.checked);
     checkUsername();
 }
 usernameLastname.onblur = function () {
@@ -23,14 +20,11 @@ confirmPasswordInput.onblur = function () {
 emailInput.onblur = function () {
     checkEmail();
 }
-const submit = document.querySelector('#submit1');
+const submit = document.getElementById("submit1");
 
 
 submit.addEventListener("submit", (event) => {
-    const errorMessages = document.querySelectorAll(".error-message");
-    if(!checkBox.checked) {
-        event.preventDefault();
-    }
+    const errorMessages = document.querySelectorAll(".form-message");
     for (let i = 0; i < errorMessages.length; i++) {
         if (errorMessages[i].innerHTML !== "" ) {
             event.preventDefault();
@@ -41,23 +35,23 @@ submit.addEventListener("submit", (event) => {
 });
 
 const showError = (input, message) => {
-    const errorDiv = input.parentElement.querySelector('.error-message');
-    input.parentElement.classList.add('invalid');
+    const errorDiv = input.parentElement.querySelector('.form-message');
+
     errorDiv.innerHTML = message;
 
 };
 
 const hideError = (input) => {
-    const errorDiv = input.parentElement.querySelector('.error-message');
+    const errorDiv = input.parentElement.querySelector('.form-message');
     errorDiv.innerHTML = "";
-    input.parentElement.classList.remove('invalid');
+
 
 };
 
 const checkUsername = () => {
     const usernameValue = usernameFirstname.value.trim();
     if (usernameValue === "") {
-        showError(usernameFirstname, "Tên không được bỏ trống");
+        showError(usernameFirstname, "First Name cannot be empty");
     } else {
         hideError(usernameFirstname);
     }
@@ -66,7 +60,7 @@ const checkUsername = () => {
 const checkUsername2 = () => {
     const usernameValue = usernameLastname.value.trim();
     if (usernameValue === "") {
-        showError(usernameLastname, "Tên không được bỏ trống");
+        showError(usernameLastname, "Last Name cannot be empty");
     } else {
         hideError(usernameLastname);
     }
@@ -75,9 +69,9 @@ const checkUsername2 = () => {
 const checkPassword = () => {
     const passwordValue = passwordInput.value.trim();
     if (passwordValue === "") {
-        showError(passwordInput, "Mật khẩu không được bỏ trống");
+        showError(passwordInput, "Password cannot be empty");
     } else if (passwordValue.length < 8) {
-        showError(passwordInput, "Mật khẩu phải chứa ít nhất 8 ký tự");
+        showError(passwordInput, "Password must contain at least 8 characters");
     } else {
         hideError(passwordInput);
     }
@@ -87,9 +81,9 @@ const checkConfirmPassword = () => {
     const confirmPasswordValue = confirmPasswordInput.value.trim();
     const passwordValue = passwordInput.value.trim();
     if (confirmPasswordValue === "") {
-        showError(confirmPasswordInput, "Vui lòng nhập lại mật khẩu");
+        showError(confirmPasswordInput, "Password cannot be empty");
     } else if (confirmPasswordValue !== passwordValue) {
-        showError(confirmPasswordInput, "Mật khẩu nhập lại không khớp");
+        showError(confirmPasswordInput, "Password incorrect");
     } else {
         hideError(confirmPasswordInput);
     }
@@ -99,9 +93,9 @@ const checkEmail = () => {
     const emailValue = emailInput.value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailValue === "") {
-        showError(emailInput, "Email không được bỏ trống");
+        showError(emailInput, "Email cannot be empty");
     } else if (!emailRegex.test(emailValue)) {
-        showError(emailInput, "Email không hợp lệ");
+        showError(emailInput, "Email invalid");
     } else {
         hideError(emailInput);
     }

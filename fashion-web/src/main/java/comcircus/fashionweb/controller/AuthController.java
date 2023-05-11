@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -541,8 +540,23 @@ public class AuthController {
             userService.changeInfoUser(user_login, first_name, last_name, user_login.getEmail());
         }
 
-        
         return ResponseEntity.ok(flag);
+    }
+
+    @GetMapping("profile/change-password")
+    public ResponseEntity<Boolean> changePassword(HttpServletRequest request, HttpSession session) {
+        String newPassword = request.getParameter("newPassword");
+        String currentPassword = request.getParameter("currentPassword");
+        System.out.println(newPassword);
+        System.out.println(currentPassword);
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
+        boolean checkPassword = userService.changePassword(user_login, newPassword, currentPassword);
+        if (checkPassword) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
     }
 
 }

@@ -108,5 +108,17 @@ public class UserServiceImp implements UserService{
         userRepository.save(user);
     }
 
+    @Override
+    public boolean changePassword(User user, String newPassword, String currentPassword) {
+        boolean check = bCryptPasswordEncoder.matches(currentPassword, user.getPassword());
+        if (check) {
+            user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }
