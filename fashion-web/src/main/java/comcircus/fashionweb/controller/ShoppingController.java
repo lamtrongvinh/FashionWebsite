@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,13 +32,11 @@ public class ShoppingController {
     private SizeService sizeService;
 
     @GetMapping("/shop")
-    public String moveToShop(Model model, HttpServletRequest request) {
+    public String moveToShop(Model model, HttpServletRequest request, Pageable pageable) {
         String keyword = request.getParameter("keyword");
         List<Category> categories = categoryService.getCategorys();
         model.addAttribute("categories", categories);
         String category_id = request.getParameter("category_id");
-        System.out.println(category_id);
-        System.out.println(keyword);
 
         if (category_id != null) {
             List<Product> products = productService.getProductsByCategory(category_id);
@@ -45,7 +45,7 @@ public class ShoppingController {
             List<Product> products = productService.getProductsByKeyword(keyword);
             model.addAttribute("products", products);
         } else {
-            List<Product> products = productService.getProducts();
+            Page<Product> products = productService.findAll(pageable);
             model.addAttribute("products", products);
         }
         return "/shopping/shop";

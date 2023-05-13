@@ -78,6 +78,7 @@ public class ProductController {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         String size = request.getParameter("sizeValue");
+        System.out.println(size);
         ItemDetailsCart item = new ItemDetailsCart();
         item.setProduct_id(id);
         item.setSize(size);

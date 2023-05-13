@@ -117,7 +117,7 @@ public class AuthController {
                 List<Product> products = productService.getProductsByKeyword(keyword);
                 model.addAttribute("products", products);
             } else {
-                List<Product> products = productService.getProducts();
+                List<Product> products = productService.getProductsNewArrivals();
                 model.addAttribute("products", products);
             }
         }
@@ -233,28 +233,33 @@ public class AuthController {
         }
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         Product product = productService.getProduct(id);
-        if (id > 0 && product != null) {
-            model.addAttribute("product", product);
-            model.addAttribute("user_login", user_login);
-            if (product.getCategory().getName().equals("Clothes") || product.getCategory().getName().equals("Jeans")) {
-                model.addAttribute("sizes", sizeService.getListSizeChar());
-            }else if (product.getCategory().getName().equals("Sneaker")) {
-                model.addAttribute("sizes", sizeService.getListSizeNumber());
-            }
-        }
+         
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
+
         if (!cartItem.isEmpty()) {
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
             model.addAttribute("size", itemsDetailCart.size());
         } else {
             model.addAttribute("size", "no-item");
         }
+        
+        if (id > 0 && product != null) {
+            model.addAttribute("product", product);
+            model.addAttribute("user_login", user_login);
+            if (product.getCategory().getName().equals("Clothes") || product.getCategory().getName().equals("Jeans")) {
+                model.addAttribute("sizes", sizeService.getListSizeChar());
+            } else if (product.getCategory().getName().equals("Sneaker")) {
+                model.addAttribute("sizes", sizeService.getListSizeNumber());
+            } else {
+                model.addAttribute("sizes", sizeService.getListSizeNone());
+            }
+        }
         return "/auth/details/product_details";
     }
 
     //add product to cart
     @GetMapping("/checkout/add/{id}")
-    public ResponseEntity<HttpStatus> addProductToCart(@PathVariable Long id, Model model, HttpSession session, HttpServletRequest request) {
+    public String addProductToCart(@PathVariable Long id, Model model, HttpSession session, HttpServletRequest request) {
         String size = request.getParameter("size");
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
@@ -262,10 +267,10 @@ public class AuthController {
 
         Product product = productService.getProduct(id);
         ItemRequestDto item = new ItemRequestDto(product.getProduct_id(), 1, size);
+        System.out.println(size);
 
         CartDto cartDto = cartService.addItemToCart(item, user_login.getEmail());
         List<CartItem> cartItem = cartDto.getCartItem();
-
         if (!cartItem.isEmpty()) {
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
             double total = cartService.getTotalPrice(cartItem);
@@ -274,7 +279,7 @@ public class AuthController {
             model.addAttribute("size", itemsDetailCart.size());
         }
 
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        return "redirect:/auth/details/" + id + "";
     }
 
     //Delete product from cart

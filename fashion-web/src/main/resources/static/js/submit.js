@@ -1,105 +1,62 @@
-const usernameFirstname = document.getElementById("firstName");
-const usernameLastname = document.getElementById("lastName");
-const passwordInput = document.getElementById("password");
-const confirmPasswordInput = document.getElementById("rp_password");
+$(document).ready(function(){
+    var $registerForm=$("#formValidation");
 
-const emailInput = document.getElementById("email");
+    $registerForm.validate({
+        rules:{
+            first_name:{
+                required: true,
+                lattersonly: true
+            },
+            last_name:{
+                required: true,
+                lattersonly: true
+            },
+            email:{
+                required: true,
+                email: true
+            },
+            password:{
+                required: true,
+                checkPass: true,
+            },
+            repeat_password:{
+                required: true,
+                equalTo: '#password'
+            }
+        },
+        messages:{
+            first_name:{
+                required:'*Please enter your first name',
+                lattersonly: '*Invalid Name'
+            },
+            last_name:{
+                required:'*Please enter your last name',
+                lattersonly: '*Invalid Name'
+            },
+            email:{
+                required:'*Please enter your email address',
+                email: '*Invalid Email'
+            },
+            password:{
+                required:'*Please enter your password',
+                checkPass: '*Invalid Password (at least 8 characters, disallowed space)'
+            },
 
-usernameFirstname.onblur = function () {
-    checkUsername();
-}
-usernameLastname.onblur = function () {
-    checkUsername2();
-}
-passwordInput.onblur = function () {
-    checkPassword();
-}
-confirmPasswordInput.onblur = function () {
-    checkConfirmPassword();
-}
-emailInput.onblur = function () {
-    checkEmail();
-}
-const submit = document.getElementById("submit1");
-
-
-submit.addEventListener("submit", (event) => {
-    const errorMessages = document.querySelectorAll(".form-message");
-    for (let i = 0; i < errorMessages.length; i++) {
-        if (errorMessages[i].innerHTML !== "" ) {
-            event.preventDefault();
-            break;
+            repeat_password:{
+                required:'*Please enter your confirm password',
+                equalTo: '*Password mismatch'
+            }
         }
-    }
+    })
 
-});
+    // check valid name: not contain digits or special characeters
+    jQuery.validator.addMethod('lattersonly', function(value, element){
+        return /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(value);
+    });
 
-const showError = (input, message) => {
-    const errorDiv = input.parentElement.querySelector('.form-message');
+    // check valid email: not contain "", at least 8 characters
+    jQuery.validator.addMethod('checkPass', function(value, element){
+        return /^(?!.* ).{8,}$/.test(value);
+    });
 
-    errorDiv.innerHTML = message;
-
-};
-
-const hideError = (input) => {
-    const errorDiv = input.parentElement.querySelector('.form-message');
-    errorDiv.innerHTML = "";
-
-
-};
-
-const checkUsername = () => {
-    const usernameValue = usernameFirstname.value.trim();
-    if (usernameValue === "") {
-        showError(usernameFirstname, "First Name cannot be empty");
-    } else {
-        hideError(usernameFirstname);
-    }
-};
-
-const checkUsername2 = () => {
-    const usernameValue = usernameLastname.value.trim();
-    if (usernameValue === "") {
-        showError(usernameLastname, "Last Name cannot be empty");
-    } else {
-        hideError(usernameLastname);
-    }
-};
-
-const checkPassword = () => {
-    const passwordValue = passwordInput.value.trim();
-    if (passwordValue === "") {
-        showError(passwordInput, "Password cannot be empty");
-    } else if (passwordValue.length < 8) {
-        showError(passwordInput, "Password must contain at least 8 characters");
-    } else {
-        hideError(passwordInput);
-    }
-};
-
-const checkConfirmPassword = () => {
-    const confirmPasswordValue = confirmPasswordInput.value.trim();
-    const passwordValue = passwordInput.value.trim();
-    if (confirmPasswordValue === "") {
-        showError(confirmPasswordInput, "Password cannot be empty");
-    } else if (confirmPasswordValue !== passwordValue) {
-        showError(confirmPasswordInput, "Password incorrect");
-    } else {
-        hideError(confirmPasswordInput);
-    }
-};
-
-const checkEmail = () => {
-    const emailValue = emailInput.value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailValue === "") {
-        showError(emailInput, "Email cannot be empty");
-    } else if (!emailRegex.test(emailValue)) {
-        showError(emailInput, "Email invalid");
-    } else {
-        hideError(emailInput);
-    }
-};
-
-
-
+})

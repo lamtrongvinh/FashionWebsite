@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -99,7 +100,7 @@ public class AdminController {
     }
 
     @GetMapping("/updateProduct/{id}")
-    public String updateProductAdmin(@PathVariable Long id, Model model) {
+    public String updateProductAdmin(@PathVariable Long id, Model model, HttpSession session) {
         if (id > 0 && productService.getProduct(id) != null) {
             Product product = productService.getProduct(id);
             ProductDto productDto = new ProductDto();
@@ -115,6 +116,7 @@ public class AdminController {
             productDto.setCategory_id(product.getCategory().getId());
             productDto.setProduct_image_name(product.getProduct_image_name());
 
+            session.setAttribute("productDto", productDto);
             model.addAttribute("productDto", productDto);
             model.addAttribute("categories", categoryService.getCategorys());
         }
@@ -123,23 +125,22 @@ public class AdminController {
     }
 
     @PostMapping("/updateProduct")
-    public String updateProduct( @ModelAttribute("productDto") ProductDto productDto, @RequestParam("file") MultipartFile file) {
+    public String updateProduct( @ModelAttribute("productDto") ProductDto productDto, @RequestParam("file") MultipartFile file, HttpSession session) {
         try {
             // Save file to project directory
             byte[] bytes = file.getBytes();
             Path path = Paths.get("src/main/resources/static/image/" + file.getOriginalFilename());
             System.out.println("name image :" + file.getOriginalFilename());
             Files.write(path, bytes);
-            System.out.println(productDto.getProduct_image_name());
-            if (file.isEmpty()) {
-                productService.updateProductFromDto(productDto.getProduct_id(), productDto, productDto.getProduct_image_name());
-            } else {
+            if (!file.isEmpty()) {
                 productService.updateProductFromDto(productDto.getProduct_id(), productDto, file.getOriginalFilename());
             }
             
             return "redirect:/admin/products";
         } catch (IOException e) {
-            System.out.println("update product failed!");
+            ProductDto productDto2 = (ProductDto) session.getAttribute("productDto");
+            String path_image = productDto2.getProduct_image_name();
+            productService.updateProductFromDto(productDto.getProduct_id(), productDto, path_image);
             return "redirect:/admin/products";
         }
         

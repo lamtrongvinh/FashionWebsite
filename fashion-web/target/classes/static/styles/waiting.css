@@ -157,8 +157,8 @@ hr {
     color:  rgb(255, 255, 255);
 }
 
-.dashboard .select_profile {
+.dashboard .select_waiting {
     background-color: rgb(99, 39, 120);
-    color:  rgb(255, 255, 255);
+    color:  yellow;
     border: none;
 }

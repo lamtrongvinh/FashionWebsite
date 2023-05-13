@@ -48,5 +48,10 @@ public class SizeServiceImp implements SizeService {
 
         return list;
     }
+
+    @Override
+    public List<Size> getListSizeNone() {
+        return new ArrayList<Size>();
+    }
     
 }

@@ -178,6 +178,7 @@
 						<select id="ddlViewBy">
 							<option selected>Select size</option>
 							<option  th:each="size : ${sizes}" th:text="${size.name}" >S</option>
+							<option th:if="${sizes.isEmpty()}">No size</option>
 						</select>
 					</div>
 					

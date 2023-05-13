@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import comcircus.fashionweb.dto.ProductDto;
@@ -15,7 +17,7 @@ import comcircus.fashionweb.repository.ProductRepository;
 import comcircus.fashionweb.service.category.CategoryService;
 
 @Service
-public class ProductServiceImp implements ProductService{
+public class ProductServiceImp implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
@@ -271,6 +273,22 @@ public class ProductServiceImp implements ProductService{
     public void cancelOrder(Product product, int quantity) {
         Product p = this.productRepository.findById(product.getProduct_id()).get();
         p.setProduct_quantity(p.getProduct_quantity() + quantity);
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Product> getProductsNewArrivals() {
+        List<Product> list = this.getAllProduct();
+        List<Product> res = new ArrayList<>();
+        for (int i = list.size() - 10; i < list.size(); i++) {
+            res.add(list.get(i));
+        }
+
+        return res;
     }
 
 }

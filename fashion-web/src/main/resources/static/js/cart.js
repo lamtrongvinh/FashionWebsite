@@ -10,13 +10,6 @@ $(document).ready(function() {
             url: "/product/" + productId + "/increment",
             data : {sizeValue : sizeValue},
             success: function(data) {
-                $("#quantity-" + productId).text(data.quantity);
-                $("#total-" + productId).text(data.total);
-                var total = 0;
-                $(".total").each(function() {
-                    total += parseFloat($(this).text());
-                });
-                $("#grand-total").text(total.toFixed(2));
                 location.reload();
             }
         });
@@ -34,13 +27,6 @@ $(document).ready(function() {
             url: "/product/" + productId + "/decrement",
             data : {sizeValue : sizeValue},
             success: function(data) {
-                $("#quantity-" + productId).text(data.quantity);
-                $("#total-" + productId).text(data.total);
-                var total = 0;
-                $(".total").each(function() {
-                    total += parseFloat($(this).text());
-                });
-                $("#grand-total").text(total.toFixed(2));
                 location.reload();
             }
         });

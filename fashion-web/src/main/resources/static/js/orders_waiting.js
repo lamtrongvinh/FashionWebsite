@@ -8,7 +8,8 @@ $(document).ready(function() {
             url: "/auth/orders/cancel/" + orderId,
             data: {id : orderId},
             success: function() {
-                alert(123)
+                alert("Cancel order ID:" + orderId + " success!");
+                location.reload();
             }
         });
     });

@@ -20,9 +20,7 @@ $(document).ready(function() {
             error_email.innerHTML = "Please enter your email valid!";
             email_flag = false;
         }
-        alert(email)
         if (email_flag == true && lastname_flag == true) {
-            alert(1232)
             $.ajax({
             
                 type: "GET",
@@ -34,9 +32,11 @@ $(document).ready(function() {
                     email : email
                 },
                 success: function(flag) {
-                    alert(flag)
                     if (flag) {
                         error_email.innerHTML = "Email exist!";
+                    } else {
+                        alert("Change info success!")
+                        location.reload();
                     }
                 }
             });
@@ -58,7 +58,6 @@ $(document).ready(function() {
     let checkPasswordValid = true;
     let checkMatchPassword = true;
     let checkCurrentPassword = true;
-    alert(newPassword.length)
     if (newPassword.length < 8 || newPassword.length > 20 || newPassword.includes(" ")) {
         password_error.innerHTML = "Password invalid!";
         checkPasswordValid = false;
@@ -74,7 +73,6 @@ $(document).ready(function() {
     }
 
     if (checkCurrentPassword && checkMatchPassword && checkPasswordValid) {
-        alert(1231)
         $.ajax({
             type: "GET",
             url: "/auth/profile/change-password",
@@ -86,6 +84,7 @@ $(document).ready(function() {
                 if (flag == false) {
                     currentPassword_error.innerHTML = "Current password not correct!"
                 } else {
+                    alert("Change password success!")
                     form_changePassword.style.display = "none";
                 }
             }

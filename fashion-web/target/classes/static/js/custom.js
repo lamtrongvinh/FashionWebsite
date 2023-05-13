@@ -12,6 +12,7 @@
 6. Init Fix Product Border
 7. Init Isotope Filtering
 8. Init Slider
+9. Init Main Slider (Background Homepage)
 
 
 ******************************/
@@ -54,6 +55,7 @@ jQuery(document).ready(function($)
 	initFixProductBorder();
 	initIsotopeFiltering();
 	initSlider();
+	slider();
 
 	/* 
 
@@ -281,7 +283,8 @@ jQuery(document).ready(function($)
     		// reset border
     		products.each(function()
     		{
-    			$(this).css('border-right', 'solid 1px #e9e9e9');
+    			$(this).css('border-right', 'none');
+					
     		});
 
     		// if window width is 991px or less
@@ -404,6 +407,7 @@ jQuery(document).ready(function($)
     		var slider1 = $('.product_slider');
 
     		slider1.owlCarousel({
+					margin: 15,
     			loop:false,
     			dots:false,
     			nav:false,
@@ -435,4 +439,15 @@ jQuery(document).ready(function($)
     		}
     	}
     }
+
+		function slider(){
+			$(".owl-carousel").owlCarousel({
+				items: 1,
+				loop: true,
+				margin: 10,
+				autoplay: true,
+				autoplayTimeout: 3000,	
+			})
+		}
+
 });

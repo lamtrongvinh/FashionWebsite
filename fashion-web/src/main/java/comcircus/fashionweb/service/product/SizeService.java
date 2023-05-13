@@ -10,4 +10,5 @@ import comcircus.fashionweb.model.product.Size;
 public interface SizeService {
     public List<Size> getListSizeChar();
     public List<Size> getListSizeNumber();
+    public List<Size> getListSizeNone();
 }

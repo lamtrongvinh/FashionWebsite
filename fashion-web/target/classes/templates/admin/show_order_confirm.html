@@ -96,7 +96,8 @@
                 <td></td>
                 <td th:text="${product.product_name}">Jacket</td>
                 <td></td>
-                <td th:text="${item.size}">Size</td>
+                <td th:if="${item.size} != 'no-size'" th:text="${item.size}">Size</td>
+                <td th:if="${item.size} == 'no-size'"></td>
                 <td></td>
                 <td th:text="${'x'+item.quantity}">1</td>
                 <td th:text="${'$'+product.product_price}">$5</td>

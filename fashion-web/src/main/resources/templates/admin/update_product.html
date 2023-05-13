@@ -125,14 +125,13 @@
                     <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" >Open this select menu</option>
                 </select>
             </div>
-            <input style="display: none;" type="text" th:filed="*{product_image_name}">
             <div class="form-group">
                 <label for="exampleFormControlFile1">File</label>
                 
                 <input type="file" class="form-control-file" name="file" id="product_image" >
                 
                 <div>
-                    <img th:src="@{'~/image/' + *{product_image_name}}" alt="" srcset="">
+                    <img style="max-width: 150px; max-height:  200px;" th:src="@{'~/image/' + *{product_image_name}}" alt="" srcset="">
                 </div>
             </div>
             

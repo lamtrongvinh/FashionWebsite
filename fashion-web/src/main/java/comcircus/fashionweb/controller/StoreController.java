@@ -26,7 +26,7 @@ public class StoreController {
             List<Product> products = productService.getProductsByKeyword(keyword);
             model.addAttribute("products", products);
         } else {
-            List<Product> products = productService.getProducts();
+            List<Product> products = productService.getProductsNewArrivals();
             model.addAttribute("products", products);
         }
         return "index";
