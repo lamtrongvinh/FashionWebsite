@@ -279,11 +279,14 @@ public class AuthController {
 
     //Delete product from cart
     @GetMapping("/checkout/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteProductInCart(Model model, @PathVariable Long id, HttpSession session) {
+    public ResponseEntity<HttpStatus> deleteProductInCart(Model model, @PathVariable Long id, HttpSession session, HttpServletRequest request) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
         model.addAttribute("user_login", user_login);
-        List<CartItem> cartItem = cartService.deleteProduct(id, user_login.getEmail());
+        String size = request.getParameter("sizeValue");
+        System.out.println("size :" + size);
+
+        List<CartItem> cartItem = cartService.deleteProduct(id, user_login.getEmail(), size);
 
         if (!cartItem.isEmpty()) {
             List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
@@ -514,9 +517,9 @@ public class AuthController {
     }
 
     @GetMapping("/orders/cancel/{id}")
-    public String cancelOrder(HttpSession session, Model model,@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> cancelOrder(HttpSession session, Model model,@PathVariable Long id) {
         orderDetailsService.cancelOrder(id);
-        return "/auth/orders/waiting";
+        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 
     @GetMapping("/profile/update")

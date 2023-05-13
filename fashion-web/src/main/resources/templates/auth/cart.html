@@ -14,63 +14,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/cart.js"></script>
     <title>Cart</title>
-    <script>
-        $(document).ready(function() {
-            $(".increment-btn").click(function() {
-                var productId = $(this).attr("data-product-id");
-                var quantity = parseInt($("#quantity-" + productId).text());
-                $.ajax({
-                    type: "GET",
-                    url: "/product/" + productId + "/increment",
-                    success: function(data) {
-                        $("#quantity-" + productId).text(data.quantity);
-                        $("#total-" + productId).text(data.total);
-                        var total = 0;
-                        $(".total").each(function() {
-                            total += parseFloat($(this).text());
-                        });
-                        $("#grand-total").text(total.toFixed(2));
-                        location.reload();
-                    }
-                });
-            });
-        });
-
-        $(document).ready(function() {
-            $(".decrement-btn").click(function() {
-                var productId = $(this).attr("data-product-id");
-                var quantity = parseInt($("#quantity-" + productId).text());
-                $.ajax({
-                    type: "GET",
-                    url: "/product/" + productId + "/decrement",
-                    success: function(data) {
-                        $("#quantity-" + productId).text(data.quantity);
-                        $("#total-" + productId).text(data.total);
-                        var total = 0;
-                        $(".total").each(function() {
-                            total += parseFloat($(this).text());
-                        });
-                        $("#grand-total").text(total.toFixed(2));
-                        location.reload();
-                    }
-                });
-            });
-        });
-
-        $(document).ready(function() {
-            $(".delete-product").click(function() {
-                var productId = $(this).attr("data-product-id");
-                $.ajax({
-                    type: "GET",
-                    url: "/auth/checkout/delete/" + productId,
-                    success: function(data) {
-                        location.reload();
-                    }
-                });
-            });
-        });
-    </script>
 </head>
 <body>
     <!-- top nav -->
@@ -155,16 +100,16 @@
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
                       <p class="lead fw-normal mb-2" th:text="${item.product_desciption}">Basic T-shirt</p>
-                      <p th:if="${item.size} != null"> Size:<span class="text-muted"  th:text="' ' + ${item.size}"> </span></p>
+                      <p th:if="${item.size} != null"> Size:<span th:id="${item.cartItem_id}" class="text-muted" th:text="' ' + ${item.size}"> </span></p>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2 decrement-btn" th:data-product-id="${item.product_id}">
+                      <button class="btn btn-link px-2 decrement-btn" th:data-item-id="${item.cartItem_id}" th:data-product-id="${item.product_id}">
                         <i class="fas fa-minus"></i>
                       </button>
                       
                       <input id="form1" min="0" name="quantity" type="number" class="form-control form-control-sm" th:id="'quantity-' + ${item.quantity}" th:value="${item.quantity}"/>
       
-                      <button class="btn btn-link px-2 increment-btn" th:data-product-id="${item.product_id}">
+                      <button class="btn btn-link px-2 increment-btn" th:data-item-id="${item.cartItem_id}" th:data-product-id="${item.product_id}">
 
                         <i class="fas fa-plus"></i>
                       </button>
@@ -173,7 +118,7 @@
                       <h5 class="mb-0" th:id="'total-' + ${item.product_id}" th:text="'$'+${item.total_price}">$499.00</h5>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a href="" th:data-product-id="${item.product_id}" class="text-danger delete-product"><i class="fas fa-trash fa-lg"></i></a>
+                      <a href="" th:data-item-id="${item.cartItem_id}" th:data-product-id="${item.product_id}" class="text-danger delete-product"><i class="fas fa-trash fa-lg"></i></a>
                     </div>
                   </div>
                   

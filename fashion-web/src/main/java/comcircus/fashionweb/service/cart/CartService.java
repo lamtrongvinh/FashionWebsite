@@ -15,7 +15,7 @@ import comcircus.fashionweb.model.person.user.User;
 public interface CartService {
     public void initCartForUser(User user, Cart cart);
     public CartDto addItemToCart(ItemRequestDto item, String email);
-    public List<CartItem> deleteProduct(Long id, String email);
+    public List<CartItem> deleteProduct(Long id, String email, String size);
     public void deleteAllProduct(User user);
     public List<ItemDetailsCart> changeToItemsDeltails(List<CartItem> cartItem);
     public double getTotalPrice(List<CartItem> cartItem);

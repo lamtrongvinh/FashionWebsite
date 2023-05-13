@@ -18,37 +18,8 @@
 <link rel="stylesheet" type="text/css" th:href="@{~/styles/single_styles.css}">
 <link rel="stylesheet" type="text/css" th:href="@{~/styles/single_responsive.css}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-	$(document).ready(function() {
-		$(".add-to-cart").click(function() {
-			var productId = $(this).attr("data-product-id");
-			var e = document.getElementById("ddlViewBy");
-			if (e != null) {
-				var size_choose = e.options[e.selectedIndex].text;
-				if (size_choose != 'Open this select menu size') {
-					$.ajax({
-						type: "GET",
-						url: "/auth/checkout/add/" + productId,
-						data : {size : size_choose},
-						success: function(data) {
-							location.reload();
-						}
-					});
-				} else {
-					alert("Vui Lòng Chọn Size");
-				}
-			} else {
-				$.ajax({
-					type: "GET",
-					url: "/auth/checkout/add/" + productId,
-					data : {size : size_choose},
-					success: function(data) {
-						location.reload();
-					}
-				});
-			}
-		});
-	});
+<script src="/js/product_details.js">
+	
 </script>
 </head>
 
@@ -205,7 +176,7 @@
 					<div class="product_price" th:text="'$' + *{product_price}">$495.00</div>
 					<div th:if="${sizes} != null">
 						<select id="ddlViewBy">
-							<option selected>Open this select menu size</option>
+							<option selected>Select size</option>
 							<option  th:each="size : ${sizes}" th:text="${size.name}" >S</option>
 						</select>
 					</div>

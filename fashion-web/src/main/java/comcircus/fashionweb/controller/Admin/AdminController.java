@@ -113,6 +113,7 @@ public class AdminController {
             productDto.setProduct_live(product.isProduct_live());
             productDto.setProduct_stock(product.isProduct_stock());
             productDto.setCategory_id(product.getCategory().getId());
+            productDto.setProduct_image_name(product.getProduct_image_name());
 
             model.addAttribute("productDto", productDto);
             model.addAttribute("categories", categoryService.getCategorys());
@@ -129,12 +130,17 @@ public class AdminController {
             Path path = Paths.get("src/main/resources/static/image/" + file.getOriginalFilename());
             System.out.println("name image :" + file.getOriginalFilename());
             Files.write(path, bytes);
+            System.out.println(productDto.getProduct_image_name());
+            if (file.isEmpty()) {
+                productService.updateProductFromDto(productDto.getProduct_id(), productDto, productDto.getProduct_image_name());
+            } else {
+                productService.updateProductFromDto(productDto.getProduct_id(), productDto, file.getOriginalFilename());
+            }
             
-            productService.updateProductFromDto(productDto.getProduct_id(), productDto, file.getOriginalFilename());
             return "redirect:/admin/products";
         } catch (IOException e) {
             System.out.println("update product failed!");
-            return "redirect:/admin/update_product";
+            return "redirect:/admin/products";
         }
         
     }

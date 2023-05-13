@@ -77,9 +77,10 @@ public class ProductController {
     public ResponseEntity<HttpStatus> increaseQuantity(@PathVariable Long id, HttpSession session, HttpServletRequest request) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
-        
+        String size = request.getParameter("sizeValue");
         ItemDetailsCart item = new ItemDetailsCart();
         item.setProduct_id(id);
+        item.setSize(size);
         cartService.increaseQuantityItem(item, user_login);
 
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
@@ -88,9 +89,10 @@ public class ProductController {
     public ResponseEntity<HttpStatus> decrementQuantity(@PathVariable Long id, HttpSession session, HttpServletRequest request) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
-        
+        String size = request.getParameter("sizeValue");
         ItemDetailsCart item = new ItemDetailsCart();
         item.setProduct_id(id);
+        item.setSize(size);
         cartService.decrementQuantityItem(item, user_login);
 
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);

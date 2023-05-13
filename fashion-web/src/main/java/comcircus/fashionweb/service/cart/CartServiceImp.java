@@ -166,14 +166,13 @@ public class CartServiceImp implements CartService{
     }
 
     @Override
-    public List<CartItem> deleteProduct(Long id, String email) {
+    public List<CartItem> deleteProduct(Long id, String email, String size) {
         User user = userService.getUser(userService.getIdUserByEmail(email));
         List<CartItem> listCartItems = user.getCart().getCartItem();
         for (int i = 0; i < listCartItems.size(); i++) {
             Product product = listCartItems.get(i).getProduct();
-            if (product.getProduct_id() == id) {
+            if (product.getProduct_id() == id && listCartItems.get(i).getSize().equals(size)) {
                 listCartItems.remove(listCartItems.get(i));
-                System.out.println(listCartItems.size());
             }
         }
         return listCartItems;
@@ -210,7 +209,7 @@ public class CartServiceImp implements CartService{
 
         for (int i = 0; i < listCartItems.size(); i++) {
             CartItem cartItem = listCartItems.get(i);
-            if (cartItem.getProduct().getProduct_id() - item.getProduct_id() == 0) {
+            if (cartItem.getProduct().getProduct_id() - item.getProduct_id() == 0 && cartItem.getSize().equals(item.getSize())) {
                 int after_quantity = cartItem.getQuantity() + 1;
                 if (cartItem.getProduct().getProduct_quantity() - after_quantity >= 0) {
                     cartItem.setQuantity(cartItem.getQuantity() + 1);
@@ -234,7 +233,7 @@ public class CartServiceImp implements CartService{
 
         for (int i = 0; i < listCartItems.size(); i++) {
             CartItem cartItem = listCartItems.get(i);
-            if (cartItem.getProduct().getProduct_id() - item.getProduct_id() == 0 && cartItem.getQuantity() > 1) {
+            if (cartItem.getProduct().getProduct_id() - item.getProduct_id() == 0 && cartItem.getQuantity() > 1 && cartItem.getSize().equals(item.getSize())) {
                 cartItem.setQuantity(cartItem.getQuantity() - 1);
                 if (cartItem.getQuantity() <= 0) {
                     cartItem.setQuantity(0);
