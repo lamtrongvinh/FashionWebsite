@@ -267,7 +267,6 @@ public class AuthController {
 
         Product product = productService.getProduct(id);
         ItemRequestDto item = new ItemRequestDto(product.getProduct_id(), 1, size);
-        System.out.println(size);
 
         CartDto cartDto = cartService.addItemToCart(item, user_login.getEmail());
         List<CartItem> cartItem = cartDto.getCartItem();

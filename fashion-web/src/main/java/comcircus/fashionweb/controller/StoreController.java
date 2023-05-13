@@ -39,10 +39,6 @@ public class StoreController {
         return "contact";
     }
 
-    @GetMapping("/category")
-    public String getCategory() {
-        return "/categories/categories";
-    }
-
+    
     
 }

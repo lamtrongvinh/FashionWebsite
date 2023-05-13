@@ -102,4 +102,16 @@ public class LoginRegisterController {
         model.addAttribute("message", "You can not access");
         return "/forbidden_exception";
     }
+
+    @GetMapping("/forgot-password")
+    public String forgotPassword() {
+        return "forgot-password";
+    }
+
+    @GetMapping("/forgot-password-process")
+    public String handleForgetPassword(HttpServletRequest request, Model model) {
+        return "";
+        
+    }
+
 }
