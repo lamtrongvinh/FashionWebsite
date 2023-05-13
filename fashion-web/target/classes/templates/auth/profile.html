@@ -138,27 +138,75 @@
                             <div class="p-3 py-5">
                                 <div class="mt-3">
                                     <label class="labels">First Name</label>
-                                    <input type="text" class="form-control" placeholder="" th:value="${user_login.first_name}">
+                                    <input type="text" class="form-control" name="first_name" id="first_name" th:value="${user_login.first_name}">
                                 </div>
 
                                 <div class="mt-3">
                                     <label class="labels">Last Name</label>
-                                    <input type="text" class="form-control" th:value="${user_login.last_name}" placeholder="">
+                                    <input type="text" class="form-control" th:value="${user_login.last_name}" name="last_name" id="last_name">
+                                    <label style="font-size: 10px; color: red; display: none;" id="error_lastname"></label>
                                 </div>
                                 
                                 <div class="mt-3">
                                     <label class="labels">Email</label>
-                                    <input type="text" class="form-control" th:value="${user_login.email}">
+                                    <input type="text" class="form-control" name="email" id="email" th:value="${user_login.email}">
+                                    <label  style="font-size: 10px; color: red; display: none;" id="error_email"></label>
                                 </div>    
                                 
-                                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                                <div class="mt-5 text-center">
+                                    <button class="btn btn-primary profile-button save-profile mr-3" type="button" th:data-user-id="${user_login.id}">Save Profile</button>
+
+                                    <button class="btn btn-primary profile-button" type="button" th:data-user-id="${user_login.id}"  onclick="openForm()">Change password</button>
+                                </div>
+
+                                <div class="text-center"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
+        <!--Box change pass-->
+        <div class="change_pass card card-outline-secondary" id="form_changePassword">
+            <div class="card-header">
+                <h3 class="mb-0">Change Password</h3>
+            </div>
+            <div class="card-body">
+                <form class="form" role="form">
+                    <div class="form-group">
+                        <label for="inputPasswordOld">Current Password</label>
+                        <input type="password" class="form-control" id="inputPasswordOld" required>
+                        <label style="color: red; font-size: 12px;" id="currentPassword_error"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputPasswordNew">New Password</label>
+                        <input type="password" class="form-control" id="inputPasswordNew" required>
+                        <label style="color: red; font-size: 12px;" id="password_error"></label>
+                        <span class="form-text small text-muted">
+                                The password must be 8-20 characters, and must <em>not</em> contain spaces.
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputPasswordNewVerify">Verify</label>
+                        <input type="password" class="form-control" id="inputPasswordNewVerify" required>
+                        <label style="color: red; font-size: 12px;" id="repeat_password_error"></label>
+                        <span class="form-text small text-muted">
+                                To confirm, type the new password again.
+                            </span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success profile-button save-password float-right">Save</button>
+
+                        <button type="submit" class="btn btn-success profile-button  float-right mr-2" onclick="closeForm()">Cancel</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
@@ -193,7 +241,6 @@
                 </div>
             </div>
         </footer>
-        
 
         <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
         <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
@@ -202,15 +249,28 @@
         <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
         <script th:src="@{~/plugins/easing/easing.js}"></script>
         <script th:src="@{~/js/custom.js}"></script>
-        <script th:src="@{~/js/submit.js}"></script>
+        <script th:src="@{~/js/profile.js}"></script>
 
-        <script src="../../static/js/jquery-3.2.1.min.js"></script>
+        <script>
+            function openForm() {
+            document.getElementsByClassName("change_pass")[0].style.display = "block";
+            document.getElementsByClassName("change_pass")[0].style.opacity = 1;
+            document.getElementsByClassName("row")[0].style.opacity = 0.6;
+            }
+        
+            function closeForm() {
+                document.getElementsByClassName("change_pass")[0].style.display = "none";
+                document.body.style.opacity = 1;
+            }
+        </script>
+
+        <!-- <script src="../../static/js/jquery-3.2.1.min.js"></script>
         <script src="../../static/styles/bootstrap4/popper.js"></script>
         <script src="../../static/styles/bootstrap4/bootstrap.min.js"></script>
         <script src="../../static/plugins/Isotope/isotope.pkgd.min.js"></script>
         <script src="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
         <script src="../../static/plugins/easing/easing.js"></script>
         <script src="../../static/js/custom.js"></script>
-        <script src="../../static/js/submit.js"></script>
+        <script src="../../static/js/profile.js"></script> -->
     </body>
 </html>

@@ -29,39 +29,6 @@
 <link rel="stylesheet" href="../../../static/plugins/themify-icons/themify-icons.css">
 <link rel="stylesheet" href="../../../static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-	$(document).ready(function() {
-		$(".add-to-cart").click(function() {
-			var productId = $(this).attr("data-product-id");
-			var e = document.getElementById("ddlViewBy");
-			if (e != null) {
-				var size_choose = e.options[e.selectedIndex].text;
-				if (size_choose != 'Open this select menu size') {
-					$.ajax({
-						type: "GET",
-						url: "/auth/checkout/add/" + productId,
-						data : {size : size_choose},
-						success: function(data) {
-							location.reload();
-						}
-					});
-				} else {
-					alert("Vui Lòng Chọn Size");
-				}
-			} else {
-				$.ajax({
-					type: "GET",
-					url: "/auth/checkout/add/" + productId,
-					data : {size : size_choose},
-					success: function(data) {
-						location.reload();
-					}
-				});
-			}
-		});
-	});
-</script>
 </head>
 
 <body>
@@ -69,78 +36,76 @@
 <div class="super_container">
 
 	<!-- Header -->
-
-	<header class="header trans_300">
-
-		<!-- Top Navigation -->
-
+	<header class="header trans_300" style="top: 0px;">
+		<!-- top nav -->
 		<div class="top_nav">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="top_nav_left">free shipping on all u.s orders over $50</div>
-					</div>
-					<div class="col-md-6 text-right">
-						<div class="top_nav_right">
-							<ul class="top_nav_menu">
+				<div class="container">
+						<div class="row">
+								<div class="col-md-6">
+										<div class="top_nav_left">free shipping on all u.s orders over $50</div>
+								</div>
+								<div class="col-md-6 text-right">
+										<div class="top_nav_right">
+												<ul class="top_nav_menu">
 
-								<!-- Currency / Language / My Account -->
+														<!-- Currency / Language / My Account -->
 
-								
-								<li class="account">
-									<a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
-										My Account
-										<i class="fa fa-angle-down"></i>
-									</a>
-									<ul class="account_selection">
-										<li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
-									</ul>
-								</li>
-							</ul>
+														
+														<li class="account">
+																<a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+																		My Account
+																		<i class="fa fa-angle-down"></i>
+																</a>
+																<ul class="account_selection">
+																		<li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+																</ul>
+														</li>
+												</ul>
+										</div>
+								</div>
 						</div>
-					</div>
 				</div>
-			</div>
 		</div>
+		<!-- end top nav -->
 
-		<!-- Main Navigation -->
-
-		<div class="main_nav_container">
-			<div class="container">
-					<div class="d-flex align-items-center justify-content-between">
-							<div class="logo_container">
-									<a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
-							</div>
-							<div>
-									<form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0" method="get">
-											<input class="form-control" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
-											<button id="search-button" class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-									</form>
-							</div>
-							<nav class="navbar">
-									<ul class="navbar_menu">
-											<li><a th:href="@{/auth/homepage}">home</a></li>
-											<li><a th:href="@{/auth/shop}">shop</a></li>
-											<li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
-									</ul>
-									<ul class="navbar_user">
-											<li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-											<li class="checkout">
-													<a th:href="@{/auth/checkout}">
-															<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-															<span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
-													</a>
-											</li>
-									</ul>
-									<div class="hamburger_container">
-											<i class="fa fa-bars" aria-hidden="true"></i>
+			<!-- main nav -->
+			<div class="main_nav_container">
+					<div class="container">
+							<div class="d-flex align-items-center justify-content-between">
+									<div class="logo_container">
+											<a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
 									</div>
-							</nav>
+									<div>
+											<form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0 search_bar" method="get">
+													<input class="form-control" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
+													<button id="search-button" class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+											</form>
+									</div>
+									<nav class="navbar">
+											<ul class="navbar_menu">
+													<li><a th:href="@{/auth/homepage}">home</a></li>
+													<li><a th:href="@{/auth/shop}">shop</a></li>
+													<li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
+											</ul>
+											<ul class="navbar_user">
+													<li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+													<li class="checkout">
+															<a th:href="@{/auth/checkout}">
+																	<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+																	<span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
+															</a>
+													</li>
+											</ul>
+											<div class="hamburger_container">
+													<i class="fa fa-bars" aria-hidden="true"></i>
+											</div>
+									</nav>
+							</div>
 					</div>
 			</div>
-	</div>
+			<!-- end main nav -->
 
-	</header>
+</header>
 
 	<div class="fs_menu_overlay"></div>
 
@@ -344,14 +309,16 @@
 
 </div>
 
-<script src="../../../static/js/single_custom.js"></script>
-<script src="../../../static/js/jquery-3.2.1.min.js"></script>
+
+<!-- <script src="../../../static/js/jquery-3.2.1.min.js"></script>
 <script src="../../../static/styles/bootstrap4/popper.js"></script>
 <script src="../../../static/styles/bootstrap4/bootstrap.min.js"></script>
 <script src="../../../static/plugins/Isotope/isotope.pkgd.min.js"></script>
 <script src="../../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
 <script src="../../../static/plugins/easing/easing.js"></script>
 <script src="../../../static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="../../../static/js/product_details.js"></script>
+<script src="../../../static/js/single_custom.js"></script> -->
 
 <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
 <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
@@ -361,6 +328,7 @@
 <script th:src="@{~/plugins/easing/easing.js}"></script>
 <script th:src="@{~/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
 <script th:src="@{~/js/single_custom.js}"></script>
+<script th:src="@{~/js/product_details.js}"></script>
 </body>
 
 </html>

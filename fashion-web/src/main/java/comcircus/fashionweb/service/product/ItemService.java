@@ -14,4 +14,5 @@ public interface ItemService {
     public boolean checkItemExist(Product product, String size);
     public Long getItemID(Product product, String size);
     public void decreaseItemQuantity(Product product, String size, int quantity);
+    public void cancelOrder(Product product, String size, int quantity);
 }

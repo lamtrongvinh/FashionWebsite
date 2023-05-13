@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{~/styles/profile.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/admin.css}">
 
     <link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/styles/main_styles.css">
@@ -58,15 +58,15 @@
     </div>
     <!-- end top nav -->
 
-    <div class="row mx-0">
+    <div class="main_area row mx-0">
         <!-- Dashboard -->
         <div class="col-md-2 px-4 pt-4" style="background-color: var(--ds-surface, #FAFBFC);">
             <ul class="d-flex flex-column dashboard">
                 <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
-                <li>Manage Products</li>
                 <li> 
+                    Manage Products
                     <ul class="list">
-                        <li>
+                        <li class="active">
                             <a th:href="@{/admin/products}">All Products</a>
                         </li>
                         <li>
@@ -75,8 +75,8 @@
                     </ul>    
                 </li>
                     
-                <li>Manage Orders</li>
                 <li> 
+                    Manage Orders
                     <ul class="list">
                         <li>
                             <a th:href="@{/admin/order-waiting}">Waiting orders</a>
@@ -143,7 +143,7 @@
                     <input type="file" class="form-control-file mx-2" name="file" id="product_image">
                 </div>
                 
-                <div class="text-center">
+                <div class="text-center btn_container mt-4">
                     <button type="submit" class="btn btn-primary">UPDATE PRODUCT</button>
                 </div>
                 

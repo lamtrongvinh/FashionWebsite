@@ -224,7 +224,7 @@
                                     <div class="row my-3 mx-2"> 
                                         <!-- Cancel orders -->
                                         <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                                            <a href="#">
+                                            <a href="" class="cancel-order" th:data-order-id="${order.id}">
                                                 <button type="submit" class="btn btn-sm btn-danger">
                                                     <i class="fas fa-trash fa-lg" aria-hidden="true"></i> 
                                                     Cancel
@@ -298,5 +298,6 @@
         <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
         <script th:src="@{~/plugins/easing/easing.js}"></script>
         <script th:src="@{~/js/custom.js}"></script>
+        <script th:src="@{~/js/orders_waiting.js}"></script>
     </body>
 </html>

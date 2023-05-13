@@ -22,20 +22,7 @@
     <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" href="../../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
     <title>Document</title>
-    <script>
-        $(document).ready(function() {
-			$(".delete-product").click(function() {
-					var productId = $(this).attr("data-product-id");
-					$.ajax({
-							type: "GET",
-							url: "/auth/checkout/delete/" + productId,
-							success: function(data) {
-								location.reload();
-							}
-					});
-			});
-		});
-    </script>
+    
 </head>
 <body>
     <!-- top nav -->
@@ -144,7 +131,7 @@
                       <h5 class="mb-0" th:id="'total-' + ${item.product_id}" th:text="'$'+${item.total_price}">$499.00</h5>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a href="" th:data-product-id="${item.product_id}" class="text-danger delete-product"><i class="fas fa-trash fa-lg"></i></a>
+                      <a href="#" th:data-product-id="${item.product_id}" class="text-danger delete-product"><i class="fas fa-trash fa-lg"></i></a>
                     </div>
                 </div>  
               </div>
@@ -214,12 +201,27 @@
     <script th:src="@{~/plugins/easing/easing.js}"></script>
     <script th:src="@{~/js/custom.js}"></script>
 
-    <script src="../../static/js/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+			$(".delete-product").click(function() {
+					var productId = $(this).attr("data-product-id");
+					$.ajax({
+							type: "GET",
+							url: "/auth/checkout/delete/" + productId,
+							success: function(data) {
+								location.reload();
+							}
+					});
+			});
+		});
+    </script>
+
+    <!-- <script src="../../static/js/jquery-3.2.1.min.js"></script>
     <script src="../../static/styles/bootstrap4/popper.js"></script>
     <script src="../../static/styles/bootstrap4/bootstrap.min.js"></script>
     <script src="../../static/plugins/Isotope/isotope.pkgd.min.js"></script>
     <script src="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
     <script src="../../static/plugins/easing/easing.js"></script>
-    <script src="../../static/js/custom.js"></script>
+    <script src="../../static/js/custom.js"></script> -->
 </body>
 </html>

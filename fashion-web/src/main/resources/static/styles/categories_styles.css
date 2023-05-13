@@ -1305,15 +1305,16 @@ section
 }
 .product-item
 {
-	width: 25%;
-	height: 380px;
+	width: 23%;
+	height: 350px;
 	cursor: pointer;
 	border: solid 1px #e9e9e9;
 	border-radius: 8px;
 	margin-bottom: 2em;
-	margin-right: 2em;
+	margin-right: 2%;
 	
 }
+
 .product-item::after
 {
 	display: block;

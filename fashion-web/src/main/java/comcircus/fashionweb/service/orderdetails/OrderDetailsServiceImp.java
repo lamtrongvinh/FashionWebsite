@@ -12,9 +12,12 @@ import comcircus.fashionweb.model.cart.CartPaid;
 import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
+import comcircus.fashionweb.model.product.Product;
 import comcircus.fashionweb.repository.OrderDetailsRepository;
 import comcircus.fashionweb.service.cart.CartPaidService;
 import comcircus.fashionweb.service.customer.CustomerService;
+import comcircus.fashionweb.service.product.ItemService;
+import comcircus.fashionweb.service.product.ProductService;
 
 @Service
 public class OrderDetailsServiceImp implements OrderDetailsService{
@@ -27,6 +30,11 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
     @Autowired
     private CartPaidService cartPaidService;
 
+    @Autowired
+    private ItemService itemService;
+
+    @Autowired
+    private ProductService productService;
 
     @Override
     public OrderDetails saveOrderDetails(OrderDetailsDto orderDetailsDto, User user, Customer customer) {
@@ -229,5 +237,27 @@ public class OrderDetailsServiceImp implements OrderDetailsService{
             }
         }
         return res;
+    }
+
+    @Override
+    public void cancelOrder(Long order_id) {
+        OrderDetails orderDetails = this.oDetailsRepository.findById(order_id).get();
+        User user = orderDetails.getUser_id();
+        CartPaid cartPaid = user.getCartPaid();
+        List<CartItemPaid> listCartItemPaids = cartPaid.getCartItemPaid();
+        for (int i = 0; i < listCartItemPaids.size(); i++) {
+            CartItemPaid cartItemPaid = listCartItemPaids.get(i);
+            System.out.println(cartItemPaid.getOrderDetails_id());
+            if (cartItemPaid.getOrderDetails_id() - order_id == 0) {
+                Product product = cartItemPaid.getProduct();
+                int quantity = cartItemPaid.getQuantity();
+                String size = cartItemPaid.getSize();
+                itemService.cancelOrder(product, size, quantity);
+                productService.cancelOrder(product, quantity);
+                listCartItemPaids.remove(i);
+                System.out.println("cancel order_id :" + order_id);
+            }
+        }
+        this.oDetailsRepository.deleteById(order_id);
     }
 }

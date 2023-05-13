@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{~/styles/profile.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/admin.css}">
 
     <link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/styles/main_styles.css">
@@ -29,124 +29,104 @@
 </head>
 
 <body>
-    <!-- top nav -->
-    <div class="top_nav">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="top_nav_left">ONLY FOR ADMIN</div>
-                </div>
-
-                <div class="col-md-6 text-right">
-                    <div class="top_nav_right">
-                        <ul class="top_nav_menu">
-
-                            <li class="account">
-                                <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
-                                    Welcome, ADMIN
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-                                <ul class="account_selection">
-                                    <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end top nav -->
-
     <!-- main nav -->
-    <div class="main_nav_container">
-        <div class="container">
-            <div class="d-flex align-items-center justify-content-between" style="height: 83px;">
-                <div class="logo_container">
-                    <a th:href="@{/auth/homepage}">ad<span>min</span></a>
-                </div>
+    <div class="top_nav">
+        <div class="row ml-4 mr-5 align-items-center">
+            <div class="col-md-6">
+                    <div class="logo_container">
+                        <a th:href="@{/auth/homepage}"><span>admin</span></a>
+                    </div>
+            </div>
 
-                <div>
-                    <form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0" method="get">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
-                        <button id="search-button" class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </form>
+            <div class="col-md-6 text-right">
+                <div class="top_nav_right">
+                    <ul class="top_nav_menu">
+
+                        <li class="account">
+                            <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                                Welcome, ADMIN
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="account_selection">
+                                <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
     <!-- end main nav -->
 
-    <div class="container mt-5 mb-5">  
-        <div class="row mt-5 mx-0">
-            <!-- Dashboard -->
-            <div class="col-md-2">
-                <ul class="d-flex flex-column dashboard">
-                    <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
-                    <li>Manage Products</li>
-                    <li> 
-                        <ul class="list">
-                            <li>
-                                <a th:href="@{/admin/products}">All Products</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/admin/addProduct}">Add Product</a>
-                            </li>
-                        </ul>    
-                    </li>
-                        
-                    <li>Manage Orders</li>
-                    <li> 
-                        <ul class="list">
-                            <li>
-                                <a th:href="@{/admin/order-waiting}">Waiting orders</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/admin/order-confirmed}">Confirmed orders</a>
-                            </li>
-                        </ul>
-                        
-                    </li>    
-                </ul>
-            </div>
-            <!-- Main area -->
+    
+    <div class="main_area row mx-0">
+        <!-- Dashboard -->
+        <div class="col-md-2 px-4 pt-4" style="background-color: var(--ds-surface, #FAFBFC);">
+            <ul class="d-flex flex-column dashboard">
+                <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                <li> 
+                    Manage Products
+                    <ul class="list">
+                        <li>
+                            <a th:href="@{/admin/products}">All Products</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/addProduct}">Add Product</a>
+                        </li>
+                    </ul>    
+                </li>
+                    
+                <li> 
+                    Manage Orders
+                    <ul class="list">
+                        <li class="active">
+                            <a th:href="@{/admin/order-waiting}">Waiting orders</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/order-confirmed}">Confirmed orders</a>
+                        </li>
+                    </ul>
+                    
+                </li>    
+            </ul>
+        </div>
+        <!-- Main area -->
 
-            <div  class="col-md-10" style="border-left: grey solid 1px">
-                <table class="table">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Image</th>
-                        <th scope="col"></th>
-                        <th scope="col">Product name</th>
-                        <th scope="col"></th>
-                        <th scope="col">Size</th>
-                        <th scope="col"></th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Price</th>
-                        <th></th>
-                        <th></th>
-                        <th scope="col">Total Price</th>
-                    </tr>
-                    <tr th:each="item,iterator : ${cartItemPaids}">
-                        <div th:each="product : ${item.getProduct()}">
-                            <td th:text="${iterator.count}">1</td>
-                            <th>
-                                <img th:src="@{'~/./image/'+${product.product_image_name}}" style="max-height: 30px;" alt="Product Image">
-                            </th>
-                            <td></td>
-                            <td th:text="${product.product_name}">Jacket</td>
-                            <td></td>
-                            <td th:text="${item.size}">Size</td>
-                            <td></td>
-                            <td th:text="${'x'+item.quantity}">1</td>
-                            <td th:text="${'$'+product.product_price}">$5</td>
-                            <td></td>
-                            <td></td>
-                            <td th:text="${'$'+item.total_price}">$5</td>
-                        </div>
-                    </tr>
-                </table>
-            </div>
+        <div  class="col-md-10 pt-4" style="border-left: grey solid 1px">
+            <table class="table">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col"></th>
+                    <th scope="col">Product name</th>
+                    <th scope="col"></th>
+                    <th scope="col">Size</th>
+                    <th scope="col"></th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th></th>
+                    <th></th>
+                    <th scope="col">Total Price</th>
+                </tr>
+                <tr th:each="item,iterator : ${cartItemPaids}">
+                    <div th:each="product : ${item.getProduct()}">
+                        <td th:text="${iterator.count}">1</td>
+                        <th>
+                            <img th:src="@{'~/./image/'+${product.product_image_name}}" style="max-height: 30px;" alt="Product Image">
+                        </th>
+                        <td></td>
+                        <td th:text="${product.product_name}">Jacket</td>
+                        <td></td>
+                        <td th:text="${item.size}">Size</td>
+                        <td></td>
+                        <td th:text="${'x'+item.quantity}">1</td>
+                        <td th:text="${'$'+product.product_price}">$5</td>
+                        <td></td>
+                        <td></td>
+                        <td th:text="${'$'+item.total_price}">$5</td>
+                    </div>
+                </tr>
+            </table>
         </div>
     </div>
 

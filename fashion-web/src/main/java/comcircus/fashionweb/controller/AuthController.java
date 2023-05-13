@@ -19,6 +19,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
+import comcircus.fashionweb.config.PaypalPaymentIntent;
+import comcircus.fashionweb.config.PaypalPaymentMethod;
+
 import comcircus.fashionweb.dto.CartDto;
 import comcircus.fashionweb.dto.CustomerDto;
 import comcircus.fashionweb.dto.ItemDetailsCart;
@@ -32,6 +39,7 @@ import comcircus.fashionweb.model.oders.OrderDetails;
 import comcircus.fashionweb.model.person.customer.Customer;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.model.product.Product;
+import comcircus.fashionweb.service.PaypalPaymentService;
 import comcircus.fashionweb.service.cart.CartPaidService;
 import comcircus.fashionweb.service.cart.CartService;
 import comcircus.fashionweb.service.category.CategoryService;
@@ -40,6 +48,8 @@ import comcircus.fashionweb.service.orderdetails.OrderDetailsService;
 import comcircus.fashionweb.service.product.ProductService;
 import comcircus.fashionweb.service.product.SizeService;
 import comcircus.fashionweb.service.user.UserService;
+import comcircus.fashionweb.utils.Utils;
+
 
 @Controller
 @RequestMapping("/auth")
@@ -69,6 +79,9 @@ public class AuthController {
     @Autowired
     private SizeService sizeService;
 
+    @Autowired
+    private PaypalPaymentService paypalService;
+
     @PostMapping("/login")
     public String processLogin(HttpServletRequest request, Model model, HttpSession session, @ModelAttribute("userDto") UserDto userDto) {
         String error = "";
@@ -82,7 +95,7 @@ public class AuthController {
             
             return "redirect:/auth/homepage";
         }
-        error = "Email or password incorect";
+        error = "Email or password incorrect";
         model.addAttribute("error", error);
         return "/login";    
     }
@@ -315,8 +328,9 @@ public class AuthController {
 
     //Payment
     @PostMapping("/checkout/payment-process")
-    public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model, HttpSession session) {
-        System.out.println(customerDto.getFirst_name());
+    public String handlePayment(@ModelAttribute("customer") CustomerDto customerDto, Model model, HttpSession session, 
+                            @RequestParam(value = "flexRadioDefault", required = false) String optionSelected,
+                            HttpServletRequest request) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         if (userDto == null) {
             return "/login";
@@ -325,7 +339,6 @@ public class AuthController {
         model.addAttribute("user_login", user_login);
         //Get cartItem
         List<CartItem> cartItem = cartService.getCartItems(user_login.getEmail());
-        System.out.println(cartItem.size());
         // List<ItemDetailsCart> itemsDetailCart = cartService.changeToItemsDeltails(cartItem);
         double total = cartService.getTotalPrice(cartItem);
         model.addAttribute("total", total);
@@ -349,17 +362,73 @@ public class AuthController {
         orderDetailsDto.setTotal_money(total);
         orderDetailsDto.setOrder_date(formattedDateStr);
         orderDetailsDto.setUser_id(user_login.getId());
-        //handle save orderDetails
-        OrderDetails orderDetails = orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
 
-        //Add list to history purchase
-        // orderHistoryService.addListCartItem(user_login, orderDetails);
-        cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
+        //select payment option
+        String cancelUrl = Utils.getBaseURL(request) + "/auth/payment/cancel";
+        String successUrl = Utils.getBaseURL(request) + "/auth/payment/success";
+        if (optionSelected.equals("option2")) {
+            try {
+                Payment payment = paypalService.createPayment(
+                        total,
+                        "USD",
+                        PaypalPaymentMethod.paypal,
+                        PaypalPaymentIntent.sale,
+                        "payment description",
+                        cancelUrl,
+                        successUrl);
+                for(Links links : payment.getLinks()){
+                    if(links.getRel().equals("approval_url")){
+                        System.out.println("redirect:" + links.getHref());
+                        return "redirect:" + links.getHref();
+                    }
+                }
+                } catch (PayPalRESTException e) {
+                    System.out.println(e.getMessage());
+                }
+                return "redirect:/auth/checkout/payment";
+        } else {
+            //handle save orderDetails
+            OrderDetails orderDetails = orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
+            //Add list to history purchase
+            // orderHistoryService.addListCartItem(user_login, orderDetails);
+            cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
 
-        //delete all cart item after proceed payment
-        cartService.deleteAllProduct(user_login);
+            //delete all cart item after proceed payment
+            cartService.deleteAllProduct(user_login);
+            return "/auth/checkout/payment-success";
+        }
 
-        return "/auth/checkout/payment-success";
+    }
+
+    @GetMapping("/payment/success")
+    public String paymentSuccess(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, HttpSession session, Model model) {
+        try {
+			Payment payment = paypalService.executePayment(paymentId, payerId);
+			if(payment.getState().equals("approved")) {
+                //get by session
+                OrderDetailsDto orderDetailsDto = (OrderDetailsDto) session.getAttribute("orderDetailsDto");
+                User user_login = (User) session.getAttribute("user_login");
+                Customer customer = (Customer) session.getAttribute("customer");
+                List<CartItem> cartItem = (List<CartItem>) session.getAttribute("cartItem");
+                model.addAttribute("user_login", user_login);
+                model.addAttribute("size", "no-item");
+            //handle save orderDetails
+            OrderDetails orderDetails = orderDetailsService.saveOrderDetails(orderDetailsDto, user_login, customer);
+            //Add list to history purchase
+            cartPaidService.changeListCartItemToCartItemPaid(cartItem, user_login.getEmail(), orderDetails.getId());
+            //delete all cart item after proceed payment
+            cartService.deleteAllProduct(user_login);
+            return "/auth/checkout/payment-success";
+        }
+        } catch (PayPalRESTException e) {
+            System.out.println(e.getMessage());
+        }
+        return "/auth/checkout/payment";
+    }
+            
+    @GetMapping("/payment/cancel")
+    public String paymentCancel() {
+        return "redirect:/auth/checkout/payment";
     }
 
     @GetMapping("/profile")
@@ -438,5 +507,52 @@ public class AuthController {
         model.addAttribute("orderDetailsDto", orderDetailsDto);
         return "/auth/orders_delivery";
     }
+
+    @GetMapping("/orders/cancel/{id}")
+    public String cancelOrder(HttpSession session, Model model,@PathVariable Long id) {
+        orderDetailsService.cancelOrder(id);
+         return "/auth/orders/waiting";
+    }
+
+    @GetMapping("/profile/update")
+    public ResponseEntity<Boolean> changePassword(HttpServletRequest request, HttpSession session, Model model) {
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
+        String first_name = request.getParameter("first_name");
+        String last_name = request.getParameter("last_name");
+        String email = request.getParameter("email");
+        boolean flag = userService.checkEmailExist(email);
+        if (email.equals(user_login.getEmail())) {
+            flag = false;
+        }
+        if (!flag && !last_name.equals("")) {
+            userService.changeInfoUser(user_login, first_name, last_name, email);
+            userDto.setEmail(email);
+            session.setAttribute("userDto", userDto);
+        }
+
+        if (flag && !last_name.equals("")) {
+            userService.changeInfoUser(user_login, first_name, last_name, user_login.getEmail());
+        }
+
+        return ResponseEntity.ok(flag);
+    }
+
+    @GetMapping("profile/change-password")
+    public ResponseEntity<Boolean> changePassword(HttpServletRequest request, HttpSession session) {
+        String newPassword = request.getParameter("newPassword");
+        String currentPassword = request.getParameter("currentPassword");
+        System.out.println(newPassword);
+        System.out.println(currentPassword);
+        UserDto userDto = (UserDto) session.getAttribute("userDto");
+        User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
+        boolean checkPassword = userService.changePassword(user_login, newPassword, currentPassword);
+        if (checkPassword) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
+    }
+
 
 }

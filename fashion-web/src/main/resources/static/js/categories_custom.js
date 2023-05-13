@@ -229,7 +229,7 @@ jQuery(document).ready(function($)
     		// reset border
     		products.each(function()
     		{
-    			$(this).css('border-right', 'solid 1px #e9e9e9');
+    			$(this).css('border-right', 'none');
     		});
 
     		// if window width is 991px or less

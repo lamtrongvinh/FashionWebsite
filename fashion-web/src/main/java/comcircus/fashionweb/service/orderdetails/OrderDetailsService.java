@@ -27,4 +27,5 @@ public interface OrderDetailsService {
     public OrderDetails getById(Long id);
     public OrderDetailsDto maptoDto(OrderDetails orderDetails);
     public List<CartItemPaid> getCartPaidsByOrderId(User user, Long id);
+    public void cancelOrder(Long order_id);
 }

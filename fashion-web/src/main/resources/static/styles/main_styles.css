@@ -998,10 +998,13 @@ section
 }
 .product-item
 {
-	width: 20%;
-	height: 380px;
+	width: 19%;
+	height: 350px;
 	cursor: pointer;
+	border: solid 1px #e9e9e9;
 	border-radius: 8px;
+	margin-right: 1%;
+	margin-bottom: 1em;
 }
 .product-item::after
 {

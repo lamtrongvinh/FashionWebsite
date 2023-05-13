@@ -198,13 +198,16 @@
 						<!-- Product 1 -->
 						<div th:each=" product : ${products}">
 							<a th:href="@{/auth/details/{id}(id=${product.product_id})}" >
-								<div class="product-item men" style="margin-right: 5px;">
+								<div class="product-item men">
 									<div class="product discount product_filter">
 										<div class="product_image">
 											<img src="../../static/image/hoodie.png" th:src="@{ '../../image/'+${product.product_image_name}}" alt="">
 										</div>
+
 										<div class="favorite favorite_left"></div>
+
 										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span th:text="'-' + ${product.product_discount} + '%' ">-$20</span></div>
+
 										<div class="product_info">
 											<h6 class="product_name"><a th:href="@{/auth/details/{id}(id=${product.product_id})}" th:text="${product.product_desciption}">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
 											
@@ -278,7 +281,7 @@
 				<div class="row">
 					<div class="col">
 						<div class="product_slider_container">
-							<div class="owl-carousel owl-theme product_slider mx-5">
+							<div class="owl-carousel owl-theme product_slider">
 
 								<!-- Slide 2 -->
 								<div class="owl-item product_slider_item" th:each="product : ${bestSellerProducts}">

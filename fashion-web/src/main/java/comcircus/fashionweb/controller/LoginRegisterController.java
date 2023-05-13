@@ -43,24 +43,24 @@ public class LoginRegisterController {
             model.addAttribute("errorMessage", errorMessage);
             userExist = "Email already in used!";
             model.addAttribute("userExist", userExist);
-            return "/register";
+            return "redirect:/register";
         }
         if (userService.checkEmailExist(user.getEmail()) == true) {
             errorMessage = "Email already in used!";
             model.addAttribute("userExist", errorMessage);
-            return "/register";
+            return "redirect:/register";
         }
 
         if (user.getPassword().equals(user.getRepeat_password()) == false) {
             errorMessage = "Passwords do not match!";
             model.addAttribute("errorMessage", errorMessage);
-            return "/register";
+            return "redirect:/register";
         }
 
         if (user.getPassword().length() < 8) {
             errorMessage = "Passwords is short!";
             model.addAttribute("errorMessage", errorMessage);
-            return "/register";
+            return "redirect:/register";
         }
 
         userService.saveUser(user);
@@ -92,8 +92,7 @@ public class LoginRegisterController {
 
     }
     @GetMapping("/admin-login") 
-    public String getFormLoginAdmin (Model model){
-        
+    public String getFormLoginAdmin (Model model){   
         return "admin-login";
     }
 

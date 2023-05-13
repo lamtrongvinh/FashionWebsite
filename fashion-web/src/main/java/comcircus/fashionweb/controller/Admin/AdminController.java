@@ -55,7 +55,7 @@ public class AdminController {
 
     @GetMapping("/products")
     public String getProducts(Model model) {
-        model.addAttribute("products", productService.getProducts());
+        model.addAttribute("products", productService.getAllProduct());
         return "/admin/product_list";
     }
 
@@ -67,7 +67,6 @@ public class AdminController {
             // Save file to project directory
             byte[] bytes = file.getBytes();
             Path path = Paths.get("src/main/resources/static/image/" + file.getOriginalFilename());
-            System.out.println("name image :" + file.getOriginalFilename());
             Files.write(path, bytes);
             product.setProduct_image_name(file.getOriginalFilename());
 
@@ -77,7 +76,7 @@ public class AdminController {
                 productService.saveProduct(product, productDto.getCategory_id());
             }
             
-            itemService.saveItem(product, "38");
+            itemService.saveItem(product, productDto.getSize());
             return "/admin/add_product_succes";
         } catch (IOException e) {
             System.out.println("add Product false");
@@ -106,7 +105,7 @@ public class AdminController {
             ProductDto productDto = new ProductDto();
             productDto.setProduct_code(product.getProduct_code());
             productDto.setProduct_name(product.getProduct_name());
-            productDto.setProduct_desciption(product.getProduct_desciption());
+            productDto.setProduct_description(product.getProduct_description());
             productDto.setProduct_price(product.getProduct_price());
             productDto.setProduct_discount(product.getProduct_discount());
             productDto.setProduct_id(product.getProduct_id());
@@ -228,4 +227,9 @@ public class AdminController {
         return "/admin/show_order_confirm";
     }
 
+    @GetMapping("/items")
+    public String showItems(Model model) {
+        model.addAttribute("items", itemService.getAllItem());
+        return "/admin/items";
+    }
 }

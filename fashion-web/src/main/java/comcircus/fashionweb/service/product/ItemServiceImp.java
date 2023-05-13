@@ -63,5 +63,20 @@ public class ItemServiceImp implements ItemService {
         }
         return Long.valueOf(-1);
     }
+
+    @Override
+    public void cancelOrder(Product product, String size, int quantity) {
+        System.out.println(product.getProduct_code());
+        System.out.println(size);
+        Long itemId = this.getItemID(product, size);
+        if (itemId == -1) {
+            System.out.println("item_id:" + itemId);
+            System.out.println("item khong ton tai");
+        } else {
+            Item item = this.itemRepository.findById(itemId).get();
+            item.setQuantity(item.getQuantity() + quantity);
+        }
+
+    }
     
 }

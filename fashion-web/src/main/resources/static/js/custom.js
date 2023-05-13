@@ -450,5 +450,4 @@ jQuery(document).ready(function($)
 			})
 		}
 
-		
 });

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{~/styles/profile.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/styles/admin.css}">
 
     <link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/styles/main_styles.css">
@@ -61,25 +61,25 @@
     </div>
     <!-- end main nav -->
 
-    <div class="row mx-0">
+    <div class="main_area row mx-0">
         <!-- Dashboard -->
         <div class="col-md-2 px-4 pt-4" style="background-color: var(--ds-surface, #FAFBFC);">
             <ul class="d-flex flex-column dashboard">
                 <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
-                <li>Manage Products</li>
                 <li> 
+                    Manage Products
                     <ul class="list">
                         <li>
                             <a th:href="@{/admin/products}">All Products</a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a th:href="@{/admin/addProduct}">Add Product</a>
                         </li>
                     </ul>    
                 </li>
                     
-                <li>Manage Orders</li>
                 <li> 
+                    Manage Orders
                     <ul class="list">
                         <li>
                             <a th:href="@{/admin/order-waiting}">Waiting orders</a>
@@ -87,8 +87,7 @@
                         <li>
                             <a th:href="@{/admin/order-confirmed}">Confirmed orders</a>
                         </li>
-                    </ul>
-                    
+                    </ul>    
                 </li>    
             </ul>
         </div>
@@ -98,46 +97,48 @@
             <div class="mt-3 pb-3 text-center">
                 <h3>ADD PRODUCTS</h3>
             </div>
-            <form style=" margin-top: 20px; width: 50%; margin: auto;" th:object="${productDto}" method="post" th:action="@{/admin/addProduct}" enctype="multipart/form-data" action="">
+            <form id="formValidation" style="margin-top: 20px; width: 50%; margin: auto;" th:object="${productDto}" method="post" th:action="@{/admin/addProduct}" action="" enctype="multipart/form-data" action="">
                 <div class="form-group">
                     <label for="exampleInputText">Product Code</label>
-                    <input type="text" class="form-control" id="product_code" aria-describedby="emailHelp" th:field="*{product_code}">
+                    <input type="text" class="form-control" id="product_code" name="product_code" aria-describedby="emailHelp" th:field="*{product_code}">
                 </div>
         
                 <div class="form-group">
                   <label for="exampleInputText">Product Name</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" th:field="*{product_name}">
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="product_name" th:field="*{product_name}">
                 </div>
         
                 <div class="form-group">
                     <label for="exampleInputText">Product Description</label>
-                    <input type="text" class="form-control" id="product_description" aria-describedby="emailHelp" th:field="*{product_desciption}">
+                    <input type="text" class="form-control" id="product_description" name="product_description" aria-describedby="emailHelp" th:field="*{product_description}">
                     <small id="product_description" class="form-text text-muted"></small>
                 </div>
         
                 <div class="form-group">
                     <label for="exampleInputText">Product Price</label>
-                    <input type="number" class="form-control" id="product_price" aria-describedby="emailHelp"  th:field="*{product_price}">
+                    <input type="number" class="form-control" id="product_price" name="product_price" aria-describedby="emailHelp"  th:field="*{product_price}">
                     <small id="product_price" class="form-text text-muted"></small>
                 </div>
         
                 <div class="form-group">
-                    <label for="exampleInputText">Product Discount</label>
-                    <input type="number" class="form-control" id="product_discount" aria-describedby="emailHelp" th:field="*{product_discount}">
+                    <label for="exampleInputText">Product Discount (%)</label>
+                    <input type="number" class="form-control" id="product_discount" name="product_discount" aria-describedby="emailHelp" th:field="*{product_discount}">
                     <small id="product_discount" class="form-text text-muted"></small>
                 </div>
         
                 <div class="form-group">
                     <label for="exampleInputText">Product Quantity</label>
-                    <input type="number" class="form-control" id="product_quantity" aria-describedby="emailHelp" th:field="*{product_quantity}">
+                    <input type="number" class="form-control" id="product_quantity" name="product_quantity" aria-describedby="emailHelp" th:field="*{product_quantity}">
                     
                     <small id="product_description" class="form-text text-muted"></small>
                 </div>
         
                 <div class="form-group">
                     <label for="exampleInputText">Category</label>
-                    <select class="form-select ml-2" name="category_id" id="category_id" th:field="*{category_id}">
-                        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}">Choose category</option>
+                    <select class="form-select mx-2" name="category_id" id="category_id" th:field="*{category_id}">
+                        <option value=''>Choose Category</option>
+                        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                        <option value='Avocado'>Avocado</option>
                     </select>
                 </div>
         
@@ -146,26 +147,26 @@
                     <input type="file" class="form-control-file mx-2" name="file" id="product_image">
                 </div>
 
-                <div class="text-center">
+                <div class="text-center btn_container mt-4">
                     <button type="submit" class="btn btn-primary">ADD PRODUCT</button>
                 </div>
             </form>
         </div>
     </div>
-    <script>
-        function myFunction() {
-            return false;
-        }
-    </script>
+
 </body>
-<script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
     <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
     <script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
     <script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
     <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
     <script th:src="@{~/plugins/easing/easing.js}"></script>
     <script th:src="@{~/js/custom.js}"></script>
-    <script th:src="@{~/js/submit.js}"></script>
+    <script th:src="@{~/js/admin.js}"></script>
+
+    <script src="../../static/js/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="../../static/js/admin.js"></script>
     
 </html>

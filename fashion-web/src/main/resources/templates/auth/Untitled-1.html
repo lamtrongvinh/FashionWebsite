@@ -101,66 +101,29 @@
         <div>There are ? products in your cart</div>  
         <div class="row">
             <div class="col-md-9">
-                <div class="card rounded-3 mb-4 mt-4">
-                    <div class="row d-flex justify-content-between align-items-center  py-2 mx-0" id="info-bar">
-                        <div class="col-md-1 col-lg-1 col-xl-1"></div>
-                        <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                            Image
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-xl-3 text-center">
-                            Product Name
-                        </div>
-                        <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                            Unit Price
-                        </div>
-                        <div class="col-md-1 col-lg-1 col-xl-1 text-center px-0">
-                            Quantity
-                        </div>
-                        <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                            Subtotal
-                        </div>
-                        <div class="col-md-1 col-lg-1 col-xl-1 p-0 text-center">
-                            Remove
-                        </div>
-                    </div>
-                    <div class="card-body px-0" >
-                        <div class="row d-flex justify-content-between align-items-center mx-0" th:each="item: ${itemsDetailCart}">
-                            <input class="col-md-1 col-lg-1 col-xl-1" type="checkbox">
-                        <div class="d-none d-sm-block col-2 text-center">
-                          <img src="../../static/image/backpack.png" th:src="@{'~/./image/'+ ${item.product_image_name}}" alt="" style="max-height: 60px;">
-                      </div>
-                        <div class="col-md-3 col-lg-3 col-xl-3 text-center">
-                          <p class="lead fw-normal mb-2" th:text="${item.product_desciption}">Basic T-shirt</p>
-                          <p>
-                            <span class="text-muted">Size:</span>M 
-                            <span class="text-muted ml-2">Color:</span>Grey
-                          </p>
-                        </div>
-                        <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                            <h5 class="mb-0" th:text="'$'+ ${item.product_price}">$499.00</h5>
-                        </div>
-                        <div class="col-md-1 col-lg-1 col-xl-1 d-flex text-center">
-                          <!-- <button class="btn btn-link px-2"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                            <i class="fas fa-minus"></i>
-                          </button> -->
-          
-                          <input id="form1" min="1" name="quantity" type="number" class="form-control form-control-sm" th:value="${item.quantity}"/>
-          
-                          <!-- <button class="btn btn-link pl-2"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                            <i class="fas fa-plus"></i>
-                          </button> -->
-                        </div>
-                        <div class="col-md-2 col-lg-2 col-xl-2 text-center">
-                            <h5 class="mb-0" th:text="'$'+${item.total_price}">$499.00</h5>
-                        </div>
-                        <div class="col-md-1 col-lg-1 col-xl-1 text-center">
-                          <a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-                        </div>
-                        </div>  
-                    </div>
-                </div>
+                <table class="table mb-4 mt-4 border text-center">
+                    <tr>
+                        <th scope="col-1"></th>
+                        <th scope="col-2">Product</th>
+                        <th scope="col-3">Name</th>
+                        <th scope="col-2">Unit Price</th>
+                        <th scope="col-1">Quantity</th>
+                        <th scope="col-2">Total Price</th>
+                        <th scope="col-1">Remove</th>
+                    </tr>
+                    <tr th:each="item : ${itemsDetailCart}">
+                        <td><input type="checkbox"></td>
+                        <!-- <td th:text="${iterator.count}">1</td> -->
+                        <th>
+                            <img th:src="@{'~/./image/'+${item.product_image_name}}" style="max-height: 60px;" alt="Product Image">
+                        </th>
+                        <td th:text="${item.product_desciption}">Jacket</td>
+                        <td th:text="${item.product_price}">$499.00</td>
+                        <td th:value="${'x'+item.quantity}">1</td>
+                        <td th:text="${'$'+item.total_price}">$5</td>
+                        <td><a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a></td>
+                    </tr>
+                </table>
                 <a th:href="@{/auth/shop}"><button type="submit" class="btn btn-warning">&leftarrow; Continue shopping</button></a>
             </div>
             <div class="col-md-3 py-4 my-4" style="border: 1px solid rgba(0,0,0,.1);">
