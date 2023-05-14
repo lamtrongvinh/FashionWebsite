@@ -75,6 +75,9 @@
                         <li class="active">
                             <a th:href="@{/admin/addProduct}">Add Product</a>
                         </li>
+                        <li>
+                            <a th:href="@{/admin/items}">Items</a>
+                        </li>
                     </ul>    
                 </li>
                     
@@ -134,7 +137,7 @@
 
                 <div class="form-group">
                     <label for="exampleInputText">Product Size</label>
-                    <input type="number" class="form-control" id="size" name="size" aria-describedby="emailHelp"  th:field="*{size}">
+                    <input type="text" class="form-control" id="size" name="size" aria-describedby="emailHelp"  th:field="*{size}">
                     <small id="product_price" class="form-text text-muted"></small>
                 </div>
         

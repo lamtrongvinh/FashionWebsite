@@ -9,6 +9,6 @@ import org.springframework.data.domain.Pageable;
 import comcircus.fashionweb.model.product.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>{
+public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByCategory_Id(Long categoryId, Pageable pageable);
 }

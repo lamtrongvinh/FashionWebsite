@@ -98,7 +98,7 @@
                 <div class="d-flex flex-column dashboard ">
                     <button class="select_profile">
                         <i class="fa-lg fa-user" style="font-size: 1.5em; margin-left: 3px;"></i>
-                    <a th:href="@{/login}">Profile</a>
+                    <a th:href="@{/auth/profile}">Profile</a>
                     </button>    
                 
                     <button class="select_waiting">
@@ -177,8 +177,8 @@
                                                     th:src="@{'~/./image/'+ ${product.product_image_name}}" alt="" style="max-height: 60px;">
                                                 </div>
                                                 <div class="col-3 col-sm-3" th:text="${product.product_name} ">2</div>
-                                                <div class="col-1 text-center">3</div> <!--add size-->
-                                                <div class="d-none d-sm-block col-1 text-center" th:text="'x'+  ${item.quantity} + ' Size:' + ${item.size}">4</div>
+                                                <div class="col-1 text-center" th:text="${item.size}">3</div> <!--add size-->
+                                                <div class="d-none d-sm-block col-1 text-center" th:text="'x'+  ${item.quantity}">4</div>
                                                 <div class="d-none d-sm-block col-2 text-95 text-center" th:text="'$'+${product.product_price}">5</div>
                                                 <div class="col-2 text-secondary-d2 text-center" th:text="'$'+${item.total_price}">6</div>
                                             </div>

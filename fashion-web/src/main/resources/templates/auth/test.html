@@ -1,191 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+<head>
+	<title>Modal Popup Example</title>
+	<!-- Thêm các tệp CSS của Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<!-- Thêm các tệp JavaScript của Bootstrap -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script>
+		// Lắng nghe sự kiện click trên nút Save
+		$(document).ready(function(){
+			$("#saveButton").click(function(){
+				saveChanges(); // Gọi hàm saveChanges()
+			});
+		});
 
-        <link rel="icon" type="image/png" th:href="@{~/image/logo.png}">
-        <link rel="stylesheet" type="text/css" th:href="@{~/styles/bootstrap4/bootstrap.min.css}">
-        <link th:href="@{~/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
-        <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/owl.theme.default.css}">
-        <link rel="stylesheet" type="text/css" th:href="@{~/plugins/OwlCarousel2-2.2.1/animate.css}">
-        <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
-        <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
-        <link rel="stylesheet" type="text/css" th:href="@{~/styles/profile.css}">
+		// Hàm saveChanges()
+		function saveChanges() {
+			// Lưu thay đổi
+			// Đóng Modal Popup
+			$('#myModal').modal('hide');
+		}
+	</script>
+</head>
+<body>
 
-        <link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
-        <link rel="stylesheet" href="../../static/styles/main_styles.css">
-        <link rel="stylesheet" href="../../static/styles/responsive.css">
-        <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-        <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/animate.css">
-        <link rel="stylesheet" href="../../static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-        <link rel="stylesheet" href="../../static/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="../../static/styles/profile.css">
+<!-- Button để kích hoạt Modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+	Open Modal
+</button>
 
-        <title>Change Password</title>
-
-    </head>
-    <body>
-        <header class="header trans_300" style="top: 0px;">
-            <!-- top nav -->
-        <div class="top_nav">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="top_nav_left">free shipping on all u.s orders over $50</div>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <div class="top_nav_right">
-                            <ul class="top_nav_menu">
-
-                                <!-- Currency / Language / My Account -->
-
-                                
-                                <li class="account">
-                                    <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
-                                        My Account
-                                        <i class="fa fa-angle-down"></i>
-                                    </a>
-                                    <ul class="account_selection">
-                                        <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end top nav -->
-
-        <!-- main nav -->
-        <div class="main_nav_container">
-            <div class="container">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="logo_container">
-                        <a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
-                    </div>
-                    <div>
-                        <form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0 search_bar" method="get">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
-                            <button id="search-button" class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        </form>
-                    </div>
-                    <nav class="navbar">
-                        <ul class="navbar_menu">
-                            <li><a th:href="@{/auth/homepage}">home</a></li>
-                            <li><a th:href="@{/auth/shop}">shop</a></li>
-                            <li><a id="contact_btn" th:href="@{/auth/contact}" >contact</a></li>
-                        </ul>
-                        <ul class="navbar_user">
-                            <li><a th:href="@{/auth/profile}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                            <li class="checkout">
-                                <a th:href="@{/auth/checkout}">
-                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="checkout_items" class="checkout_items" th:if="*{size}  != 'no-item' " th:text="*{size}">2</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="hamburger_container">
-                            <i class="fa fa-bars" aria-hidden="true"></i>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <!-- end main nav -->
-
-        </header>
-        
-        <div class="fs_menu_overlay"></div>
-
-        <div class="container mb-5" style="margin-top: 200px;">  
-          <div class="card card-outline-secondary">
-            <div class="card-header">
-                <h3 class="mb-0">Change Password</h3>
-            </div>
-            <div class="card-body">
-                <form class="form" role="form" autocomplete="off">
-                    <div class="form-group">
-                        <label for="inputPasswordOld">Current Password</label>
-                        <input type="password" class="form-control" id="inputPasswordOld" required="">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPasswordNew">New Password</label>
-                        <input type="password" class="form-control" id="inputPasswordNew" required="">
-                        <span class="form-text small text-muted">
-                                The password must be 8-20 characters, and must <em>not</em> contain spaces.
-                            </span>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPasswordNewVerify">Verify</label>
-                        <input type="password" class="form-control" id="inputPasswordNewVerify" required="">
-                        <span class="form-text small text-muted">
-                                To confirm, type the new password again.
-                            </span>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-lg float-right">Save</button>
-                    </div>
-                </form>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-                            <ul class="footer_nav">
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">FAQs</a></li>
-                                <li><a href="contact.html">Contact us</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer_nav_container">
-                            <div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a> &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        
-
-        <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
-        <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
-        <script th:src="@{~/styles/bootstrap4/bootstrap.min.js}"></script>
-        <script th:src="@{~/plugins/Isotope/isotope.pkgd.min.js}"></script>
-        <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
-        <script th:src="@{~/plugins/easing/easing.js}"></script>
-        <script th:src="@{~/js/custom.js}"></script>
-        <script th:src="@{~/js/submit.js}"></script>
-
-        <script src="../../static/js/jquery-3.2.1.min.js"></script>
-        <script src="../../static/styles/bootstrap4/popper.js"></script>
-        <script src="../../static/styles/bootstrap4/bootstrap.min.js"></script>
-        <script src="../../static/plugins/Isotope/isotope.pkgd.min.js"></script>
-        <script src="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-        <script src="../../static/plugins/easing/easing.js"></script>
-        <script src="../../static/js/custom.js"></script>
-        <script src="../../static/js/submit.js"></script>
-    </body>
+<!-- Modal -->
+<div class="modal" id="myModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- Modal header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Modal Popup Example</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<p>This is an example of a Modal Popup using Bootstrap.</p>
+			</div>
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="saveButton">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
 </html>

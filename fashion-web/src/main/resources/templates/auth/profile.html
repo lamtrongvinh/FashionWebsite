@@ -151,7 +151,7 @@
                                 <div class="mt-5 text-center">
                                     <button class="btn btn-primary profile-button save-profile mr-3" type="button" th:data-user-id="${user_login.id}">Save Profile</button>
 
-                                    <button class="btn btn-primary profile-button" type="button" th:data-user-id="${user_login.id}"  onclick="openForm()">Change password</button>
+                                    <button class="btn btn-primary profile-button" type="button" data-target="#pwdModal" data-toggle="modal" th:data-user-id="${user_login.id}">Change password</button>
                                 </div>
 
                                 <div class="text-center"></div>
@@ -163,42 +163,52 @@
         </div>
 
         <!--Box change pass-->
-        <div class="change_pass card card-outline-secondary" id="form_changePassword">
-            <div class="card-header">
-                <h3 class="mb-0">Change Password</h3>
-            </div>
-            <div class="card-body">
-                <form class="form" role="form">
-                    <div class="form-group">
-                        <label for="inputPasswordOld">Current Password</label>
-                        <input type="password" class="form-control" id="inputPasswordOld" required>
-                        <label style="color: red; font-size: 12px;" id="currentPassword_error"></label>
+
+        <div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="text-center">Change Password</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
 
-                    <div class="form-group">
-                        <label for="inputPasswordNew">New Password</label>
-                        <input type="password" class="form-control" id="inputPasswordNew" required>
-                        <label style="color: red; font-size: 12px;" id="password_error"></label>
-                        <span class="form-text small text-muted">
-                                The password must be 8-20 characters, and must <em>not</em> contain spaces.
-                        </span>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="text-left">                               
+                                        <div class="panel-body">
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" id="inputPasswordOld"  placeholder="Current Password" required>
+                                                    <label style="color: red; font-size: 12px;" id="currentPassword_error"></label>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" id="inputPasswordNew" placeholder="New Password" required>
+                                                    <label style="color: red; font-size: 12px;" id="password_error"></label>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" id="inputPasswordNewVerify" placeholder="Verify Password" required>
+                                                    <label style="color: red; font-size: 12px;" id="repeat_password_error"></label>
+                                                </div>
+
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="inputPasswordNewVerify">Verify</label>
-                        <input type="password" class="form-control" id="inputPasswordNewVerify" required>
-                        <label style="color: red; font-size: 12px;" id="repeat_password_error"></label>
-                        <span class="form-text small text-muted">
-                                To confirm, type the new password again.
-                            </span>
+                    <div class="modal-footer">
+                        <div class="col-md-12">
+                            <button class="btn mr-2" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                            <button type="submit" class="btn btn-success profile-button save-password">Save</button>
+                        </div>	
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success profile-button save-password float-right">Save</button>
-
-                        <button type="submit" class="btn btn-success profile-button  float-right mr-2" onclick="closeForm()">Cancel</button>
-                    </div>
-                </form>
-                
+                </div>
             </div>
         </div>
 
@@ -245,19 +255,6 @@
         <script th:src="@{~/plugins/easing/easing.js}"></script>
         <script th:src="@{~/js/custom.js}"></script>
         <script th:src="@{~/js/profile.js}"></script>
-
-        <script>
-            function openForm() {
-            document.getElementsByClassName("change_pass")[0].style.display = "block";
-            document.getElementsByClassName("change_pass")[0].style.opacity = 1;
-            document.getElementsByClassName("row")[0].style.opacity = 0.6;
-            }
-        
-            function closeForm() {
-                document.getElementsByClassName("change_pass")[0].style.display = "none";
-                document.body.style.opacity = 1;
-            }
-        </script>
 
         <!-- <script src="../../static/js/jquery-3.2.1.min.js"></script>
         <script src="../../static/styles/bootstrap4/popper.js"></script>

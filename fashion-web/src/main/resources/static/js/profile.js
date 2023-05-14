@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    // Update profile
     $(".save-profile").click(function() {
         var user_id = $(this).attr("data-user-id");
         var first_name = document.getElementById("first_name").value;
@@ -44,6 +45,8 @@ $(document).ready(function() {
         
     });
 
+
+    // Change password
     $(".save-password").click(function() {
         let currentPassword = document.getElementById("inputPasswordOld").value;
         let newPassword = document.getElementById("inputPasswordNew").value;
@@ -51,18 +54,17 @@ $(document).ready(function() {
         let password_error = document.getElementById("password_error")
         let repeat_password_error = document.getElementById("repeat_password_error");
         let currentPassword_error = document.getElementById("currentPassword_error");
-        let form_changePassword = document.getElementById("form_changePassword");
         let checkPasswordValid = true;
         let checkMatchPassword = true;
         let checkCurrentPassword = true;
         alert(newPassword.length)
         if (newPassword.length < 8 || newPassword.length > 20 || newPassword.includes(" ")) {
-            password_error.innerHTML = "Password invalid!";
+            password_error.innerHTML = "*Password invalid!";
             checkPasswordValid = false;
         }
     
         if (newPassword.localeCompare(repeatPassword) != 0 && checkPasswordValid == true) {
-            repeat_password_error.innerHTML = "Password is not match!";
+            repeat_password_error.innerHTML = "*Password mismatch!";
             checkMatchPassword = false;
         }
     
@@ -81,15 +83,13 @@ $(document).ready(function() {
                 },
                 success: function(flag) {
                     if (flag == false) {
-                        currentPassword_error.innerHTML = "Current password not correct!"
+                        currentPassword_error.innerHTML = "Current password incorrect!"
                     } else {
-                        form_changePassword.style.display = "none";
+                        $('#pwdModal').modal('hide');
                     }
                 }
-        });
+            });
         }
-        
-            
-            
+                
     });
 });
