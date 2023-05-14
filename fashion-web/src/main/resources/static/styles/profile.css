@@ -3,7 +3,7 @@ body {
 }
 
 .profile-button {
-    background: rgb(99, 39, 120);
+    background: rgb(116, 76, 130);
     box-shadow: none;
     border: none
 }
@@ -73,20 +73,21 @@ body {
 
 .dashboard .select_profile {
     background-color: rgb(99, 39, 120);
-    color:  yellow;
+    color:  rgb(255, 255, 255);
     border: none;
 }
 
 /* popup window change password */
 
 .change_pass {
-    position: fixed;
     display: none;
+    position: fixed;
     top: 200px;
     left: 500px;
     border: 3px solid #f1f1f1;
     z-index: 9;
 }
+
 
 
 

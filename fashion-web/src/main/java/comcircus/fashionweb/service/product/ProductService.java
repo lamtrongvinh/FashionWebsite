@@ -32,4 +32,5 @@ public interface ProductService {
     public void updateProductExitsByCode(Product product);
     public void cancelOrder(Product product, int quantity);
     public Page<Product> findAll(Pageable pageable);
+    public Page<Product> findByCategory_Id(Long categoryId, Pageable pageable);
 }

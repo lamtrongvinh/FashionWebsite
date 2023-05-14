@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" th:href="@{~/styles/main_styles.css}">
         <link rel="stylesheet" type="text/css" th:href="@{~/styles/responsive.css}">
         <link rel="stylesheet" type="text/css" th:href="@{~/styles/profile.css}">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <link rel="stylesheet" href="../../static/styles/bootstrap4/bootstrap.min.css">
         <link rel="stylesheet" href="../../static/styles/main_styles.css">
         <link rel="stylesheet" href="../../static/styles/responsive.css">
@@ -25,7 +25,6 @@
         <link rel="stylesheet" href="../../static/styles/profile.css">
 
         <title>Profile</title>
-        <script src="/js/profile.js"></script>
 
     </head>
     <body>
@@ -68,12 +67,7 @@
                     <div class="logo_container">
                         <a th:href="@{/auth/homepage}">Cir<span>cus</span></a>
                     </div>
-                    <div>
-                        <form th:action="@{/auth/shop}" class="form-inline my-2 my-lg-0 search_bar" method="get">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="keyword" id="keyword">
-                            <button id="search-button" class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        </form>
-                    </div>
+                    
                     <nav class="navbar">
                         <ul class="navbar_menu">
                             <li><a th:href="@{/auth/homepage}">home</a></li>
@@ -109,7 +103,7 @@
                     <div class="d-flex flex-column dashboard ">
                         <button class="select_profile">
                             <i class="fa-lg fa-user" style="font-size: 1.5em; margin-left: 3px;"></i>
-                            <a th:href="@{/auth/profile}">Profile</a>
+                        <a th:href="@{/login}">Profile</a>
                         </button>    
                     
                         <button class="select_waiting">
@@ -139,24 +133,25 @@
                             <div class="p-3 py-5">
                                 <div class="mt-3">
                                     <label class="labels">First Name</label>
-                                    <input type="text" id="first_name" class="form-control" placeholder="" th:value="${user_login.first_name}">
+                                    <input type="text" class="form-control" name="first_name" id="first_name" th:value="${user_login.first_name}">
                                 </div>
 
                                 <div class="mt-3">
                                     <label class="labels">Last Name</label>
-                                    <input type="text" id="last_name" class="form-control" th:value="${user_login.last_name}" placeholder="">
+                                    <input type="text" class="form-control" th:value="${user_login.last_name}" name="last_name" id="last_name">
                                     <label style="font-size: 10px; color: red; display: none;" id="error_lastname"></label>
                                 </div>
                                 
                                 <div class="mt-3">
                                     <label class="labels">Email</label>
-                                    <input type="text" id="email" class="form-control" th:value="${user_login.email}">
+                                    <input type="text" class="form-control" name="email" id="email" th:value="${user_login.email}">
                                     <label  style="font-size: 10px; color: red; display: none;" id="error_email"></label>
                                 </div>    
                                 
                                 <div class="mt-5 text-center">
-                                    <button class="btn btn-primary profile-button save-profile mr-3" type="button">Save Profile</button>
-                                    <button class="btn btn-primary profile-button mr-2" type="button" onclick="openForm()">Change password</button>
+                                    <button class="btn btn-primary profile-button save-profile mr-3" type="button" th:data-user-id="${user_login.id}">Save Profile</button>
+
+                                    <button class="btn btn-primary profile-button" type="button" data-target="#pwdModal" data-toggle="modal" th:data-user-id="${user_login.id}">Change password</button>
                                 </div>
 
                                 <div class="text-center"></div>
@@ -167,40 +162,53 @@
             </div>
         </div>
 
-        <div class="change_pass card card-outline-secondary" id="form_changePassword">
-            <div class="card-header">
-                <h3 class="mb-0">Change Password</h3>
-            </div>
-            <div class="card-body" >
-                <form class="form" role="form">
-                    <div class="form-group">
-                        <label for="inputPasswordOld">Current Password</label>
-                        <input type="password" class="form-control" id="inputPasswordOld" required="">
-                        <label style="color: red; font-size: 12px;" id="currentPassword_error"></label>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPasswordNew">New Password</label>
-                        <input type="password" class="form-control" id="inputPasswordNew" required="">
-                        <label style="color: red; font-size: 12px;" id="password_error"></label>
-                        <span class="form-text small text-muted">
-                                The password must be 8-20 characters, and must <em>not</em> contain spaces.
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPasswordNewVerify">Verify</label>
-                        <input type="password" class="form-control" id="inputPasswordNewVerify" required="">
-                        <label style="color: red; font-size: 12px;" id="repeat_password_error"></label>
-                        <span class="form-text small text-muted">
-                                To confirm, type the new password again.
-                            </span>
-                    </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-success float-right save-password">Save</button>
+        <!--Box change pass-->
 
-                        <button type="submit" class="btn btn-success float-right mr-2" onclick="closeForm()">Cancel</button>
+        <div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="text-center">Change Password</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
-                </form>
-                
+
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="text-left">                               
+                                        <div class="panel-body">
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" id="inputPasswordOld"  placeholder="Current Password" required>
+                                                    <label style="color: red; font-size: 12px;" id="currentPassword_error"></label>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" id="inputPasswordNew" placeholder="New Password" required>
+                                                    <label style="color: red; font-size: 12px;" id="password_error"></label>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" id="inputPasswordNewVerify" placeholder="Verify Password" required>
+                                                    <label style="color: red; font-size: 12px;" id="repeat_password_error"></label>
+                                                </div>
+
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="col-md-12">
+                            <button class="btn mr-2" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                            <button type="submit" class="btn btn-success profile-button save-password">Save</button>
+                        </div>	
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -238,10 +246,6 @@
                 </div>
             </div>
         </footer>
-        
-        <script>
-            
-        </script>
 
         <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
         <script th:src="@{~/styles/bootstrap4/popper.js}"></script>
@@ -250,15 +254,15 @@
         <script th:src="@{~/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
         <script th:src="@{~/plugins/easing/easing.js}"></script>
         <script th:src="@{~/js/custom.js}"></script>
-        <script th:src="@{~/js/submit.js}"></script>
+        <script th:src="@{~/js/profile.js}"></script>
 
-        <script src="../../static/js/jquery-3.2.1.min.js"></script>
+        <!-- <script src="../../static/js/jquery-3.2.1.min.js"></script>
         <script src="../../static/styles/bootstrap4/popper.js"></script>
         <script src="../../static/styles/bootstrap4/bootstrap.min.js"></script>
         <script src="../../static/plugins/Isotope/isotope.pkgd.min.js"></script>
         <script src="../../static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
         <script src="../../static/plugins/easing/easing.js"></script>
         <script src="../../static/js/custom.js"></script>
-        <script src="../../static/js/submit.js"></script>
+        <script src="../../static/js/profile.js"></script> -->
     </body>
 </html>

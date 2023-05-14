@@ -36,10 +36,12 @@ public class ShoppingController {
         String keyword = request.getParameter("keyword");
         List<Category> categories = categoryService.getCategorys();
         model.addAttribute("categories", categories);
-        String category_id = request.getParameter("category_id");
+        String category_id_string = request.getParameter("category_id");
 
-        if (category_id != null) {
-            List<Product> products = productService.getProductsByCategory(category_id);
+        if (category_id_string != null) {
+            // List<Product> products = productService.getProductsByCategory(category_id_string);
+            Long category_id = Long.valueOf(category_id_string);
+            Page<Product> products = productService.findByCategory_Id(category_id, pageable);
             model.addAttribute("products", products);
         }else if (keyword != null) {
             List<Product> products = productService.getProductsByKeyword(keyword);

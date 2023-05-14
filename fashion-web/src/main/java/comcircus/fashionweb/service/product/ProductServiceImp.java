@@ -291,4 +291,9 @@ public class ProductServiceImp implements ProductService {
         return res;
     }
 
+    @Override
+    public Page<Product> findByCategory_Id(Long categoryId, Pageable pageable) {
+        return productRepository.findByCategory_Id(categoryId, pageable);
+    }
+
 }

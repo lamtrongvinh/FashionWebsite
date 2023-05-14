@@ -114,20 +114,6 @@ hr {
     vertical-align: bottom!important;
 }
 
-.dashboard li {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    line-height: 3em;
-    margin: 10px 0 10px;
-    padding: 0 2em 0 2em;
-    border: gray solid 1px;
-    border-radius: 10px;    
-}
-.dashboard li i {
-    margin-right: 0.75em;
-}
-
 .dashboard button {
     background: transparent;
     display: flex;
@@ -159,6 +145,6 @@ hr {
 
 .dashboard .select_waiting {
     background-color: rgb(99, 39, 120);
-    color:  yellow;
+    color:  rgb(255, 255, 255);
     border: none;
 }

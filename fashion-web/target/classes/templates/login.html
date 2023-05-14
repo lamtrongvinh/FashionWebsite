@@ -43,15 +43,15 @@
                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
       
                         <div class="form-outline mb-4">
-                          <input type="email" id="form2Example17" class="form-control form-control-lg" name="email" th:field="*{email}" />
                           <label class="form-label" for="form2Example17">Email address</label>
+                          <input type="email" id="form2Example17" class="form-control form-control-lg" name="email" th:field="*{email}" />
                           <p style="color: red; font-size: 12px;" th:if="${error} != null " th:text="'*' + ${error}"></p>
                           <p style="color: red; font-size: 12px;" th:if="${err} != null" th:text="'*' + ${err}"></p>
                         </div>
       
                         <div class="form-outline mb-4">
-                          <input type="password" id="form2Example27" class="form-control form-control-lg" name="password" />
                           <label class="form-label" for="form2Example27">Password</label>
+                          <input type="password" id="form2Example27" class="form-control form-control-lg" name="password" />
                           <p style="color: red; font-size: 12px;" th:if="${error} != null " th:text="'*' + ${error}"></p>
                         </div>
       
@@ -59,7 +59,7 @@
                           <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                         </div>
       
-                        <a class="small text-muted" th:href="@{/forgot-password}">Forgot password?</a>
+                        <a class="small" style="margin-top: 5px; margin-bottom: 10px; color: blue;" th:href="@{/forgot-password}">Forgot password?</a>
                         <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? 
                             <a th:href="@{/register}"style="color: #393f81;">Register here</a></p>                      
                             <a th:href="@{/admin-login}">Login with Admin</a>

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -145,7 +147,7 @@ public class AuthController {
 
 
     @GetMapping("/shop")
-    public String moveToShopAuth(Model model, HttpServletRequest request, HttpSession session) {
+    public String moveToShopAuth(Model model, HttpServletRequest request, HttpSession session, Pageable pageable) {
         UserDto userDto = (UserDto) session.getAttribute("userDto");
         if (userDto == null) {
             return "/login";
@@ -153,17 +155,19 @@ public class AuthController {
         User user_login = userService.getUser(userService.getIdUserByEmail(userDto.getEmail()));
 
         String keyword = request.getParameter("keyword");
-        String category_id = request.getParameter("category_id");
+        String category_id_string = request.getParameter("category_id");
         List<Category> categories = categoryService.getCategorys();
         model.addAttribute("categories", categories);
-        if (category_id != null) {
-            List<Product> products = productService.getProductsByCategory(category_id);
+        if (category_id_string != null) {
+            // List<Product> products = productService.getProductsByCategory(category_id);
+            Long category_id = Long.valueOf(category_id_string);
+            Page<Product> products = productService.findByCategory_Id(category_id, pageable);
             model.addAttribute("products", products);
         }else if (keyword != null) {
             List<Product> products = productService.getProductsByKeyword(keyword);
             model.addAttribute("products", products);
         } else {
-            List<Product> products = productService.getProducts();
+            Page<Product> products = productService.findAll(pageable);
             model.addAttribute("products", products);
         }
         model.addAttribute("user_login", user_login);

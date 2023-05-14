@@ -84,8 +84,7 @@ $(document).ready(function() {
                 if (flag == false) {
                     currentPassword_error.innerHTML = "Current password not correct!"
                 } else {
-                    alert("Change password success!")
-                    form_changePassword.style.display = "none";
+                    $('#pwdModal').model('hide');
                 }
             }
     });
