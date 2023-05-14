@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import comcircus.fashionweb.model.person.user.PasswordResetOtp;
 import comcircus.fashionweb.model.person.user.User;
 
 @Service
@@ -19,4 +20,7 @@ public interface UserService {
     public void deleteAllCartItem(User user);
     public boolean changePassword(User user, String newPassword, String currentPassword);
     public void changeInfoUser(User user,String firstName,String lastName, String email);
+    public void createPasswordResetOtpForUser(User user, String otp);
+    public PasswordResetOtp getPasswordResetOtp(String email);
+    public void resetPassword(User user, String new_password);
 }

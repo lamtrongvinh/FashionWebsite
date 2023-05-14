@@ -46,6 +46,7 @@
                           <input type="email" id="form2Example17" class="form-control form-control-lg" name="email" th:field="*{email}" />
                           <label class="form-label" for="form2Example17">Email address</label>
                           <p style="color: red; font-size: 12px;" th:if="${error} != null " th:text="'*' + ${error}"></p>
+                          <p style="color: red; font-size: 12px;" th:if="${err} != null" th:text="'*' + ${err}"></p>
                         </div>
       
                         <div class="form-outline mb-4">

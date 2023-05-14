@@ -1,5 +1,6 @@
 package comcircus.fashionweb.service.user;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import comcircus.fashionweb.model.cart.Cart;
 import comcircus.fashionweb.model.cart.CartItem;
+import comcircus.fashionweb.model.person.user.PasswordResetOtp;
 import comcircus.fashionweb.model.person.user.User;
+import comcircus.fashionweb.repository.PasswordResetOtpRepository;
 import comcircus.fashionweb.repository.UserRepository;
 
 @Service
@@ -18,6 +21,9 @@ public class UserServiceImp implements UserService{
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private PasswordResetOtpRepository passwordResetOtpRepository;
 
     @Override
     public User getUser(Long id) {
@@ -118,6 +124,29 @@ public class UserServiceImp implements UserService{
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void createPasswordResetOtpForUser(User user, String otp) {
+        PasswordResetOtp passwordResetOtp = new PasswordResetOtp();
+        passwordResetOtp.setUser_id(user.getId());
+        passwordResetOtp.setOtp(otp);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, 30);
+        passwordResetOtp.setExpiryDate(cal.getTime());
+        
+        passwordResetOtpRepository.save(passwordResetOtp);
+    }
+
+    @Override
+    public PasswordResetOtp getPasswordResetOtp(String email) {
+        return null;
+    }
+
+    @Override
+    public void resetPassword(User user, String new_password) {
+        user.setPassword(bCryptPasswordEncoder.encode(new_password));
+        userRepository.save(user);
     }
 
 

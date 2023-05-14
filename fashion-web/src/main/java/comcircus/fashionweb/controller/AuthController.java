@@ -88,10 +88,16 @@ public class AuthController {
             model.addAttribute("error", "Please enter your account!");
             return "/login";
         }
+
+        boolean checkEmailExist = userService.checkEmailExist(userDto.getEmail());
+        if (!checkEmailExist) {
+            model.addAttribute("err", "User not exist!");
+            return "/login";
+        }
+
         boolean flag = userService.checkUserExist(userDto.getEmail(), userDto.getPassword());
         if (flag) {
             session.setAttribute("userDto", userDto);
-            
             return "redirect:/auth/homepage";
         }
         error = "Email or password incorect";

@@ -1,5 +1,7 @@
 package comcircus.fashionweb.utils;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class Utils {
@@ -18,5 +20,11 @@ public class Utils {
 	    	url.append("/");
 	    }
 	    return url.toString();
+	}
+
+	public static String generateOTP() {
+		Random random = new Random();
+		int otp = 100000 + random.nextInt(900000);
+		return Integer.toString(otp);
 	}
 }

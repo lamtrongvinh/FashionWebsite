@@ -1,5 +1,6 @@
 package comcircus.fashionweb.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +15,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import comcircus.fashionweb.dto.UserDto;
+import comcircus.fashionweb.model.person.user.PasswordResetOtp;
 import comcircus.fashionweb.model.person.user.User;
 import comcircus.fashionweb.model.product.Product;
+import comcircus.fashionweb.service.EmailService;
+import comcircus.fashionweb.service.PasswordResetOtpService;
 import comcircus.fashionweb.service.product.ProductService;
 import comcircus.fashionweb.service.user.UserService;
+import comcircus.fashionweb.utils.Utils;
 
 @Controller
 public class LoginRegisterController {
@@ -27,6 +32,12 @@ public class LoginRegisterController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private PasswordResetOtpService passwordResetOtpService;
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
@@ -109,9 +120,66 @@ public class LoginRegisterController {
     }
 
     @GetMapping("/forgot-password-process")
-    public String handleForgetPassword(HttpServletRequest request, Model model) {
-        return "";
+    public String handleForgetPassword(HttpServletRequest request, HttpSession session) {
+        String email = request.getParameter("idEmail");
+        System.out.println(email);
+        String otp = Utils.generateOTP();
+        boolean flag = userService.checkEmailExist(email);
+        if (flag) {
+            User user = userService.getUser(userService.getIdUserByEmail(email));
+            session.setAttribute("emailAddress", email);
+            userService.createPasswordResetOtpForUser(user, otp);
+            emailService.sendOtpEmail(email, otp);
+            return "verify_otp";
+        } else {
+            return "forgot-password";
+        }
         
+    }
+
+    @PostMapping("/verify-otp")
+    public String verifyOTP(HttpServletRequest request, HttpSession session, Model model) {
+        String otp = request.getParameter("otp");
+        String email = (String) session.getAttribute("emailAddress");
+        Long user_id = userService.getIdUserByEmail(email);
+        PasswordResetOtp passwordResetOtp = passwordResetOtpService.getPasswordResetOtpByUserID(user_id);
+        boolean check = passwordResetOtp.getOtp().equals(otp);
+        System.out.println(check);
+        if (passwordResetOtp != null) {
+            System.out.println("not null");
+        }
+
+
+        if (passwordResetOtp == null || !passwordResetOtp.getOtp().equals(otp)) {
+            model.addAttribute("errorMessage", "Invalid OTP");
+            return "verify_otp";
+        }
+
+        Calendar cal = Calendar.getInstance();
+        int checkExpired = passwordResetOtp.getExpiryDate().compareTo(cal.getTime());
+        System.out.println(checkExpired);
+        if (checkExpired <= 0 ) {
+            
+            model.addAttribute("errorMessage", "OTP expired!");
+            return "verify_otp";
+        }
+
+        passwordResetOtpService.deletePasswordResetOtp(passwordResetOtp);
+
+        return "reset-password";
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPassword(HttpSession session, HttpServletRequest request) {
+        String email = (String) session.getAttribute("emailAddress");
+        User user = userService.getUser(userService.getIdUserByEmail(email));
+        String new_password = request.getParameter("new_password");
+        String confirmPassword = request.getParameter("confirmPassword");
+        if (!new_password.equals(confirmPassword) || new_password.length() < 8) {
+            return "/reset-password";
+        } 
+        userService.resetPassword(user, new_password);
+        return "/change-pass-success";
     }
 
 }
