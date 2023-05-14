@@ -1,6 +1,5 @@
 $(document).ready(function() {
-    $(".cancel-order").click(function() {
-        
+    $(".cancel-order").click(function() {    
         var orderId = $(this).attr("data-order-id");
         alert(orderId)
         $.ajax({

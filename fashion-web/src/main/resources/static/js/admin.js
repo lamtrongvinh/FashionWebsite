@@ -10,7 +10,7 @@ $(document).ready(function(){
               required: true,
               lattersonly: true
           },
-          product_description:{
+          product_desciption:{
               required: true,
           },
           product_price:{
@@ -24,6 +24,9 @@ $(document).ready(function(){
           product_quantity:{
               required: true,
               min: 1
+          },
+          size:{
+              required: true,
           },
           category_id:{
             required: true,
@@ -41,7 +44,7 @@ $(document).ready(function(){
               required:'*Please enter product name',
               lattersonly: '*Invalid Name'
           },
-          product_description:{
+          product_desciption:{
               required:'*Please enter product description',
           },
           product_price:{
@@ -56,6 +59,9 @@ $(document).ready(function(){
               required:'*Please enter product quantity',
               min: '*Quantity must be greater than 0'
           },
+          size:{
+            required: '*Please enter product size',
+        },
           category_id:{
               required:'*Please choose category',
           },

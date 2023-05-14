@@ -117,7 +117,7 @@ public class CartServiceImp implements CartService{
             Product productOfItemsCart = itemOfList.getProduct();
             iDetailsCart.setProduct_id(productOfItemsCart.getProduct_id());
             iDetailsCart.setProduct_price(productOfItemsCart.getProduct_price());
-            iDetailsCart.setProduct_description(productOfItemsCart.getProduct_description());
+            iDetailsCart.setProduct_desciption(productOfItemsCart.getProduct_desciption());
             iDetailsCart.setProduct_discount(productOfItemsCart.getProduct_discount());
             iDetailsCart.setProduct_quantity(productOfItemsCart.getProduct_quantity());
             iDetailsCart.setProduct_stock(productOfItemsCart.isProduct_stock());

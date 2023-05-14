@@ -35,7 +35,7 @@
         <div class="row ml-4 mr-5 align-items-center">
             <div class="col-md-6">
                     <div class="logo_container">
-                        <a th:href="@{/auth/homepage}"><span>admin</span></a>
+                        <a href="#"><span>admin</span></a>
                     </div>
             </div>
 
@@ -44,7 +44,7 @@
                     <ul class="top_nav_menu">
 
                         <li class="account">
-                            <a href="#" th:text="'Welcome: ' + *{user_login.first_name} + ' ' + *{user_login.last_name} ">
+                            <a th:href="@{/admin/dashboard}">
                                 Welcome, ADMIN
                                 <i class="fa fa-angle-down"></i>
                             </a>
@@ -147,13 +147,13 @@
     <script th:src="@{~/js/custom.js}"></script>
     <script th:src="@{~/js/submit.js}"></script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('li > a').click(function() {
             $('li').removeClass();
             $(this).parent().addClass('active');
         });
         });
-    </script>
+    </script> -->
 </body>
 </html>

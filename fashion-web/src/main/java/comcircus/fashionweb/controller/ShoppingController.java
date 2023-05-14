@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,22 +33,26 @@ public class ShoppingController {
     private SizeService sizeService;
 
     @GetMapping("/shop")
-    public String moveToShop(Model model, HttpServletRequest request) {
+    public String moveToShop(Model model, HttpServletRequest request, Pageable pageable) {
         String keyword = request.getParameter("keyword");
         List<Category> categories = categoryService.getCategorys();
         model.addAttribute("categories", categories);
-        String category_id = request.getParameter("category_id");
-        System.out.println(category_id);
+        // String category_id = request.getParameter("category_id");
+        String category_id_string = request.getParameter("category_id");
+        System.out.println(category_id_string);
         System.out.println(keyword);
 
-        if (category_id != null) {
-            List<Product> products = productService.getProductsByCategory(category_id);
+        if (category_id_string != null) {
+            Long category_id = Long.valueOf(category_id_string);
+            // List<Product> products = productService.getProductsByCategory(category_id);
+            Page<Product> products = productService.findByCategory_Id(category_id, pageable);
             model.addAttribute("products", products);
-        }else if (keyword != null) {
+        } else if (keyword != null) {
             List<Product> products = productService.getProductsByKeyword(keyword);
             model.addAttribute("products", products);
         } else {
-            List<Product> products = productService.getProducts();
+            Page<Product> products = productService.findAll(pageable);
+            // List<Product> products = productService.getProducts();
             model.addAttribute("products", products);
         }
         return "/shopping/shop";
@@ -56,7 +63,7 @@ public class ShoppingController {
         Product product = productService.getProduct(id);
         if (product.getCategory().getName().equals("Clothes") || product.getCategory().getName().equals("Jeans")) {
             model.addAttribute("sizes", sizeService.getListSizeChar());
-        }else if (product.getCategory().getName().equals("Sneaker")) {
+        } else if (product.getCategory().getName().equals("Sneaker")) {
             model.addAttribute("sizes", sizeService.getListSizeNumber());
         }
         model.addAttribute("product", product);

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +68,7 @@ public class ProductServiceImp implements ProductService{
     public Product updateProduct(Long id, Product product) {
         Product productExist = productRepository.findById(id).get();
         productExist.setProduct_name(product.getProduct_name());
-        productExist.setProduct_description(product.getProduct_description());
+        productExist.setProduct_desciption(product.getProduct_desciption());
         productExist.setProduct_discount(product.getProduct_discount());
         productExist.setProduct_price(product.getProduct_price());
         productExist.setProduct_live(product.isProduct_live());
@@ -95,7 +98,7 @@ public class ProductServiceImp implements ProductService{
         product.setCategory(category);
         Product productExist = productRepository.findById(id).get();
         productExist.setProduct_name(product.getProduct_name());
-        productExist.setProduct_description(product.getProduct_description());
+        productExist.setProduct_desciption(product.getProduct_desciption());
         productExist.setProduct_discount(product.getProduct_discount());
         productExist.setProduct_price(product.getProduct_price());
         productExist.setProduct_live(product.isProduct_live());
@@ -113,7 +116,7 @@ public class ProductServiceImp implements ProductService{
         Product productExist = productRepository.findById(id).get();
         productExist.setProduct_code(productDto.getProduct_code());
         productExist.setProduct_name(productDto.getProduct_name());
-        productExist.setProduct_description(productDto.getProduct_description());
+        productExist.setProduct_desciption(productDto.getProduct_desciption());
         productExist.setProduct_price(productDto.getProduct_price());
         productExist.setProduct_discount(productDto.getProduct_discount());
         productExist.setProduct_id(productDto.getProduct_id());
@@ -132,9 +135,9 @@ public class ProductServiceImp implements ProductService{
         List<Product> list =  (List<Product>) productRepository.findAll();
         List<Product> listByKeyword = new ArrayList<>();
         for (int i = 0;i < list.size(); i++) {
-            if (list.get(i).getProduct_name().toLowerCase().contains(keyword) || list.get(i).getProduct_description().toLowerCase().contains(keyword)) {
+            if (list.get(i).getProduct_name().toLowerCase().contains(keyword) || list.get(i).getProduct_desciption().toLowerCase().contains(keyword)) {
                 if (list.get(i).getProduct_name().toLowerCase().contains(keyword)
-                || list.get(i).getProduct_description().toLowerCase().contains(keyword) 
+                || list.get(i).getProduct_desciption().toLowerCase().contains(keyword) 
                 && list.get(i).getProduct_quantity() > 0) {
                     listByKeyword.add(list.get(i));
                 }
@@ -145,11 +148,11 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
-    public List<Product> getProductsByCategory(String keyword) {
+    public List<Product> getProductsByCategory(Long category_id) {
         List<Product> listByKeyword = new ArrayList<>();
         List<Product> list = (List<Product>) productRepository.findAll();
         try {
-            Long category_id = Long.valueOf(keyword);
+            // Long category_id = Long.valueOf(keyword);
             for (int i = 0; i < list.size(); i++) {
                 Product product = list.get(i);
                 if (product.getCategory().getId() == category_id && list.get(i).getProduct_quantity() > 0) {
@@ -217,7 +220,7 @@ public class ProductServiceImp implements ProductService{
         product.setProduct_id(productDto.getProduct_id());
         product.setProduct_code(productDto.getProduct_code());
         product.setProduct_name(productDto.getProduct_name());
-        product.setProduct_description(productDto.getProduct_description());
+        product.setProduct_desciption(productDto.getProduct_desciption());
         product.setProduct_price(productDto.getProduct_price());
         product.setProduct_discount(productDto.getProduct_discount());
         product.setProduct_quantity(productDto.getProduct_quantity());
@@ -274,6 +277,16 @@ public class ProductServiceImp implements ProductService{
     public void cancelOrder(Product product, int quantity) {
         Product p = this.productRepository.findById(product.getProduct_id()).get();
         p.setProduct_quantity(p.getProduct_quantity() + quantity);
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Product> findByCategory_Id(Long categoryId, Pageable pageable) {
+        return productRepository.findByCategory_Id(categoryId, pageable);
     }
 
 }

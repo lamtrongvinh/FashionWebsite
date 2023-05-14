@@ -47,8 +47,8 @@ public class Product {
     @Column(name = "product_live")
     private boolean product_live;
 
-    @Column(name = "product_description")
-    private String product_description;
+    @Column(name = "product_desciption")
+    private String product_desciption;
 
     @Column(name = "product_image_name")
     private String product_image_name;

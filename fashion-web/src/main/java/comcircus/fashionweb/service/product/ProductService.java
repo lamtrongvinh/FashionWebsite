@@ -2,6 +2,9 @@ package comcircus.fashionweb.service.product;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import comcircus.fashionweb.dto.ProductDto;
 import comcircus.fashionweb.model.category.Category;
 import comcircus.fashionweb.model.product.Product;
@@ -13,7 +16,7 @@ public interface ProductService {
     public List<Product> getProducts();
     public List<Product> getAllProduct();
     public List<Product> getProductsByKeyword(String keyword);
-    public List<Product> getProductsByCategory(String keyword);
+    public List<Product> getProductsByCategory(Long category_id);
     public Product getProductByProductCode(String product_code);
     public Product updateProduct(Long id, Product product);
     public Product updateProductCategory(Long id, Product product, Long category_id);
@@ -27,4 +30,7 @@ public interface ProductService {
     public boolean checkProductExistByCode(String product_code);
     public void updateProductExitsByCode(Product product);
     public void cancelOrder(Product product, int quantity);
+
+    Page<Product> findAll(Pageable pageable);
+    Page<Product> findByCategory_Id(Long categoryId, Pageable pageable);
 }

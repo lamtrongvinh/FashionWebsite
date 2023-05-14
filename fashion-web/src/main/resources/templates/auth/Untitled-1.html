@@ -99,9 +99,11 @@
             <div class="col align-self-center text-right text-muted"><i class="fa fa-trash" aria-hidden="true"></i> Clear Cart</div>
         </div>
         <div>There are ? products in your cart</div>  
+
         <div class="row">
             <div class="col-md-9">
                 <table class="table mb-4 mt-4 border text-center">
+                    <!-- INFO BAR -->
                     <tr>
                         <th scope="col-1"></th>
                         <th scope="col-2">Product</th>
@@ -111,27 +113,47 @@
                         <th scope="col-2">Total Price</th>
                         <th scope="col-1">Remove</th>
                     </tr>
+
+                    <!-- MAIN CONTENT -->
                     <tr th:each="item : ${itemsDetailCart}">
-                        <td><input type="checkbox"></td>
+                        <td><input class="item-checkbox" type="checkbox"></td>
                         <!-- <td th:text="${iterator.count}">1</td> -->
-                        <th>
+                        <td>
                             <img th:src="@{'~/./image/'+${item.product_image_name}}" style="max-height: 60px;" alt="Product Image">
-                        </th>
+                        </td>
                         <td th:text="${item.product_desciption}">Jacket</td>
                         <td th:text="${item.product_price}">$499.00</td>
                         <td th:value="${'x'+item.quantity}">1</td>
-                        <td th:text="${'$'+item.total_price}">$5</td>
+                        <td class="item_price" th:text="${'$'+item.total_price}">$499.00</td>
+                        <td><a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a></td>
+                    </tr>
+                    <!-- FOR TEST ONLY -->
+                    <tr th:each="item : ${itemsDetailCart}">
+                        <td><input class="item-checkbox" type="checkbox"></td>
+                        <!-- <td th:text="${iterator.count}">1</td> -->
+                        <td>
+                            <img th:src="@{'~/./image/'+${item.product_image_name}}" style="max-height: 60px;" alt="Product Image">
+                        </td>
+                        <td th:text="${item.product_desciption}">Jacket</td>
+                        <td th:text="${item.product_price}">$499.00</td>
+                        <td th:value="${'x'+item.quantity}">1</td>
+                        <td class="item_price" th:text="${'$'+item.total_price}">$499.00</td>
                         <td><a th:href="@{/auth/checkout/delete/{id}(id=${item.product_id})}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a></td>
                     </tr>
                 </table>
+
                 <a th:href="@{/auth/shop}"><button type="submit" class="btn btn-warning">&leftarrow; Continue shopping</button></a>
+
             </div>
+
+            <!-- TOTAL AND CHECKOUT -->
             <div class="col-md-3 py-4 my-4" style="border: 1px solid rgba(0,0,0,.1);">
                 <form>
                     <div class="row" style="margin-bottom: 2vh;">
                         <div class="col">SUBTOTAL</div>
-                        <div class="col text-right" th:text="'$'+${item.total_price}">$132.00</div>
+                        <div id="total-price" class="col text-right" th:text="'$'+${item.total_price}">$0</div>
                     </div>
+
                     <div class="row" style="margin-bottom: 2vh;">
                         <div class="col">Coupon Code</div>
                         <div class="col text-right">None</div>
@@ -147,7 +169,7 @@
             </div>
         </div>
         
-    </div>
+      </div>
 
     </section>
 <!-- footer -->
@@ -185,6 +207,8 @@
     </div>
 
 </footer>
+
+<script type ="text/javascript" src="../../static/js/cart.js"></script>
 
 <script th:src="@{~/js/jquery-3.2.1.min.js}"></script>
 <script th:src="@{~/styles/bootstrap4/popper.js}"></script>

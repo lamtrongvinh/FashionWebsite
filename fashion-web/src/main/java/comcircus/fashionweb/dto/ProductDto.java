@@ -16,7 +16,7 @@ public class ProductDto {
     private int product_quantity;
     private boolean product_stock;
     private boolean product_live;
-    private String product_description;
+    private String product_desciption;
     private String product_image_name;
     private Long category_id;
     private String size; 
