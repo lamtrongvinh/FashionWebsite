@@ -1,0 +1,94 @@
+body {
+    background: white;
+}
+
+.profile-button {
+    background: rgb(116, 76, 130);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 15px;
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+
+.main_area {
+    background: #F5F5F5;
+}
+
+.dashboard button {
+    background: transparent;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    line-height: 3em;
+    margin: 5px 0 5px;
+    padding: 0 2em 0 2em;
+    border: rgb(206, 212, 218) solid 1px;
+    width: 100%;
+    border-radius: 10px;
+    font-weight: 600;
+}    
+
+.dashboard button i {
+    margin-right: 0.75em;
+}
+
+.dashboard button:hover {
+    background: #F5F5F5;
+    color: rgb(30, 30, 39);
+    border: none;
+}
+
+.dashboard button:active {
+    background-color: rgb(99, 39, 120);
+    color:  rgb(255, 255, 255);
+}
+
+.dashboard .select_profile {
+    background-color: rgb(99, 39, 120);
+    color:  rgb(255, 255, 255);
+    border: none;
+}
+
+/* popup window change password */
+
+.change_pass {
+    display: none;
+    position: fixed;
+    top: 200px;
+    left: 500px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+
+
+
+
